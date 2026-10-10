@@ -1783,45 +1783,6 @@ document.getElementById("copyBtn").addEventListener("click", async () => {
 </head>
 <body>
 
-<header>
-  <h1>缩写词典 · 说人话版</h1>
-  <p class="sub">一个简称，多种含义 —— 用大白话告诉你它到底啥意思</p>
-
-  <div class="search">
-    <input id="q" type="search" placeholder="输入简称或圈子，如 PR、CP、水印圈…" autocomplete="off">
-    <button id="btn">查询</button>
-  </div>
-
-  <div class="tabs" id="tabs">
-    <button data-cat="all" class="active">全部</button>
-    <button data-cat="net">网络梗</button>
-    <button data-cat="pro">专业术语</button>
-    <button data-cat="circle">圈子</button>
-  </div>
-</header>
-
-<main>
-  <div class="hot" id="hot"></div>
-  <div class="stat" id="stat"></div>
-  <div id="result"></div>
-
-  <div class="submit-box">
-    <h3>✍️ 提交新词</h3>
-    <p>填好后点「生成 JSON」，复制结果发给维护者收录，词库就能持续长大。</p>
-    <textarea id="subInput" placeholder='例如：{ "abbr":"YYDS", "type":"net", "field":"网络流行语", "full":"永远的神", "plain":"夸人厉害到离谱", "example":"这版翻唱 yyds" }'></textarea>
-    <div class="submit-actions">
-      <button class="btn-gen" id="genBtn">生成 JSON</button>
-      <button class="btn-copy" id="copyBtn">复制结果</button>
-    </div>
-  </div>
-
-  <div class="tip">
-    <b>数据来源：</b>本地手工维护的高频词条 + 圈子黑话，
-    启动时会尝试从开源词库 nbnhhsh 拉取补充（拉取失败自动跳过，不影响使用）。
-    想永久扩充词库，直接在代码里的 <b>LOCAL_TERMS</b> 和 <b>CIRCLES</b> 两个数组中添加即可。
-  </div>
-</main>
-
 <script>
 /* =========================================================
    一、本地缩写词条库（手工维护主库）
