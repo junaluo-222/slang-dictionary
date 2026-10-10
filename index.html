@@ -1,0 +1,3325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缩写词典 · 说人话版</title>
+<style>
+  :root{
+    --net:#ff7a45;   --net-bg:#fff3ec;
+    --pro:#2f6fed;   --pro-bg:#eef4ff;
+    --cir:#12b886;   --cir-bg:#e6faf3;
+    --ink:#1f2430;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    background:#f4f6fb;color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+  header{background:linear-gradient(135deg,#667eea,#764ba2);
+    color:#fff;padding:54px 20px 38px;text-align:center;}
+  header h1{font-size:2rem;letter-spacing:1px;}
+  header .sub{opacity:.9;margin-top:8px;font-size:.95rem;}
+
+  .search{display:flex;gap:10px;max-width:560px;margin:24px auto 0;}
+  .search input{flex:1;padding:14px 18px;border:none;border-radius:12px;
+    font-size:16px;outline:none;color:var(--ink);box-shadow:0 6px 20px rgba(0,0,0,.12);}
+  .search button{padding:0 26px;border:none;border-radius:12px;cursor:pointer;
+    background:#1f2430;color:#fff;font-size:15px;font-weight:600;transition:.2s;}
+  .search button:hover{background:#000;}
+
+  .tabs{display:flex;gap:8px;justify-content:center;margin-top:18px;flex-wrap:wrap;}
+  .tabs button{padding:7px 18px;border-radius:999px;cursor:pointer;font-size:14px;
+    border:1px solid rgba(255,255,255,.55);background:transparent;color:#fff;transition:.2s;}
+  .tabs button.active{background:#fff;color:#5a3fb8;border-color:#fff;font-weight:600;}
+
+  main{max-width:820px;margin:0 auto;padding:26px 18px 80px;}
+
+  .hot{display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+    font-size:13px;color:#8a90a0;margin-bottom:18px;}
+  .hot button{padding:4px 12px;border-radius:999px;cursor:pointer;font-size:13px;
+    border:1px solid #e3e7f0;background:#fff;color:#4a5164;transition:.2s;}
+  .hot button:hover{border-color:#b9c2ff;color:#4a3fd0;}
+
+  .stat{font-size:13px;color:#9aa0b0;margin-bottom:14px;}
+
+  .card{background:#fff;border-radius:14px;padding:20px 22px;margin-bottom:16px;
+    box-shadow:0 2px 14px rgba(30,40,80,.07);animation:up .25s ease both;}
+  @keyframes up{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  .card-head{display:flex;align-items:baseline;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
+  .card-head h2{font-size:1.5rem;letter-spacing:.5px;font-weight:700;}
+  .card-head .count{font-size:12px;color:#9aa0b0;}
+
+  .meaning{padding:14px 16px;border-radius:10px;background:#fafbfd;
+    margin-bottom:12px;border-left:3px solid #ddd;}
+  .meaning:last-child{margin-bottom:0;}
+  .meaning.net{border-left-color:var(--net);}
+  .meaning.pro{border-left-color:var(--pro);}
+
+  .m-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .badge{font-size:12px;padding:2px 9px;border-radius:6px;font-weight:600;}
+  .badge.net{background:var(--net-bg);color:var(--net);}
+  .badge.pro{background:var(--pro-bg);color:var(--pro);}
+  .field{font-size:13px;color:#6b7285;}
+
+  .full{font-weight:600;margin:7px 0 8px;font-size:15px;}
+
+  .plain{background:#fffbe8;border:1px dashed #f0d98a;border-radius:8px;
+    padding:10px 12px;font-size:14.5px;color:#4a4636;}
+  .plain .tag{display:inline-block;font-size:11px;font-weight:700;background:#ffd75e;
+    color:#7a5a00;border-radius:4px;padding:1px 6px;margin-right:6px;vertical-align:1px;}
+  .example{font-size:13px;color:#9aa0b0;margin-top:8px;}
+
+  .circle-card{background:#fff;border-radius:14px;padding:20px 22px;margin-bottom:16px;
+    box-shadow:0 2px 14px rgba(30,40,80,.07);
+    border-top:3px solid var(--cir);animation:up .25s ease both;}
+  .circle-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;}
+  .c-icon{font-size:26px;line-height:1;flex-shrink:0;}
+  .circle-head h3{font-size:1.2rem;margin-bottom:4px;}
+  .c-intro{font-size:14px;color:#6b7285;}
+
+  .slang-grid{display:grid;gap:9px;}
+  .slang{background:var(--cir-bg);border-radius:9px;padding:10px 13px;}
+  .s-t{display:inline-block;font-weight:700;color:#0b8a63;font-size:14.5px;margin-right:6px;}
+  .s-d{font-size:14px;color:#3f4a56;}
+  .s-e{display:block;font-size:12.5px;color:#8fa3a0;margin-top:4px;}
+
+  mark{background:#fff2a8;padding:0 2px;border-radius:3px;}
+
+  .empty{text-align:center;padding:70px 20px;color:#9aa0b0;}
+  .empty strong{display:block;font-size:1.1rem;color:#5b6274;margin-bottom:8px;}
+
+  .submit-box{background:#fff;border-radius:14px;padding:20px 22px;
+    box-shadow:0 2px 14px rgba(30,40,80,.07);margin-top:26px;}
+  .submit-box h3{font-size:1.05rem;margin-bottom:6px;}
+  .submit-box p{font-size:13px;color:#8a90a0;margin-bottom:12px;}
+  .submit-box textarea{width:100%;height:120px;padding:12px;border:1px solid #e3e7f0;
+    border-radius:9px;font-size:13px;font-family:monospace;resize:vertical;
+    outline:none;color:var(--ink);}
+  .submit-box textarea:focus{border-color:#b9c2ff;}
+  .submit-actions{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;}
+  .submit-actions button{padding:9px 18px;border:none;border-radius:9px;cursor:pointer;
+    font-size:14px;font-weight:600;transition:.2s;}
+  .btn-gen{background:#2f6fed;color:#fff;}
+  .btn-gen:hover{background:#1f5bd0;}
+  .btn-copy{background:#eef4ff;color:#2f6fed;}
+  .btn-copy:hover{background:#dbe7ff;}
+
+  .tip{background:#eef4ff;border-radius:12px;padding:16px 18px;font-size:13.5px;
+    color:#40506b;margin-top:20px;line-height:1.75;}
+  .tip b{color:#2f6fed;}
+
+  @media (max-width:520px){
+    header{padding:38px 16px 30px;}
+    header h1{font-size:1.5rem;}
+    .search button{padding:0 16px;font-size:14px;}
+    .card,.circle-card{padding:16px;}
+    .card-head h2{font-size:1.3rem;}
+    .plain{font-size:14px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>缩写词典 · 说人话版</h1>
+  <p class="sub">一个简称，多种含义 —— 用大白话告诉你它到底啥意思</p>
+
+  <div class="search">
+    <input id="q" type="search" placeholder="输入简称或圈子，如 PR、CP、水印圈…" autocomplete="off">
+    <button id="btn">查询</button>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button data-cat="all" class="active">全部</button>
+    <button data-cat="net">网络梗</button>
+    <button data-cat="pro">专业术语</button>
+    <button data-cat="circle">圈子</button>
+  </div>
+</header>
+
+<main>
+  <div class="hot" id="hot"></div>
+  <div class="stat" id="stat"></div>
+  <div id="result"></div>
+
+  <div class="submit-box">
+    <h3>✍️ 提交新词</h3>
+    <p>填好后点「生成 JSON」，复制结果发给维护者收录，词库就能持续长大。</p>
+    <textarea id="subInput" placeholder='例如：{ "abbr":"YYDS", "type":"net", "field":"网络流行语", "full":"永远的神", "plain":"夸人厉害到离谱", "example":"这版翻唱 yyds" }'></textarea>
+    <div class="submit-actions">
+      <button class="btn-gen" id="genBtn">生成 JSON</button>
+      <button class="btn-copy" id="copyBtn">复制结果</button>
+    </div>
+  </div>
+
+  <div class="tip">
+    <b>数据来源：</b>本地手工维护的高频词条 + 圈子黑话，
+    启动时会尝试从开源词库 nbnhhsh 拉取补充（拉取失败自动跳过，不影响使用）。
+    想永久扩充词库，直接在代码里的 <b>LOCAL_TERMS</b> 和 <b>CIRCLES</b> 两个数组中添加即可。
+  </div>
+</main>
+
+<script>
+/* =========================================================
+   一、本地缩写词条库（手工维护主库）
+   freq 常用度 1~5，越大越靠前
+   ========================================================= */
+const LOCAL_TERMS = [
+  /* ============ 网络流行语 / 梗 ============ */
+  {abbr:"yyds", freq:5, meanings:[{type:"net", field:"网络流行语", full:"永远的神",
+    plain:"拼音首字母缩写，夸人或者夸东西强到离谱，相当于“无敌了”。最早用来形容电竞选手。",
+    example:"这版翻唱 yyds！"}]},
+  {abbr:"xswl", freq:5, meanings:[{type:"net", field:"网络流行语", full:"笑死我了",
+    plain:"拼音首字母缩写，看到特别好笑的东西时用。",
+    example:"这评论区 xswl。"}]},
+  {abbr:"awsl", freq:5, meanings:[{type:"net", field:"网络流行语", full:"啊我死了",
+    plain:"拼音首字母缩写，看到特别可爱、特别心动的东西时用，意思是“可爱到受不了了”。",
+    example:"这只猫 awsl。"}]},
+  {abbr:"emo", freq:5, meanings:[{type:"net", field:"网络流行语", full:"emotional（情绪化）",
+    plain:"指情绪低落、伤感、有点丧。常说“我 emo 了”，就是心情不好了。",
+    example:"深夜听情歌，直接 emo 了。"}]},
+  {abbr:"PUA", freq:5, meanings:[{type:"net", field:"情感 / 职场", full:"Pick-up Artist（原义：搭讪技巧）",
+    plain:"原本指教人怎么搭讪、追人的一套方法。现在意思变了，主要指“不断贬低你、让你觉得自己很差，从而控制你”。恋爱、职场、朋友之间都可能出现。",
+    example:"别被领导 PUA 了，干不好不是你的问题。"}]},
+  {abbr:"内卷", freq:5, meanings:[{type:"net", field:"网络流行语", full:"Involution（学术原义）",
+    plain:"本来是个学术词，指“大家拼命竞争，但整体没有进步”。现在就是“所有人都在无意义地加码”：别人加班到八点，你就得加到九点，但谁也没多拿钱。",
+    example:"全公司都在加班，纯纯内卷。"}]},
+  {abbr:"破防", freq:5, meanings:[{type:"net", field:"网络流行语", full:"心理防线被击破",
+    plain:"原本是游戏里“防御被打破”的意思，现在指被某件事戳中，突然情绪失控、绷不住了。",
+    example:"看到这条评论我直接破防了。"}]},
+  {abbr:"躺平", freq:5, meanings:[{type:"net", field:"网络流行语", full:"不再拼命竞争",
+    plain:"指放弃努力奋斗，只求过得去就行。不是完全不动，而是“不争不抢，够活就行”。",
+    example:"卷不动了，我选择躺平。"}]},
+  {abbr:"摆烂", freq:5, meanings:[{type:"net", field:"网络流行语", full:"破罐子破摔",
+    plain:"比躺平更消极，指事情已经这样了，干脆不管了、任它烂下去。",
+    example:"既然做不完，那就摆烂吧。"}]},
+  {abbr:"打工人", freq:5, meanings:[{type:"net", field:"网络流行语", full:"上班族的自嘲称呼",
+    plain:"所有靠上班赚钱的人的统称，带点自嘲和无奈。",
+    example:"早安，打工人。"}]},
+  {abbr:"牛马", freq:4, meanings:[{type:"net", field:"网络流行语", full:"打工人自嘲",
+    plain:"把自己比作牛和马，意思是像牲口一样辛苦干活、任人使唤。",
+    example:"今天又是当牛马的一天。"}]},
+  {abbr:"草台班子", freq:4, meanings:[{type:"net", field:"网络流行语", full:"世界是个草台班子",
+    plain:"原指松散拼凑的剧团。现在用来吐槽“那些看起来高大上的机构，其实内部也很混乱、很不专业”。",
+    example:"看完他们的操作，只能说世界是个草台班子。"}]},
+  {abbr:"大冤种", freq:4, meanings:[{type:"net", field:"网络流行语", full:"大冤种",
+    plain:"指吃了亏、受了委屈、还被人当冤大头的人。",
+    example:"原价买完第二天就打折，我就是大冤种。"}]},
+  {abbr:"芭比Q", freq:4, meanings:[{type:"net", field:"网络流行语", full:"barbecue 的谐音",
+    plain:"意思是“完蛋了”“烤糊了”，事情搞砸时用。",
+    example:"忘了保存，芭比Q了。"}]},
+  {abbr:"班味儿", freq:4, meanings:[{type:"net", field:"网络流行语 / 职场", full:"上班上出来的疲惫感",
+    plain:"指一个人因为长期上班而散发出来的疲惫、麻木气质。",
+    example:"放假也洗不掉身上的班味儿。"}]},
+  {abbr:"种草", freq:4, meanings:[{type:"net", field:"网络流行语 / 消费", full:"推荐购买",
+    plain:"看到别人推荐某个东西，自己也心动了、想买了，就叫“被种草”。反过来不想买了叫“拔草”。",
+    example:"这条视频又给我种草了一堆东西。"}]},
+  {abbr:"拔草", freq:3, meanings:[{type:"net", field:"网络流行语 / 消费", full:"打消购买念头",
+    plain:"跟“种草”相反，本来想买，后来不想买了，或者买了之后发现不好。",
+    example:"看了测评之后直接拔草了。"}]},
+  {abbr:"搭子", freq:4, meanings:[{type:"net", field:"网络流行语", full:"搭伙做某件事的伙伴",
+    plain:"比朋友浅一层、比陌生人近一层的关系。一起吃饭的叫“饭搭子”，一起运动的叫“运动搭子”。",
+    example:"找个周末爬山搭子。"}]},
+  {abbr:"情绪价值", freq:4, meanings:[{type:"net", field:"网络流行语", full:"让人感到开心的能力",
+    plain:"指一个人能不能让身边的人觉得舒服、开心、被理解。能哄你开心就是“提供情绪价值高”。",
+    example:"跟他在一块儿情绪价值拉满。"}]},
+  {abbr:"乐子人", freq:4, meanings:[{type:"net", field:"网络流行语", full:"纯看热闹的人",
+    plain:"不站队、不投入感情，纯粹来看热闹、图一乐的人。",
+    example:"我就是个乐子人，谁赢都行。"}]},
+  {abbr:"鼠鼠", freq:3, meanings:[{type:"net", field:"网络流行语 / 贴吧", full:"自称老鼠的人",
+    plain:"自嘲用语，把自己比作躲在角落里的老鼠，表示自己普通、没存在感、混得不好。",
+    example:"鼠鼠我啊，是真的不行。"}]},
+  {abbr:"抽象", freq:4, meanings:[{type:"net", field:"网络流行语", full:"荒诞 / 离谱",
+    plain:"原意是“看不懂、不具体”。在网络语境里表示“离谱到让人无法理解”，也可以指专门搞怪、玩梗的风格。",
+    example:"这视频太抽象了，我看不懂。"}]},
+  {abbr:"缝合", freq:3, meanings:[{type:"net", field:"网络流行语", full:"把别人的东西拼起来",
+    plain:"指把几个现成的东西硬拼在一起，做成一个“新”东西。常带贬义，指没原创。",
+    example:"这歌就是几首热歌缝合出来的。"}]},
+  {abbr:"已老实", freq:3, meanings:[{type:"net", field:"网络流行语", full:"我认怂了",
+    plain:"表示自己服了、认输了、不敢再折腾了。",
+    example:"被现实毒打之后，已老实。"}]},
+  {abbr:"尊嘟假嘟", freq:3, meanings:[{type:"net", field:"网络流行语", full:"真的假的",
+    plain:"“真的假的”的可爱版谐音，用来说话卖萌。",
+    example:"尊嘟假嘟，你也去？"}]},
+  {abbr:"显眼包", freq:4, meanings:[{type:"net", field:"网络流行语", full:"爱出风头的人",
+    plain:"指特别爱表现、走到哪都很引人注意的人。多数时候是调侃，不一定是骂人。",
+    example:"他一穿这身衣服就成了显眼包。"}]},
+  {abbr:"松弛感", freq:3, meanings:[{type:"net", field:"网络流行语", full:"从容不紧绷的状态",
+    plain:"指一个人不急不躁、不焦虑，做什么都很放松、很自然的那种状态。",
+    example:"她有种天生的松弛感。"}]},
+  {abbr:"u1s1", freq:4, meanings:[{type:"net", field:"网络流行语", full:"有一说一",
+    plain:"用数字和字母拼出来的谐音。意思是“说句公道话”“客观来讲”。",
+    example:"u1s1，这波操作确实可以。"}]},
+  {abbr:"yygq", freq:4, meanings:[{type:"net", field:"网络流行语", full:"阴阳怪气",
+    plain:"拼音首字母缩写。指说话不直接说，拐着弯讽刺人。",
+    example:"别 yygq 了，有话直说。"}]},
+  {abbr:"nsdd", freq:4, meanings:[{type:"net", field:"网络流行语", full:"你说得对",
+    plain:"拼音首字母缩写。表示同意对方说的话。",
+    example:"nsdd，你说什么都对。"}]},
+  {abbr:"zqsg", freq:4, meanings:[{type:"net", field:"网络流行语 / 追星", full:"真情实感",
+    plain:"拼音首字母缩写。意思是动了真感情。",
+    example:"我 zqsg 追了这个团五年。"}]},
+  {abbr:"dbq", freq:4, meanings:[{type:"net", field:"网络流行语", full:"对不起",
+    plain:"拼音首字母缩写，就是道歉用的“对不起”。",
+    example:"dbq，我来晚了。"}]},
+  {abbr:"bdjw", freq:3, meanings:[{type:"net", field:"网络流行语", full:"不懂就问",
+    plain:"拼音首字母缩写。表示虚心请教。",
+    example:"bdjw，这个梗是什么意思？"}]},
+  {abbr:"FOMO", freq:3, meanings:[{type:"net", field:"网络流行语 / 心理", full:"Fear of Missing Out（错失恐惧症）",
+    plain:"看到别人都在做某件事，自己怕错过，也跟着做。",
+    example:"看到朋友圈都在晒，FOMO 了，我也去买了。"}]},
+  {abbr:"xmsl", freq:4, meanings:[{type:"net", field:"网络流行语", full:"羡慕死了",
+    plain:"拼音首字母缩写，表示非常羡慕。",
+    example:"你居然抽到了隐藏款，xmsl！"}]},
+  {abbr:"srds", freq:4, meanings:[{type:"net", field:"网络流行语", full:"虽然但是",
+    plain:"拼音首字母缩写，表示虽然前面说了什么，但是后面有转折。",
+    example:"srds，我还是觉得不太行。"}]},
+  {abbr:"bbl", freq:3, meanings:[{type:"net", field:"网络流行语", full:"ball ball 了 / 求求了",
+    plain:"“ball ball”是“求求”的谐音，表示拜托、请求。",
+    example:"bbl，帮帮我吧。"}]},
+  {abbr:"bhys", freq:3, meanings:[{type:"net", field:"网络流行语", full:"不好意思",
+    plain:"拼音首字母缩写，表示不好意思、抱歉。",
+    example:"bhys，让一下。"}]},
+  {abbr:"yjgj", freq:3, meanings:[{type:"net", field:"网络流行语", full:"有句讲句",
+    plain:"拼音首字母缩写。意思是“说句实话”，和 u1s1 类似。",
+    example:"yjgj，这次确实是他不对。"}]},
+  {abbr:"pyq", freq:4, meanings:[{type:"net", field:"网络流行语", full:"朋友圈",
+    plain:"拼音首字母缩写，指微信朋友圈。",
+    example:"这条 pyq 笑死我了。"}]},
+  {abbr:"vx", freq:4, meanings:[{type:"net", field:"网络流行语", full:"微信",
+    plain:"拼音首字母缩写，指微信。也写作 wx。",
+    example:"加个 vx 呗。"}]},
+  {abbr:"xxj", freq:3, meanings:[{type:"net", field:"饭圈", full:"小学鸡",
+    plain:"拼音首字母缩写。嘲讽对方是低龄粉丝、不成熟。",
+    example:"对家全是 xxj，不跟他们一般见识。"}]},
+  {abbr:"zzzq", freq:3, meanings:[{type:"net", field:"网络流行语", full:"政治正确",
+    plain:"拼音首字母缩写。指为了不得罪人而说的话，不一定发自内心。",
+    example:"这电影选角就是 zzzq。"}]},
+  {abbr:"AI;DR", freq:3, meanings:[{type:"net", field:"网络流行语 / 科技", full:"AI, didn't read（AI 生成，懒得看）",
+    plain:"2026 年新造的词，玩梗经典缩写 TL;DR。看到明显是 AI 生成的劣质内容时用。",
+    example:"这篇文章 AI;DR，一看就是 AI 写的。"}]},
+  {abbr:"kdl", freq:4, meanings:[{type:"net", field:"饭圈", full:"磕到了",
+    plain:"拼音首字母缩写。表示看到自己喜欢的 CP 有甜蜜互动，被甜到了。",
+    example:"他们俩对视了，KDL！"}]},
+  {abbr:"pljj", freq:3, meanings:[{type:"net", field:"饭圈", full:"漂亮姐姐",
+    plain:"拼音首字母缩写。用来夸女生漂亮、颜值高。",
+    example:"pljj，这张照片太好看了。"}]},
+  {abbr:"srds", freq:4, meanings:[{type:"net", field:"网络流行语", full:"虽然但是",
+    plain:"拼音首字母缩写，表示虽然前面说了什么，但是后面有转折。",
+    example:"srds，我还是觉得不太行。"}]},
+
+  /* ============ 饭圈 / 追星 ============ */
+  {abbr:"磕CP", freq:5, meanings:[{type:"net", field:"饭圈 / 追剧", full:"喜欢一对人物的配对",
+    plain:"觉得两个人物很配，喜欢看他俩互动。",
+    example:"这对 CP 太好磕了，我天天磕。"}]},
+  {abbr:"OOC", freq:4, meanings:[{type:"net", field:"同人 / 二次元", full:"Out Of Character（角色崩坏）",
+    plain:"指同人作品里角色的言行跟原作设定不一致。",
+    example:"这篇同人把主角写得太 OOC 了。"}]},
+  {abbr:"BE", freq:4, meanings:[{type:"net", field:"同人 / 追剧", full:"Bad Ending（坏结局）",
+    plain:"故事以悲剧结尾，主角最后没在一起或者很惨。",
+    example:"这部剧 BE 了，我哭了一晚上。"}]},
+  {abbr:"HE", freq:4, meanings:[{type:"net", field:"同人 / 追剧", full:"Happy Ending（好结局）",
+    plain:"故事以喜剧结尾，主角最后在一起了、过得很好。",
+    example:"确认是 HE 我才敢看。"}]},
+  {abbr:"C位", freq:5, meanings:[{type:"net", field:"饭圈 / 综艺", full:"Center 的谐音",
+    plain:"指一群人站在一起时最中间、最显眼的位置。",
+    example:"这张合照他站 C 位。"}]},
+  {abbr:"ACG", freq:4, meanings:[{type:"net", field:"二次元", full:"Animation, Comic, Game",
+    plain:"动画、漫画、游戏三个词的缩写，泛指二次元文化。",
+    example:"他是资深 ACG 爱好者。"}]},
+  {abbr:"OC", freq:4, meanings:[{type:"net", field:"画画 / 写文", full:"Original Character（原创角色）",
+    plain:"自己创作出来的角色，不属于任何已有的动漫、游戏。",
+    example:"这是我的 OC，设定是个机械师。"}]},
+  {abbr:"谷子", freq:4, meanings:[{type:"net", field:"二次元 / 追星", full:"goods 的音译",
+    plain:"指动漫、游戏角色的周边商品，比如徽章、立牌、挂件。",
+    example:"这次漫展我买了一堆谷子。"}]},
+  {abbr:"B站", freq:5, meanings:[{type:"net", field:"视频平台", full:"bilibili",
+    plain:"一个视频网站，年轻人喜欢在上面看动漫、游戏、学习视频等内容。",
+    example:"我在 B 站学了一下午编程。"}]},
+  {abbr:"yxh", freq:4, meanings:[{type:"net", field:"饭圈", full:"营销号",
+    plain:"以赚流量为目的、专门发争议内容的账号。",
+    example:"yxh 又在带节奏了。"}]},
+  {abbr:"szd", freq:4, meanings:[{type:"net", field:"饭圈", full:"是真的",
+    plain:"拼音首字母缩写。多用于确认 CP 是真的。",
+    example:"他们 szd！我磕到了！"}]},
+  {abbr:"dw", freq:4, meanings:[{type:"net", field:"饭圈", full:"毒唯",
+    plain:"只粉一个成员、且会攻击其他成员或粉丝的人。",
+    example:"dw 又在撕队友了。"}]},
+  {abbr:"bp", freq:4, meanings:[{type:"net", field:"饭圈", full:"白嫖",
+    plain:"只看不花钱、不打投、不做数据的粉丝。",
+    example:"别当 bp 了，好歹买个专辑吧。"}]},
+  {abbr:"blx", freq:4, meanings:[{type:"net", field:"饭圈", full:"玻璃心",
+    plain:"指心理脆弱、听不得批评的人。",
+    example:"别 blx 了，人家也没说什么。"}]},
+  {abbr:"rs", freq:4, meanings:[{type:"net", field:"饭圈", full:"热搜 / 人身攻击",
+    plain:"两种意思：一是“热搜”，二是“人身攻击”。看语境区分。",
+    example:"这个话题上 rs 了。"}]},
+  {abbr:"ss", freq:4, meanings:[{type:"net", field:"饭圈", full:"私生",
+    plain:"私生饭的简称，过度窥探、骚扰偶像私生活的人。",
+    example:"ss 又跟车了，太可怕了。"}]},
+  {abbr:"hyh", freq:3, meanings:[{type:"net", field:"饭圈", full:"后援会",
+    plain:"粉丝自发组织的应援团体。",
+    example:"hyh 发了新的应援方案。"}]},
+  {abbr:"ncf", freq:3, meanings:[{type:"net", field:"饭圈", full:"脑残粉",
+    plain:"指不理智、盲目维护偶像的粉丝。",
+    example:"ncf 真的很败好感。"}]},
+  {abbr:"cpf", freq:4, meanings:[{type:"net", field:"饭圈", full:"CP 粉",
+    plain:"喜欢某对 CP 的粉丝。",
+    example:"cpf 和唯粉又吵起来了。"}]},
+  {abbr:"wf", freq:4, meanings:[{type:"net", field:"饭圈", full:"唯粉",
+    plain:"只喜欢团里某一个成员的粉丝。",
+    example:"我是 wf，只追他一个。"}]},
+  {abbr:"tj", freq:3, meanings:[{type:"net", field:"饭圈", full:"脱粉 / 退圈",
+    plain:"两种意思：一是“脱粉”，不再追这个偶像；二是“退圈”，离开这个圈子。",
+    example:"我 tj 了，太累了。"}]},
+  {abbr:"hc", freq:3, meanings:[{type:"net", field:"饭圈", full:"回踩",
+    plain:"脱粉之后反过来骂偶像。",
+    example:"脱粉就脱粉，别 hc 了。"}]},
+  {abbr:"plq", freq:3, meanings:[{type:"net", field:"饭圈", full:"评论区",
+    plain:"拼音首字母缩写，指评论区。",
+    example:"plq 里都在夸。"}]},
+  {abbr:"top", freq:4, meanings:[{type:"net", field:"饭圈", full:"人气最高",
+    plain:"指组合里人气最高的成员。",
+    example:"他是团里的 top。"}]},
+
+  /* ============ 游戏 ============ */
+  {abbr:"GG", freq:4, meanings:[{type:"pro", field:"游戏", full:"Good Game（打得好）",
+    plain:"游戏结束时打出的礼貌用语。后来也引申为“完蛋了”。",
+    example:"对面五个人抱团，这局 GG 了。"}]},
+  {abbr:"AFK", freq:4, meanings:[{type:"pro", field:"游戏", full:"Away From Keyboard（暂离）",
+    plain:"打游戏时暂时离开一下，人不在电脑前。",
+    example:"等我一下，AFK 两分钟。"}]},
+  {abbr:"FPS", freq:4, meanings:[{type:"pro", field:"游戏", full:"First-Person Shooter（第一人称射击）",
+    plain:"一种游戏类型，你以角色的第一视角拿着枪射击。也指“帧率”，每秒渲染的画面帧数。",
+    example:"他 FPS 游戏玩得特别好。"}]},
+  {abbr:"MOBA", freq:4, meanings:[{type:"pro", field:"游戏", full:"Multiplayer Online Battle Arena（多人在线战术竞技）",
+    plain:"一种游戏类型，两队人在一张地图上对抗。",
+    example:"MOBA 游戏需要团队配合。"}]},
+  {abbr:"NPC", freq:4, meanings:[
+    {type:"pro", field:"打游戏", full:"Non-Player Character（非玩家角色）",
+     plain:"游戏里由电脑控制的角色，你没法操作他，他只会按设定好的台词和路线行动。",
+     example:"这个 NPC 的对话里藏着剧情线索。"},
+    {type:"net", field:"网络自嘲", full:"（梗）工具人",
+     plain:"引申成自嘲的说法。意思是“每天重复一样的生活，没有自己的想法”。",
+     example:"每天两点一线，感觉自己就是个 NPC。"}]},
+  {abbr:"GM", freq:3, meanings:[
+    {type:"pro", field:"打游戏", full:"Game Master（游戏管理员）",
+     plain:"游戏里的官方管理员。卡 bug、被人骗、账号出问题都找他。",
+     example:"卡 bug 了，找 GM 处理一下。"},
+    {type:"pro", field:"公司", full:"General Manager（总经理）",
+     plain:"公司里管事的最高负责人。",
+     example:"GM 下周来店里检查。"}]},
+  {abbr:"DPS", freq:4, meanings:[{type:"pro", field:"游戏", full:"Damage Per Second（每秒伤害）",
+    plain:"游戏里衡量输出能力的指标。DPS 高就是打人疼。",
+    example:"这个装备能提升不少 DPS。"}]},
+  {abbr:"MVP", freq:4, meanings:[{type:"pro", field:"游戏", full:"Most Valuable Player（最有价值玩家）",
+    plain:"一局游戏里表现最突出的玩家。",
+    example:"他拿了这局的 MVP。"}]},
+  {abbr:"buff", freq:4, meanings:[{type:"pro", field:"游戏", full:"增益效果",
+    plain:"给角色加正面效果的技能或状态，比如攻击力提升、防御增强。",
+    example:"红 buff 给你，蓝 buff 给我。"}]},
+  {abbr:"debuff", freq:3, meanings:[{type:"pro", field:"游戏", full:"减益效果",
+    plain:"给角色加负面效果的技能或状态，比如减速、中毒。",
+    example:"中了 debuff，走得特别慢。"}]},
+  {abbr:"roll", freq:3, meanings:[{type:"pro", field:"游戏", full:"掷骰子分配",
+    plain:"多人游戏里，用掷骰子决定装备归谁。点数高的拿。",
+    example:"这件装备大家 roll 吧。"}]},
+  {abbr:"肝", freq:4, meanings:[{type:"pro", field:"游戏", full:"花大量时间重复刷",
+    plain:"指在游戏里花大量时间做重复的事情，比如刷副本、刷装备。",
+    example:"这个活动太肝了，我刷了一整天。"}]},
+  {abbr:"氪金", freq:4, meanings:[{type:"pro", field:"游戏", full:"在游戏里花钱",
+    plain:"“氪”是日语“课金”的谐音，指在游戏里充值、花钱买道具。",
+    example:"这个皮肤太好看了，忍不住氪金了。"}]},
+  {abbr:"白嫖", freq:4, meanings:[{type:"pro", field:"游戏", full:"不花钱只靠免费内容玩",
+    plain:"指不充值、不花钱，只用游戏里的免费内容。",
+    example:"我就是个白嫖党，一分钱没花。"}]},
+  {abbr:"开黑", freq:4, meanings:[{type:"pro", field:"游戏", full:"和朋友组队一起玩",
+    plain:"和朋友一起组队打游戏，通常用语音沟通。",
+    example:"今晚开黑吗？"}]},
+  {abbr:"上分", freq:4, meanings:[{type:"pro", field:"游戏", full:"打排位赛提升段位",
+    plain:"通过打排位赛来提高自己的段位。",
+    example:"今天上分顺利，连胜五把。"}]},
+  {abbr:"掉分", freq:3, meanings:[{type:"pro", field:"游戏", full:"段位下降",
+    plain:"排位赛输了，段位往下掉。",
+    example:"连输三把，掉分了。"}]},
+  {abbr:"吃鸡", freq:4, meanings:[{type:"pro", field:"游戏", full:"大逃杀类游戏拿第一",
+    plain:"来源于《绝地求生》获胜时屏幕显示“大吉大利，今晚吃鸡”。现在泛指大逃杀类游戏拿第一。",
+    example:"这局吃鸡了！"}]},
+  {abbr:"开荒", freq:3, meanings:[{type:"pro", field:"游戏", full:"新副本、新版本刚出时第一次打",
+    plain:"新内容刚上线，大家都不会打，摸索着过。",
+    example:"新团本开荒，来熟练工。"}]},
+  {abbr:"外挂", freq:4, meanings:[{type:"pro", field:"游戏", full:"作弊软件",
+    plain:"用来在游戏里作弊的第三方软件，用了会被封号。",
+    example:"这局对面肯定开外挂了。"}]},
+  {abbr:"代练", freq:3, meanings:[{type:"pro", field:"游戏", full:"花钱请高手帮你打",
+    plain:"花钱请技术好的人上你的号帮你打排位。",
+    example:"他找了代练上王者。"}]},
+  {abbr:"老滚", freq:3, meanings:[{type:"pro", field:"游戏", full:"《上古卷轴》系列",
+    plain:"《上古卷轴》的别名，来源于早期中文翻译把“The Elder Scrolls”误译成“老头滚动条”。",
+    example:"老滚 5 我玩了几百小时。"}]},
+  {abbr:"大菠萝", freq:3, meanings:[{type:"pro", field:"游戏", full:"《暗黑破坏神》",
+    plain:"《暗黑破坏神》（Diablo）的谐音。",
+    example:"大菠萝出新作了。"}]},
+  {abbr:"CDK", freq:3, meanings:[{type:"pro", field:"游戏", full:"兑换码",
+    plain:"游戏里用来兑换道具、皮肤、货币的一串代码。",
+    example:"直播间发 CDK 了，快去抢。"}]},
+  {abbr:"KDA", freq:3, meanings:[{type:"pro", field:"电竞", full:"Kill/Death/Assist（击杀/死亡/助攻）",
+    plain:"衡量选手表现的指标。击杀和助攻越高、死亡越少，KDA 越高。",
+    example:"他这局 KDA 10.0，太强了。"}]},
+  {abbr:"BP", freq:4, meanings:[
+    {type:"pro", field:"电竞", full:"Ban/Pick（禁用/选择）",
+     plain:"比赛开始前，双方轮流禁用和选择角色。",
+     example:"这局 BP 做得好，阵容很克制对面。"},
+    {type:"pro", field:"创业", full:"Business Plan（商业计划书）",
+     plain:"创业者写给投资人看的文件。",
+     example:"先写份 BP，下周见投资人。"}]},
+  {abbr:"对线", freq:3, meanings:[{type:"pro", field:"电竞", full:"比赛前期双方在各自路线上的对抗",
+    plain:"MOBA 游戏里，双方在各自路线上 1v1 或 2v2 的对抗阶段。",
+    example:"他对线期就打崩了对面。"}]},
+  {abbr:"团战", freq:3, meanings:[{type:"pro", field:"电竞", full:"两队人马正面大规模交战",
+    plain:"双方所有成员聚在一起打的大规模战斗。",
+    example:"最后一波团战决定了胜负。"}]},
+  {abbr:"carry", freq:4, meanings:[{type:"pro", field:"电竞", full:"带飞全场",
+    plain:"一个人表现特别亮眼，靠一己之力带队伍赢。",
+    example:"这局全靠他 carry。"}]},
+  {abbr:"下饭", freq:4, meanings:[{type:"pro", field:"电竞", full:"操作很菜",
+    plain:"形容选手操作太差了，看得人吃不下饭。",
+    example:"这操作太下饭了。"}]},
+
+  /* ============ 二次元 / ACGN ============ */
+  {abbr:"傲娇", freq:4, meanings:[{type:"pro", field:"二次元", full:"外冷内热",
+    plain:"表面上嘴硬、态度冷淡，其实心里很在意、很害羞。经典台词是“才、才不是为你做的呢！”",
+    example:"她就是典型傲娇，嘴上说不要其实很喜欢。"}]},
+  {abbr:"腹黑", freq:4, meanings:[{type:"pro", field:"二次元", full:"表面和善内心有心计",
+    plain:"看起来温和友善，实际上心里在盘算事情。",
+    example:"这个角色是腹黑属性。"}]},
+  {abbr:"中二病", freq:4, meanings:[{type:"pro", field:"二次元", full:"青春期自我意识过剩",
+    plain:"指青少年觉得自己很特别、很酷，说话做事很夸张。来源于日本综艺节目。",
+    example:"他初中时中二病特别严重。"}]},
+  {abbr:"黑化", freq:4, meanings:[{type:"pro", field:"二次元", full:"角色性格变坏",
+    plain:"原本善良的角色因为某些原因变得冷酷、邪恶。",
+    example:"这个角色在第二季黑化了。"}]},
+  {abbr:"病娇", freq:4, meanings:[{type:"pro", field:"二次元", full:"极端迷恋到病态",
+    plain:"对某个人喜欢到不正常的程度，可能会做出极端行为。",
+    example:"她是病娇属性，占有欲超强。"}]},
+  {abbr:"天然呆", freq:4, meanings:[{type:"pro", field:"二次元", full:"天然呆萌",
+    plain:"天生就有点傻乎乎、反应慢，但很可爱。",
+    example:"她天然呆的样子很萌。"}]},
+  {abbr:"妹控", freq:3, meanings:[{type:"pro", field:"二次元", full:"特别喜欢妹妹",
+    plain:"对妹妹有强烈好感的角色属性。",
+    example:"他是个妹控，对妹妹特别好。"}]},
+  {abbr:"废柴", freq:3, meanings:[{type:"pro", field:"二次元", full:"无用之人",
+    plain:"指什么都做不好、很没用的人。港漫用语。",
+    example:"主角一开始是个废柴，后来逆袭了。"}]},
+  {abbr:"暴走", freq:3, meanings:[{type:"pro", field:"二次元", full:"失控暴走",
+    plain:"角色因为愤怒或某种原因失去控制，变得极其强大但危险。",
+    example:"EVA 暴走了，谁也拦不住。"}]},
+  {abbr:"猎奇", freq:3, meanings:[{type:"pro", field:"二次元", full:"血腥 / 怪异",
+    plain:"指内容血腥、怪异、让人不适。",
+    example:"这个番有点猎奇，胆小慎入。"}]},
+  {abbr:"本命", freq:4, meanings:[{type:"pro", field:"二次元", full:"最喜欢的角色",
+    plain:"在所有角色里最喜欢的那一个。",
+    example:"我本命是柯南。"}]},
+  {abbr:"墙头", freq:3, meanings:[{type:"pro", field:"二次元", full:"本命之外偶尔喜欢的",
+    plain:"除了本命之外，偶尔也会喜欢的其他角色或艺人。",
+    example:"他墙头太多了，见一个爱一个。"}]},
+  {abbr:"推", freq:4, meanings:[{type:"pro", field:"二次元 / 饭圈", full:"支持 / 喜欢",
+    plain:"表示支持、喜欢某个角色或艺人。“我推”就是我最喜欢的。",
+    example:"我推的偶像终于出道了。"}]},
+  {abbr:"同担", freq:3, meanings:[{type:"pro", field:"二次元 / 饭圈", full:"喜欢同一个角色的人",
+    plain:"和你喜欢同一个角色或同一个偶像的人。",
+    example:"在漫展遇到了同担，聊得很开心。"}]},
+  {abbr:"无料", freq:3, meanings:[{type:"pro", field:"二次元", full:"免费领取的周边",
+    plain:"在漫展或活动中免费发放的小周边，比如明信片、贴纸。",
+    example:"这个无料太好看了，谢谢太太！"}]},
+  {abbr:"集邮", freq:3, meanings:[{type:"pro", field:"二次元 / Cos", full:"和 coser 合影",
+    plain:"在漫展上和 coser 拍照合影，就像集邮一样。",
+    example:"今天集邮了好几个大佬。"}]},
+  {abbr:"产粮", freq:4, meanings:[{type:"pro", field:"同人", full:"自己创作同人作品",
+    plain:"自己创作同人作品供大家看。相当于“做饭给大家吃”。",
+    example:"太太产粮了，快去吃！"}]},
+  {abbr:"吃粮", freq:4, meanings:[{type:"pro", field:"同人", full:"看别人创作的同人作品",
+    plain:"看别人创作的同人作品。",
+    example:"今天吃粮吃得很饱。"}]},
+  {abbr:"AU", freq:3, meanings:[{type:"pro", field:"同人", full:"Alternate Universe（平行宇宙）",
+    plain:"把原作角色放到完全不同的世界观里，比如让古代角色去上学。",
+    example:"这篇 AU 写的是现代校园。"}]},
+  {abbr:"乙女", freq:3, meanings:[{type:"pro", field:"同人", full:"面向女性的恋爱作品",
+    plain:"以女性为主角、面向女性读者的恋爱向作品。",
+    example:"她只玩乙女游戏。"}]},
+
+  /* ============ 职场 / 互联网专业术语 ============ */
+  {abbr:"PR", freq:5, meanings:[
+    {type:"pro", field:"视频剪辑", full:"Premiere Pro",
+     plain:"一个在电脑上剪视频的软件，跟手机上的剪映用途差不多，但功能更专业。",
+     example:"这条视频我先用 PR 剪好，再加字幕。"},
+    {type:"pro", field:"公关 / 品牌", full:"Public Relations",
+     plain:"帮公司跟外界打交道的岗位。开发布会、联系记者、出负面新闻时帮忙解释。相当于“公司的对外发言人团队”。",
+     example:"这次活动由 PR 部门对接媒体。"},
+    {type:"pro", field:"程序员", full:"Pull Request",
+     plain:"你想给别人的代码加功能，不能直接改，得先提交一份“我改了这些地方，你看行不行”的申请。这份申请就叫 PR。",
+     example:"我提了个 PR，麻烦看一下。"},
+    {type:"pro", field:"兼职 / 招募", full:"招募者（这行用法很杂）",
+     plain:"在兼职群、模特招募、直播招人这类圈子里，PR 常指负责拉人进群、发活儿、对接资源的中间人。注意：这行没有统一标准，看到 PR 一定先问清楚对方是干嘛的。",
+     example:"这活儿是 PR 发的，先问清楚结款方式。"}]},
+  {abbr:"AE", freq:4, meanings:[
+    {type:"pro", field:"视频特效", full:"After Effects",
+     plain:"另一个电脑软件，专门做特效和动画。可以理解成“PR 负责剪，AE 负责变魔术”。",
+     example:"片头那个闪光效果是 AE 做的。"},
+    {type:"pro", field:"广告公司", full:"Account Executive",
+     plain:"广告公司里专门跟客户对接的人。相当于“客户和公司之间的传话筒”。",
+     example:"AE 又把客户改的第八版意见发来了。"}]},
+  {abbr:"BD", freq:4, meanings:[
+    {type:"pro", field:"商务合作", full:"Business Development",
+     plain:"专门出去找别人谈合作的人。比如让两个品牌出联名款、互相换资源。说白了就是“帮公司拉关系的人”。",
+     example:"这次联名是 BD 谈下来的。"},
+    {type:"pro", field:"影视 / 硬件", full:"Blu-ray Disc（蓝光光盘）",
+     plain:"一种能存很多内容的光盘，比普通 DVD 清楚得多。",
+     example:"这套电影出了 4K 蓝光版。"}]},
+  {abbr:"CP", freq:5, meanings:[
+    {type:"net", field:"饭圈 / 追剧", full:"Couple（配对）",
+     plain:"把两个人凑成一对，觉得他们很配，喜欢看他俩互动。不一定是真情侣。",
+     example:"这对 CP 我磕了三年了。"},
+    {type:"pro", field:"广告投放", full:"Cost Per（每次成本）",
+     plain:"广告里算钱的说法。CPC 是“点一次花多少钱”，CPM 是“给一千个人看花多少钱”。",
+     example:"这次投放的 CP 有点高，得换素材。"}]},
+  {abbr:"BG", freq:4, meanings:[
+    {type:"net", field:"饭圈 / 同人", full:"Boy / Girl（男女向）",
+     plain:"指男女谈恋爱的配对，跟男男（BL）、女女（GL）相对。",
+     example:"她只磕 BG 向的同人。"},
+    {type:"pro", field:"求职 / 入职", full:"Background（背景调查）",
+     plain:"公司准备录用你之前，会去核实你简历上写的是不是真的，俗称“查底细”。",
+     example:"offer 发了，等 BG 调查走完就入职。"},
+    {type:"pro", field:"游戏 / 聚会", full:"Board Game（桌游）",
+     plain:"坐在桌子前玩的游戏。狼人杀、剧本杀、大富翁都算。",
+     example:"周末开 BG 局，来不来？"}]},
+  {abbr:"JD", freq:5, meanings:[
+    {type:"pro", field:"找工作", full:"Job Description（职位描述）",
+     plain:"招聘广告里写“这岗位要干什么、需要什么条件”的那一段。",
+     example:"先看 JD，要求三年以上经验。"},
+    {type:"pro", field:"网购", full:"京东",
+     plain:"就是那个买东西的网站京东，取拼音首字母。",
+     example:"这个型号 JD 上有活动。"}]},
+  {abbr:"PM", freq:5, meanings:[
+    {type:"pro", field:"互联网公司", full:"Product Manager / Project Manager",
+     plain:"两个岗位共用这个缩写：产品经理管“要做什么功能”，项目经理管“什么时候能做完”。",
+     example:"PM 说这个需求排到下个版本。"},
+    {type:"pro", field:"网上聊天", full:"Private Message（私信）",
+     plain:"私信。论坛上说“价格 PM 我”，意思就是“价格你私信发给我”。",
+     example:"价格 PM 我。"}]},
+  {abbr:"DDL", freq:5, meanings:[
+    {type:"pro", field:"学校 / 职场", full:"Deadline（截止时间）",
+     plain:"最后期限，也就是“必须在这之前交，不然就完蛋了”的那个时间点。",
+     example:"DDL 是明早九点，今晚别睡了。"},
+    {type:"pro", field:"数据库 / 编程", full:"Data Definition Language",
+     plain:"写代码时用来“建表、改表格结构”的命令。",
+     example:"建表语句属于 DDL。"}]},
+  {abbr:"KPI", freq:5, meanings:[
+    {type:"pro", field:"公司考核", full:"Key Performance Indicator（关键绩效指标）",
+     plain:"公司给你定的目标。完成了有奖励，完不成可能扣钱。打工人最怕的三个字母。",
+     example:"这个月 KPI 还差一半。"},
+    {type:"net", field:"网络玩梗", full:"（梗）冲 KPI",
+     plain:"被网友玩成了玩笑。比如营销号发莫名其妙的文章，大家就说“他在冲 KPI”。",
+     example:"营销号又出来发癫冲 KPI 了。"}]},
+  {abbr:"OKR", freq:4, meanings:[{type:"pro", field:"公司管理", full:"Objectives and Key Results（目标与关键成果）",
+    plain:"一种定目标的方法。先定一个大目标，再列出几个可以衡量的关键结果。",
+    example:"这个季度 OKR 定了三个目标。"}]},
+  {abbr:"SOP", freq:4, meanings:[{type:"pro", field:"职场 / 运营", full:"Standard Operating Procedure（标准操作流程）",
+    plain:"把一件事怎么做一步一步写清楚，谁来都按这个流程走。",
+    example:"这个岗位有 SOP 吗？照着做就行。"}]},
+  {abbr:"OT", freq:4, meanings:[{type:"pro", field:"上班", full:"Overtime（加班）",
+    plain:"下班时间到了还得继续干活，就是加班。考勤表上常写成 OT。",
+    example:"这周 OT 了 20 个小时。"}]},
+  {abbr:"HC", freq:4, meanings:[{type:"pro", field:"招聘 / 大厂", full:"Head Count（编制 / 人头数）",
+    plain:"一个团队今年能招几个人，这个名额就叫 HC。有 HC 才能招人。",
+    example:"这个组今年只剩一个 HC。"}]},
+  {abbr:"WLB", freq:4, meanings:[{type:"pro", field:"职场 / 招聘", full:"Work Life Balance（工作生活平衡）",
+    plain:"指工作和生活能兼顾，不用天天加班。",
+    example:"钱少点没关系，WLB 好就行。"}]},
+  {abbr:"ROI", freq:4, meanings:[{type:"pro", field:"商业 / 投资", full:"Return on Investment（投资回报率）",
+    plain:"花出去的钱能赚回来多少。花 100 块赚了 150 块，ROI 就是 1.5。",
+    example:"这次投放的 ROI 太低了。"}]},
+  {abbr:"DAU", freq:3, meanings:[{type:"pro", field:"互联网 / 数据", full:"Daily Active User（日活跃用户）",
+    plain:"一天之内有多少人用了这个产品。",
+    example:"这个功能上线后 DAU 涨了不少。"}]},
+  {abbr:"MAU", freq:3, meanings:[{type:"pro", field:"互联网 / 数据", full:"Monthly Active User（月活跃用户）",
+    plain:"一个月之内有多少人用了这个产品。跟 DAU 是一对。",
+    example:"MAU 破千万了。"}]},
+  {abbr:"GMV", freq:3, meanings:[{type:"pro", field:"电商", full:"Gross Merchandise Volume（商品交易总额）",
+    plain:"一段时间内平台上成交的总金额。注意：这是“下了单的金额”，不一定真到账。",
+    example:"双十一 GMV 又破纪录了。"}]},
+  {abbr:"SKU", freq:3, meanings:[{type:"pro", field:"电商 / 零售", full:"Stock Keeping Unit（库存量单位）",
+    plain:"每样商品的每个规格算一个 SKU。一件衣服有 S、M、L 三个码，就算三个 SKU。",
+    example:"这款鞋有 20 个 SKU。"}]},
+  {abbr:"API", freq:3, meanings:[{type:"pro", field:"编程 / 技术", full:"Application Programming Interface（应用程序编程接口）",
+    plain:"软件之间互相“说话”的通道。比如你点外卖，App 要通过 API 去问商家系统“还有没有货”。",
+    example:"这个功能需要对接支付 API。"}]},
+  {abbr:"B2B", freq:3, meanings:[{type:"pro", field:"商业模式", full:"Business to Business（企业对企业）",
+    plain:"一个公司把东西卖给另一个公司。",
+    example:"我们做的是 B2B 生意。"}]},
+  {abbr:"B2C", freq:3, meanings:[{type:"pro", field:"商业模式", full:"Business to Customer（企业对消费者）",
+    plain:"公司直接把东西卖给普通人。",
+    example:"淘宝主要是 B2C 平台。"}]},
+  {abbr:"VC", freq:3, meanings:[{type:"pro", field:"投融资", full:"Venture Capital（风险投资）",
+    plain:"专门投早期公司的投资机构。",
+    example:"这家公司拿了 VC 的钱。"}]},
+  {abbr:"DD", freq:3, meanings:[{type:"pro", field:"投融资 / 职场", full:"Due Diligence（尽职调查）",
+    plain:"投资人或公司决定投钱、合作之前，把对方的情况查个底朝天。",
+    example:"DD 做完没问题，下个月签合同。"}]},
+  {abbr:"NDA", freq:3, meanings:[{type:"pro", field:"职场 / 商务", full:"Non-Disclosure Agreement（保密协议）",
+    plain:"一份法律文件，签了之后你不能把对方的商业机密说出去。",
+    example:"先签 NDA，我再给你看方案。"}]},
+  {abbr:"FYI", freq:4, meanings:[{type:"pro", field:"职场 / 邮件", full:"For Your Information（供你参考）",
+    plain:"邮件里常见的缩写，意思是“这个信息给你看一下，你知道就行”。",
+    example:"FYI，下周的会议改到周三了。"}]},
+  {abbr:"CC", freq:4, meanings:[{type:"pro", field:"职场 / 邮件", full:"Carbon Copy（抄送）",
+    plain:"发邮件时把某人放在“抄送”里，意思是“也让他知道这件事”。",
+    example:"这封邮件 CC 一下你领导。"}]},
+  {abbr:"EOD", freq:3, meanings:[{type:"pro", field:"职场 / 邮件", full:"End of Day（今日结束前）",
+    plain:"“今天下班前”。老板说“EOD 给我”，意思就是“今天之内交”。",
+    example:"这个文件 EOD 之前发我。"}]},
+  {abbr:"TBD", freq:3, meanings:[{type:"pro", field:"职场 / 邮件", full:"To Be Determined（待确认）",
+    plain:"意思是“还没定，之后再说”。",
+    example:"会议时间 TBD，等通知。"}]},
+  {abbr:"PRD", freq:3, meanings:[{type:"pro", field:"互联网 / 产品", full:"Product Requirements Document（产品需求文档）",
+    plain:"产品经理写的一份文档，详细说明“这个功能要做什么、长什么样”。开发照着它做。",
+    example:"PRD 写好了，开发可以开工了。"}]},
+  {abbr:"UI", freq:4, meanings:[{type:"pro", field:"设计", full:"User Interface（用户界面）",
+    plain:"你打开 App 或网站看到的东西——按钮、颜色、图标、排版。UI 设计师就是负责把界面做漂亮的。",
+    example:"这个 App 的 UI 很清爽。"}]},
+  {abbr:"UE", freq:3, meanings:[{type:"pro", field:"设计", full:"User Experience（用户体验）",
+    plain:"用户在使用产品时的整体感受。好不好用、顺不顺手，都属于 UE。",
+    example:"这个流程的 UE 太差了。"}]},
+  {abbr:"KOL", freq:4, meanings:[{type:"pro", field:"新媒体 / 营销", full:"Key Opinion Leader（关键意见领袖）",
+    plain:"网上粉丝多、说话有人听的人，比如大博主、网红。品牌想推广就花钱请他们帮忙说好话。",
+    example:"这次找了 20 个 KOL 帮忙推荐。"},
+    {type:"pro", field:"新媒体 / 营销", full:"KOC（顺便认识一下）",
+     plain:"粉丝不多但更像普通人的博主。影响力小，但说话更真实、报价也便宜。",
+     example:"预算不够，先用一批 KOC 试试水。"}]},
+  {abbr:"UGC", freq:3, meanings:[{type:"pro", field:"互联网 / 内容", full:"User Generated Content（用户生成内容）",
+    plain:"用户自己创作发布的内容。比如你在小红书发的笔记、在 B 站发的视频。",
+    example:"这个平台靠 UGC 起家。"}]},
+  {abbr:"SEO", freq:3, meanings:[{type:"pro", field:"互联网 / 营销", full:"Search Engine Optimization（搜索引擎优化）",
+    plain:"想办法让你的网页在百度、谷歌搜索里排得更靠前。",
+    example:"这个页面做了 SEO，排名上去了。"}]},
+  {abbr:"CTR", freq:3, meanings:[{type:"pro", field:"广告 / 运营", full:"Click-Through-Rate（点击率）",
+    plain:"看到广告的人里有多少人点了。100 个人看到，5 个人点了，CTR 就是 5%。",
+    example:"换了个标题，CTR 翻了一倍。"}]},
+  {abbr:"CVR", freq:3, meanings:[{type:"pro", field:"广告 / 运营", full:"Conversion Rate（转化率）",
+    plain:"点了广告的人里，有多少真的买了或注册了。",
+    example:"CVR 太低，得看看落地页。"}]},
+  {abbr:"AB测试", freq:3, meanings:[{type:"pro", field:"互联网 / 运营", full:"A/B Testing（对照实验）",
+    plain:"把用户分成两组，一组看 A 版本，一组看 B 版本，看哪个效果更好。",
+    example:"先做个 A/B 测试再全量上线。"}]},
+  {abbr:"PV", freq:3, meanings:[{type:"pro", field:"互联网 / 数据", full:"Page View（页面浏览量）",
+    plain:"一个页面被看了多少次。刷新也算一次。",
+    example:"这篇文章 PV 破了十万。"}]},
+  {abbr:"UV", freq:3, meanings:[{type:"pro", field:"互联网 / 数据", full:"Unique Visitor（独立访客）",
+    plain:"有多少个不同的人看了这个页面。跟 PV 不同，同一个人看多次只算一个 UV。",
+    example:"UV 比昨天涨了 30%。"}]},
+  {abbr:"CR", freq:3, meanings:[{type:"pro", field:"广告 / 运营", full:"Conversion Rate（转化率）",
+    plain:"跟 CVR 一个意思，都是指多少人真的完成了目标动作。",
+    example:"CR 太低，得优化流程。"}]},
+  {abbr:"CPC", freq:3, meanings:[{type:"pro", field:"广告", full:"Cost Per Click（单次点击成本）",
+    plain:"广告被点一次要花多少钱。",
+    example:"CPC 太高了，换个素材试试。"}]},
+  {abbr:"CPM", freq:3, meanings:[{type:"pro", field:"广告", full:"Cost Per Mille（千次曝光成本）",
+    plain:"广告被展示一千次要花多少钱。",
+    example:"CPM 才 5 块，很划算。"}]},
+  {abbr:"CPS", freq:3, meanings:[{type:"pro", field:"广告", full:"Cost Per Sale（按销售额付费）",
+    plain:"按实际卖出去的金额来算广告费。",
+    example:"这个渠道走 CPS 模式。"}]},
+
+  /* ============ 职场黑话 / 互联网八股文 ============ */
+  {abbr:"颗粒度", freq:3, meanings:[{type:"pro", field:"职场黑话", full:"细致程度",
+    plain:"指做事的细致程度。颗粒度细就是分得很细很具体，颗粒度粗就是大概说一下。",
+    example:"这个方案颗粒度再细一点。"}]},
+  {abbr:"闭环", freq:3, meanings:[{type:"pro", field:"职场黑话", full:"形成完整循环",
+    plain:"一件事从头到尾做完，首尾相连，不用再靠别人补。",
+    example:"这个流程要形成闭环。"}]},
+  {abbr:"对齐", freq:4, meanings:[{type:"pro", field:"职场黑话", full:"确认大家理解一致",
+    plain:"大家坐下来把信息对一遍，确保每个人理解的是同一件事。",
+    example:"我们下午对齐一下进度。"}]},
+  {abbr:"赋能", freq:3, meanings:[{type:"pro", field:"职场黑话", full:"给予能力 / 资源支持",
+    plain:"给某个团队或个人提供资源、工具、培训，让他能做得更好。",
+    example:"这个平台赋能中小商家。"}]},
+  {abbr:"抓手", freq:3, meanings:[{type:"pro", field:"职场黑话", full:"切入点 / 着力点",
+    plain:"做一件事时从哪里下手、用什么方法推进。",
+    example:"提升留存，抓手在内容质量。"}]},
+  {abbr:"落地", freq:4, meanings:[{type:"pro", field:"职场黑话", full:"真正实现 / 执行",
+    plain:"一个想法、方案从纸上变成现实，真正做出来。",
+    example:"这个方案什么时候能落地？"}]},
+  {abbr:"复盘", freq:4, meanings:[{type:"pro", field:"职场黑话", full:"回顾总结",
+    plain:"一件事做完之后，回头看看哪里做得好、哪里不好，下次怎么改进。",
+    example:"项目结束后我们复盘一下。"}]},
+  {abbr:"沉淀", freq:3, meanings:[{type:"pro", field:"职场黑话", full:"积累 / 积攒下来",
+    plain:"把经验、数据、能力慢慢积累下来，形成自己的东西。",
+    example:"这几年技术上的沉淀派上用场了。"}]},
+  {abbr:"心智", freq:3, meanings:[{type:"pro", field:"营销 / 品牌", full:"用户认知 / 心理印象",
+    plain:"用户对一个品牌的整体感觉和认知。说“占领用户心智”，就是让用户一想到某个需求就想到你。",
+    example:"这个广告是为了抢占用户心智。"}]},
+  {abbr:"拉齐", freq:4, meanings:[{type:"pro", field:"互联网黑话", full:"信息同步",
+    plain:"把各方信息拉到同一个水平线上，确保大家知道的是同一件事。",
+    example:"先拉齐一下各方进度。"}]},
+  {abbr:"对焦", freq:3, meanings:[{type:"pro", field:"互联网黑话", full:"统一意见",
+    plain:"再次开会，把分歧点对齐，统一意见。",
+    example:"我们下午对焦一下方案。"}]},
+  {abbr:"反哺", freq:3, meanings:[{type:"pro", field:"互联网黑话", full:"反过来回馈",
+    plain:"一个东西发展起来后，反过来帮助当初支持它的那个东西。",
+    example:"内容生态做起来后，反哺了电商业务。"}]},
+  {abbr:"裂变", freq:3, meanings:[{type:"pro", field:"互联网黑话", full:"拉人 / 群发扩散",
+    plain:"通过用户分享来拉新，像细胞分裂一样快速扩散。",
+    example:"这个活动靠裂变拉了不少新用户。"}]},
+  {abbr:"矩阵", freq:3, meanings:[{type:"pro", field:"互联网黑话", full:"多个账号 / 多个渠道",
+    plain:"同时运营多个账号或渠道，形成网络。比如“自媒体矩阵”就是多个平台都开号。",
+    example:"他们做了全平台矩阵。"}]},
+  {abbr:"调性", freq:3, meanings:[{type:"pro", field:"互联网黑话", full:"风格 / 气质",
+    plain:"一个品牌或账号的整体风格和感觉。",
+    example:"这个设计很符合品牌调性。"}]},
+  {abbr:"壁垒", freq:3, meanings:[{type:"pro", field:"互联网黑话", full:"别人没有的优势",
+    plain:"竞争对手很难复制的东西，比如技术、专利、用户规模。",
+    example:"技术壁垒是他们的核心竞争力。"}]},
+  {abbr:"心智", freq:3, meanings:[{type:"pro", field:"营销", full:"用户认知",
+    plain:"用户对品牌的整体印象。",
+    example:"抢占用户心智是营销的核心。"}]},
+  {abbr:"第二曲线", freq:3, meanings:[{type:"pro", field:"商业", full:"换个路子赚钱",
+    plain:"原来的业务增长到头了，开辟一条新的增长路径。",
+    example:"公司正在寻找第二曲线。"}]},
+  {abbr:"点线面体", freq:2, meanings:[{type:"pro", field:"互联网黑话", full:"单点到系统的整体",
+    plain:"从单个点扩展到整个系统。形容思考问题的层次。",
+    example:"做业务要有从点到线到面到体的思维。"}]},
+  {abbr:"千人千面", freq:3, meanings:[{type:"pro", field:"互联网黑话", full:"为不同人定制服务",
+    plain:"根据每个用户的喜好，展示不同的内容或推荐。",
+    example:"算法推荐做到了千人千面。"}]},
+  {abbr:"私域流量", freq:3, meanings:[{type:"pro", field:"互联网黑话", full:"自己可控的用户池",
+    plain:"你能直接触达的用户，比如微信群、朋友圈。跟公域（平台上的流量）相对。",
+    example:"把公域流量导到私域。"}]},
+  {abbr:"公域流量", freq:3, meanings:[{type:"pro", field:"互联网黑话", full:"平台上的公共流量",
+    plain:"在平台（抖音、淘宝等）上公共的流量，需要花钱或靠内容获取。",
+    example:"公域流量越来越贵了。"}]},
+  {abbr:"追热点", freq:3, meanings:[{type:"pro", field:"互联网黑话", full:"蹭流量",
+    plain:"紧跟当下热门话题做内容，蹭一波流量。",
+    example:"做新媒体要会追热点。"}]},
+  {abbr:"坑位费", freq:3, meanings:[{type:"pro", field:"电商", full:"找主播带货的固定费用",
+    plain:"找网红或明星直播带货，不管卖多少都要付的固定费用。",
+    example:"坑位费太高了，不划算。"}]},
+  {abbr:"接广", freq:3, meanings:[{type:"pro", field:"自媒体", full:"接广告",
+    plain:"账号接到品牌广告，发内容帮品牌推广，赚广告费。",
+    example:"她这个月接了三个广。"}]},
+  {abbr:"起号", freq:3, meanings:[{type:"pro", field:"自媒体", full:"从零做账号",
+    plain:"从零开始运营一个新账号。",
+    example:"起号阶段最难。"}]},
+  {abbr:"养号", freq:3, meanings:[{type:"pro", field:"自媒体", full:"让平台认为你是真人",
+    plain:"新号先正常使用一段时间，让平台觉得你是真人，而不是营销号。",
+    example:"新号先养一周再发内容。"}]},
+  {abbr:"限流", freq:4, meanings:[{type:"pro", field:"自媒体", full:"被平台减少推荐",
+    plain:"平台减少推荐你的内容，播放量暴跌。",
+    example:"这条视频被限流了。"}]},
+  {abbr:"爆款", freq:4, meanings:[{type:"pro", field:"自媒体", full:"数据特别好的内容",
+    plain:"播放量、点赞量特别高的内容。",
+    example:"她出了好几个爆款视频。"}]},
+  {abbr:"完播率", freq:3, meanings:[{type:"pro", field:"自媒体", full:"看完整个视频的比例",
+    plain:"多少人把视频看完了。完播率越高，平台越愿意推。",
+    example:"完播率上去了，播放量自然涨。"}]},
+  {abbr:"带货", freq:4, meanings:[{type:"pro", field:"自媒体 / 电商", full:"推荐商品赚佣金",
+    plain:"在内容里推荐商品，别人通过你的链接买了，你拿佣金。",
+    example:"她现在主要靠带货赚钱。"}]},
+
+  /* ============ 职场暗语 ============ */
+  {abbr:"格外出色", freq:3, meanings:[{type:"pro", field:"职场暗语", full:"目前还没犯错误",
+    plain:"领导评语里的反话。说“格外出色”，实际意思是“你还没出过什么大错”。",
+    example:"领导说我格外出色，也不知道是夸还是损。"}]},
+  {abbr:"善于社交", freq:3, meanings:[{type:"pro", field:"职场暗语", full:"能喝",
+    plain:"职场评语里的反话。“善于社交”有时候指“能喝酒”。",
+    example:"HR 说他善于社交，估计是应酬型选手。"}]},
+  {abbr:"眼光长远", freq:3, meanings:[{type:"pro", field:"职场暗语", full:"总是一再拖延工作",
+    plain:"职场评语里的反话。说“眼光长远”，实际可能是“你老是拖”。",
+    example:"他那个“眼光长远”的评价，懂的都懂。"}]},
+  {abbr:"能承受较大压力", freq:4, meanings:[{type:"pro", field:"招聘黑话", full:"要加班",
+    plain:"招聘 JD 里的黑话。“能承受较大工作压力”翻译过来就是“要经常加班”。",
+    example:"JD 上写了能承受较大压力，你懂的。"}]},
+  {abbr:"抗压能力强", freq:4, meanings:[{type:"pro", field:"招聘黑话", full:"加班 + 替别人扛雷",
+    plain:"招聘 JD 里的黑话。除了加班，可能还要帮别人背锅。",
+    example:"这个岗位要求抗压能力强，估计不轻松。"}]},
+  {abbr:"有强烈责任心", freq:3, meanings:[{type:"pro", field:"招聘黑话", full:"没做完不准走",
+    plain:"招聘 JD 里的黑话。意思是活没干完你别想下班。",
+    example:"要求有强烈责任心，就是加班预警。"}]},
+  {abbr:"弹性工作制", freq:4, meanings:[{type:"pro", field:"招聘黑话", full:"加班不给加班费",
+    plain:"招聘 JD 里的黑话。看起来自由，实际上是没有加班费。",
+    example:"弹性工作制，弹性的是你，不是公司。"}]},
+  {abbr:"包三餐", freq:3, meanings:[{type:"pro", field:"招聘黑话", full:"早晚都得加班",
+    plain:"招聘 JD 里的黑话。包三餐意味着你早中晚都在公司吃，加班跑不掉。",
+    example:"包三餐听起来好，其实意思是你得待到晚上。"}]},
+  {abbr:"双休", freq:3, meanings:[{type:"pro", field:"招聘黑话", full:"工作日加班",
+    plain:"招聘 JD 里的黑话。虽然周末休息，但工作日可能要加班到很晚。",
+    example:"写了双休，但没写工作日几点下班。"}]},
+
+  /* ============ 其他 ============ */
+  {abbr:"FOMO", freq:3, meanings:[{type:"net", field:"网络流行语 / 心理", full:"Fear of Missing Out（错失恐惧症）",
+    plain:"看到别人都在做某件事，自己怕错过，也跟着做。",
+    example:"看到朋友圈都在晒，FOMO 了，我也去买了。"}]},
+  {abbr:"O2O", freq:3, meanings:[{type:"pro", field:"商业模式", full:"Online to Offline（线上到线下）",
+    plain:"线上引流，线下消费。比如外卖、打车、到店团购。",
+    example:"O2O 模式在本地生活领域很常见。"}]},
+  {abbr:"MCN", freq:3, meanings:[{type:"pro", field:"自媒体", full:"Multi-Channel Network（网红经纪公司）",
+    plain:"专门签网红、帮他们做内容、接广告、分成的公司。",
+    example:"她签了一家 MCN，资源好多了。"}]},
+  {abbr:"LTV", freq:3, meanings:[{type:"pro", field:"互联网 / 运营", full:"Life Time Value（用户生命周期价值）",
+    plain:"一个用户从开始用到不再用，总共能给你带来多少钱。",
+    example:"LTV 得比 CAC 高才划算。"}]},
+  {abbr:"CAC", freq:3, meanings:[{type:"pro", field:"互联网 / 运营", full:"Customer Acquisition Cost（获客成本）",
+    plain:"获取一个新用户要花多少钱。",
+    example:"CAC 太高了，得优化渠道。"}]},
+  {abbr:"NDA", freq:3, meanings:[{type:"pro", field:"职场 / 商务", full:"Non-Disclosure Agreement（保密协议）",
+    plain:"一份法律文件，签了之后你不能把对方的商业机密说出去。",
+    example:"先签 NDA，我再给你看方案。"}]},
+  {abbr:"Kick off", freq:3, meanings:[{type:"pro", field:"职场 / 项目", full:"启动会",
+    plain:"一个项目正式开始时的第一次会议。",
+    example:"下周一项目 Kick off，记得参加。"}]},
+  {abbr:"EOD", freq:3, meanings:[{type:"pro", field:"职场 / 邮件", full:"End of Day（今日结束前）",
+    plain:"“今天下班前”。",
+    example:"这个文件 EOD 之前发我。"}]},
+  {abbr:"COB", freq:3, meanings:[{type:"pro", field:"职场 / 邮件", full:"Close of Business（今日下班前）",
+    plain:"跟 EOD 意思差不多，指“今天工作结束前”。",
+    example:"COB 之前把报价确认一下。"}]},
+  {abbr:"MTD", freq:2, meanings:[{type:"pro", field:"职场", full:"Month to Date（本月至今）",
+    plain:"从本月 1 号到今天。",
+    example:"MTD 的销售额是多少？"}]},
+  {abbr:"QTD", freq:2, meanings:[{type:"pro", field:"职场", full:"Quarter to Date（本季度至今）",
+    plain:"从本季度开始到今天。",
+    example:"QTD 的进度有点慢。"}]},
+  {abbr:"YTD", freq:2, meanings:[{type:"pro", field:"职场", full:"Year to Date（本年至今）",
+    plain:"从今年 1 月 1 号到今天。",
+    example:"YTD 业绩已经完成 80% 了。"}]},
+  {abbr:"ASAP", freq:4, meanings:[{type:"pro", field:"职场 / 邮件", full:"As Soon As Possible（尽快）",
+    plain:"“尽快”。老板说 ASAP，意思就是“马上、立刻”。",
+    example:"这个 ASAP 给我。"}]},
+  {abbr:"BRB", freq:3, meanings:[{type:"pro", field:"聊天 / 游戏", full:"Be Right Back（马上回来）",
+    plain:"“马上回来”，暂时离开一下。",
+    example:"BRB，去倒杯水。"}]},
+  {abbr:"BTW", freq:4, meanings:[{type:"pro", field:"聊天 / 邮件", full:"By The Way（顺便说一下）",
+    plain:"“顺便说一下”，用来补充一个不太重要的信息。",
+    example:"BTW，明天的会议改到十点了。"}]},
+  {abbr:"TBH", freq:3, meanings:[{type:"pro", field:"聊天", full:"To Be Honest（说实话）",
+    plain:"“说实话”，用来表达真实想法。",
+    example:"TBH，我不太喜欢这个方案。"}]},
+  {abbr:"IMO", freq:4, meanings:[{type:"pro", field:"聊天", full:"In My Opinion（在我看来）",
+    plain:"“在我看来”，表达个人观点。加 H 变成 IMHO，就是“恕我直言”。",
+    example:"IMO，这个价格有点贵了。"}]},
+  {abbr:"TL;DR", freq:3, meanings:[{type:"pro", field:"网络 / 论坛", full:"Too Long; Didn't Read（太长不看）",
+    plain:"帖子太长懒得看，用来要求对方给个摘要。也用来在长文开头写简版总结。",
+    example:"TL;DR：结论是选 B 方案。"}]},
+  {abbr:"PSA", freq:2, meanings:[{type:"pro", field:"网络 / 论坛", full:"Public Service Announcement（公告）",
+    plain:"“公告”“提醒”。用来发布对大家都有用的信息。",
+    example:"PSA：明天服务器维护，游戏停服一天。"}]},
+  {abbr:"ELI5", freq:2, meanings:[{type:"pro", field:"网络 / 论坛", full:"Explain Like I'm 5（像跟五岁小孩一样解释）",
+    plain:"“请用最简单的话解释”，来源于 Reddit。",
+    example:"ELI5，区块链到底是什么？"}]},
+  {abbr:"IIRC", freq:2, meanings:[{type:"pro", field:"网络 / 论坛", full:"If I Recall Correctly（如果我没记错的话）",
+    plain:"“如果我没记错的话”，表示不太确定。",
+    example:"IIRC，这个功能去年就上线了。"}]}
+];
+
+/* =========================================================
+   二、圈子库
+   ========================================================= */
+const CIRCLES = [
+  {name:"绘画圈（画圈）", icon:"🎨",
+   intro:"一群喜欢画画的人聚在一起交流作品、接稿、互相点评的圈子。",
+   slang:[
+     {t:"接稿", d:"有人花钱请你画画，你接了这个活。", e:"最近接稿接到手软。"},
+     {t:"稿费", d:"画画赚到的钱。按张、按小时、按复杂程度算。"},
+     {t:"白菜价", d:"便宜到离谱的价格，常用来吐槽客户压价太狠。"},
+     {t:"翻车", d:"画出来的效果跟预期差很多，或者跟参考完全不像。"},
+     {t:"咕咕", d:"答应了要画但一直拖着不交稿，来源于鸽子“放鸽子”。"},
+     {t:"摸鱼", d:"不画正经稿，随便画点自己喜欢的放松一下。"},
+     {t:"厚涂 / 薄涂", d:"两种上色风格。厚涂像油画一层层堆，薄涂像水彩薄薄一层。"},
+     {t:"人体", d:"画人物身体结构的简称。画不好人体是很多人的痛点。"},
+     {t:"描图", d:"把别人的画垫在下面照着描，属于抄袭，圈内大忌。"},
+     {t:"约稿", d:"花钱请画手给自己画一张指定的图。"},
+     {t:"草稿 / 线稿 / 上色", d:"画画三个阶段的成品：草稿是粗胚，线稿是描好的线条，上色是最后涂颜色。"},
+     {t:"改图", d:"客户要求对已完成的画进行修改。"},
+     {t:"无尝", d:"“无偿”的谐音，指免费帮别人画。"},
+     {t:"设子", d:"原创角色的设定，包括长相、性格、背景故事。"},
+     {t:"跑单", d:"谈好了要画但人跑了，不付钱也不干活。"}
+   ]},
+
+  {name:"设圈 / 原创圈（OC圈）", icon:"✨",
+   intro:"围绕“原创角色设定”形成的圈子。画手创造角色，别人可以买下这个角色，用来画画、写文、做头像等。",
+   slang:[
+     {t:"设子 / 设", d:"一个原创角色的完整设定，包括长相、性格、背景故事。相当于“角色的户口本”。"},
+     {t:"收设", d:"花钱把别人的原创角色买下来，买完这个角色就归你了。"},
+     {t:"出设", d:"把自己的角色卖给别人。"},
+     {t:"设主", d:"拥有这个角色的人。买下角色的人就是设主。"},
+     {t:"二设 / 三设", d:"在原设定基础上再加东西，比如给角色加新衣服、新故事。"},
+     {t:"联动", d:"两个设主商量好，让各自的角色在同一个故事里出现。"},
+     {t:"跑单", d:"谈好了要买或者要画，结果人跑了。"},
+     {t:"拍卖", d:"一个角色同时被多人想要，价高者得。"},
+     {t:"服设", d:"专门指角色的服装设计。"}
+   ]},
+
+  {name:"定制圈", icon:"🧵",
+   intro:"找人量身定做东西的圈子，比如定制衣服、饰品、娃娃、手机壳、模型。",
+   slang:[
+     {t:"打样", d:"正式批量生产前，先做一件样品看看效果。"},
+     {t:"起订量", d:"最少做多少件才接单。"},
+     {t:"工期", d:"从下单到做完需要多长时间。"},
+     {t:"尾款", d:"先付一部分定金，做完再付剩下的钱。"},
+     {t:"翻单", d:"同样的东西再下单做一批。"},
+     {t:"踩雷", d:"找的商家做出来效果很差。"},
+     {t:"还原度", d:"做出来的东西跟参考图有多像。"},
+     {t:"私模", d:"专门为你一个人开的模具，别人不能用，成本更高。"}
+   ]},
+
+  {name:"水印圈", icon:"💧",
+   intro:"专门做“水印”的圈子。水印就是打在图片上的半透明文字或图案，用来防止别人盗图。",
+   slang:[
+     {t:"水印", d:"打在图片上的文字或图案，防止别人直接拿走用。"},
+     {t:"防盗图", d:"水印的主要用途，让盗图的人不好直接用。"},
+     {t:"通用水印", d:"一个水印可以用在多种图上。"},
+     {t:"定制水印", d:"根据你的需求专门做的水印，独一无二。"},
+     {t:"署名", d:"水印上写的名字，一般是你自己的 ID 或昵称。"},
+     {t:"去水印", d:"把别人图上的水印去掉，属于侵犯版权，圈内很排斥。"},
+     {t:"马赛克", d:"把图片某个区域打上模糊格子。"},
+     {t:"版权", d:"谁做的图归谁，别人要用得经过同意。"}
+   ]},
+
+  {name:"兽圈 / Furry", icon:"🐾",
+   intro:"喜欢“拟人化动物形象”的圈子。这些角色既像动物又像人，有自己的性格和故事。",
+   slang:[
+     {t:"兽设", d:"自己的拟人动物角色，包括长相、毛色、性格。"},
+     {t:"兽装 / 毛装", d:"用毛绒材料做的角色服装，穿上可以扮演自己的兽设。"},
+     {t:"出毛", d:"穿上兽装外出活动。"},
+     {t:"毛名", d:"在兽圈里用的名字，跟现实名字分开。"},
+     {t:"兽展", d:"兽圈聚会活动，大家穿兽装或交流作品。"},
+     {t:"兽设交易", d:"把自己的兽设卖给别人。"},
+     {t:"拟人", d:"把动物画成有人的身体和表情。"}
+   ]},
+
+  {name:"饭圈 / 追星圈", icon:"🎤",
+   intro:"追明星、偶像的圈子。有组织、有分工，能打投、能控评、能应援。",
+   slang:[
+     {t:"站姐", d:"专门跟拍某个明星、拍出高质量照片发到网上的粉丝。"},
+     {t:"代拍", d:"收钱帮别人去现场拍明星照片的人。"},
+     {t:"控评", d:"在评论区集中刷好评，把不好的评论压下去。"},
+     {t:"反黑", d:"专门举报、反驳骂自己偶像的言论。"},
+     {t:"应援", d:"花钱给偶像做宣传，比如包广告牌、买地铁广告。"},
+     {t:"打投", d:"组织粉丝集中投票、刷数据。"},
+     {t:"唯粉", d:"只喜欢组合里某一个成员的粉丝。"},
+     {t:"撕番", d:"粉丝之间为了“谁排第一”吵起来。"},
+     {t:"塌房", d:"偶像出了丑闻，人设崩了。"},
+     {t:"站子", d:"粉丝自发组织的应援团体。"},
+     {t:"爱豆", d:"idol 的音译，指偶像明星。"},
+     {t:"本命", d:"最喜欢、最支持的偶像。"},
+     {t:"墙头", d:"除本命外，偶尔喜欢的其他艺人。"},
+     {t:"毒唯", d:"只粉一个、且攻击性强的粉丝。"},
+     {t:"私生", d:"过度窥探、骚扰偶像私生活的粉丝。"},
+     {t:"路人粉", d:"有点好感但不花钱不打投的粉丝。"},
+     {t:"爬墙", d:"从喜欢一个偶像转向喜欢另一个。"},
+     {t:"脱粉", d:"不再喜欢这个偶像。"},
+     {t:"回踩", d:"脱粉后反过来骂偶像。"},
+     {t:"拉踩", d:"捧一个踩一个。"},
+     {t:"提纯", d:"把 CP 粉变成某一方的唯粉。"},
+     {t:"官配", d:"官方认定或主推的 CP。"},
+     {t:"拉郎", d:"把两个没什么关系的人硬凑 CP。"},
+     {t:"美帝", d:"人气最高、最火的 CP。"},
+     {t:"割韭菜", d:"粉丝被品牌或公司频繁消费花钱。"},
+     {t:"海景房", d:"饭圈里指大粉收了粉丝的钱但没办事，卷款跑路。"}
+   ]},
+
+  {name:"谷圈（吃谷圈）", icon:"🍚",
+   intro:"收集动漫、游戏周边商品的圈子。“谷”是英文 goods（商品）的音译。",
+   slang:[
+     {t:"吃谷", d:"买周边商品。"},
+     {t:"吧唧", d:"徽章的日语音译，圈内都这么叫。"},
+     {t:"痛包", d:"把一堆徽章、挂件装饰在包上，专门展示自己的周边。"},
+     {t:"谷美", d:"给周边拍好看的照片。"},
+     {t:"扫本", d:"把店里某款周边全部买光。"},
+     {t:"代购", d:"帮别人从国外或展会买周边，赚个跑腿费。"},
+     {t:"砍单", d:"商家接了单又反悔不卖了。"},
+     {t:"官谷 / 同人谷", d:"官方出的周边 / 粉丝自己做的周边。"},
+     {t:"海景", d:"特别贵、特别稀有的谷子，几百到几千不等，很难收到。"},
+     {t:"湖景", d:"相对便宜、没那么稀有的稀有谷，基本都是三位数。"},
+     {t:"普谷", d:"普通的通贩谷，随便一搜都有人出。"},
+     {t:"肾", d:"钱。交肾就是交钱，立肾就是立刻交钱。"},
+     {t:"梦情", d:"“梦中情谷”，做梦都想得到的谷子。"},
+     {t:"空气谷", d:"买了但还没到货的谷子。"},
+     {t:"拼团", d:"几个人凑一起下单，达到起订量或省钱。"},
+     {t:"set", d:"商品组合，一套一起卖。"},
+     {t:"hold", d:"被人用定金预留了。"},
+     {t:"好价", d:"价格实惠。"},
+     {t:"h价", d:"特别高的价格，h 念 high。"}
+   ]},
+
+  {name:"同人圈", icon:"📖",
+   intro:"基于已有作品（动漫、游戏、影视）自己创作新故事的圈子，包括写文、画画、做视频。",
+   slang:[
+     {t:"产粮", d:"自己创作同人作品，供大家看。相当于“做饭给大家吃”。"},
+     {t:"吃粮", d:"看别人创作的同人作品。"},
+     {t:"AU", d:"Alternate Universe，把原作角色放到完全不同的世界观里。"},
+     {t:"OOC", d:"Out Of Character，角色言行跟原作设定不符，写崩了。"},
+     {t:"乙女", d:"以女性为主角、面向女性读者的恋爱向作品。"},
+     {t:"清水 / 肉", d:"清水指没有亲密描写，肉指有。"},
+     {t:"车", d:"指带亲密情节的内容。"},
+     {t:"本子", d:"自己印的同人小册子。"},
+     {t:"腿肉", d:"自己在磕 CP / 搞同人时创作的内容，包括绘画、小说、视频等。"}
+   ]},
+
+  {name:"Cos圈 / Coser", icon:"📸",
+   intro:"Cosplay（角色扮演）的圈子，穿上服装扮演喜欢的角色。",
+   slang:[
+     {t:"出C", d:"Cosplay 某个角色的简称。"},
+     {t:"正片", d:"专门约摄影、妆娘拍的正式作品。"},
+     {t:"场照", d:"在漫展现场随手拍的照片。"},
+     {t:"妆娘", d:"专门给 coser 化妆的人。"},
+     {t:"道具", d:"角色用的武器、配饰等实体道具。"},
+     {t:"返图", d:"摄影师把拍好的照片发给 coser。"},
+     {t:"毛", d:"假发，圈内都叫毛。"},
+     {t:"面基", d:"网友线下见面。"}
+   ]},
+
+  {name:"三坑（汉服 / JK / 洛丽塔）", icon:"👘",
+   intro:"汉服、JK 制服、洛丽塔裙三个服装圈子的合称，因为都很烧钱，所以叫“三坑”。",
+   slang:[
+     {t:"正版 / 山", d:"正版是原创设计，山是抄袭仿制的。"},
+     {t:"抄款", d:"抄袭别人的原创设计款式。"},
+     {t:"尾款", d:"先付定金预定，出货时再付剩下的钱。"},
+     {t:"工期", d:"从下单到收到货要等多久。这三坑工期经常很长。"},
+     {t:"拼团", d:"几个人凑一起下单，能便宜点或达到起订量。"},
+     {t:"开箱", d:"收到货后拍视频展示。"},
+     {t:"妹妹", d:"圈内对同好的称呼，不分年龄。"}
+   ]},
+
+  {name:"娃圈（BJD）", icon:"🧸",
+   intro:"玩球形关节人偶的圈子。这种娃娃关节可以活动，能换衣服、换妆、换头发。",
+   slang:[
+     {t:"BJD", d:"Ball Jointed Doll，球形关节人偶。"},
+     {t:"娃衣", d:"给娃娃穿的衣服。"},
+     {t:"妆面", d:"给娃娃画的脸部妆容。"},
+     {t:"开脸", d:"给娃娃画妆的过程。"},
+     {t:"素头", d:"还没画妆的娃娃头。"},
+     {t:"体子", d:"娃娃的身体部分。"},
+     {t:"娃社", d:"制作娃娃的公司或工作室。"},
+     {t:"接娃", d:"买一个娃娃。"}
+   ]},
+
+  {name:"手账圈", icon:"📓",
+   intro:"喜欢做手账（装饰笔记本）的圈子，用胶带、贴纸、印章把本子做得很好看。",
+   slang:[
+     {t:"胶带", d:"印有图案的装饰胶带，是手账的核心材料。"},
+     {t:"分装", d:"把一整卷胶带剪成小段卖给别人，价格便宜。"},
+     {t:"拼贴", d:"把胶带、贴纸、剪报拼在一起做装饰。"},
+     {t:"排版", d:"页面怎么布局、怎么摆好看。"},
+     {t:"开胶", d:"胶带粘性变差。"},
+     {t:"复刻", d:"照着别人的排版做一份一样的。"}
+   ]},
+
+  {name:"潮玩 / 卡圈", icon:"🃏",
+   intro:"玩盲盒、手办、球星卡、卡牌游戏的圈子，核心是“抽”和“收藏”。",
+   slang:[
+     {t:"盲盒", d:"买之前不知道里面是什么款式的盒子。"},
+     {t:"隐藏款", d:"概率很低的稀有款，抽到很值钱。"},
+     {t:"官瑕", d:"官方出厂的瑕疵，通常可以退换。"},
+     {t:"验卡", d:"买卡之前先确认卡是不是真的、品相好不好。"},
+     {t:"评级", d:"把卡送去专业机构打分，分数越高越值钱。"},
+     {t:"破卡", d:"拆开未开封的卡包。"},
+     {t:"端盒", d:"一整套全买下来，确保不重复。"}
+   ]},
+
+  {name:"游戏圈", icon:"🎮",
+   intro:"玩游戏的圈子。不同游戏还有各自的小圈子，这里说的是通用黑话。",
+   slang:[
+     {t:"开黑", d:"和朋友组队一起玩。"},
+     {t:"上分", d:"打排位赛提升段位。"},
+     {t:"氪金", d:"在游戏里花钱。"},
+     {t:"白嫖", d:"不花钱只靠免费内容玩。"},
+     {t:"代练", d:"花钱请高手帮你打，提升段位。"},
+     {t:"外挂", d:"作弊软件，用的人会被封号。"},
+     {t:"开荒", d:"新副本、新版本刚出时第一次打。"},
+     {t:"吃鸡", d:"大逃杀类游戏拿第一。"},
+     {t:"肝", d:"花大量时间重复刷游戏内容。"},
+     {t:"Rush B", d:"CSGO 中集体冲击 B 包点。"},
+     {t:"+++", d:"传奇游戏里打“+++”是求道士加血的意思。"},
+     {t:"PK", d:"Player Killer，玩家对决。最早出自《传奇》。"},
+     {t:"DPS", d:"每秒伤害，衡量输出能力的指标。"},
+     {t:"buff", d:"增益效果，给角色加正面状态。"},
+     {t:"roll", d:"掷骰子分配装备。"},
+     {t:"搓招", d:"格斗游戏里摇动摇杆释放技能的动作。"},
+     {t:"续币", d:"街机游戏失败后投币继续。"},
+     {t:"搬砖", d:"在游戏里重复刷资源赚钱。"},
+     {t:"放风筝", d:"一边跑一边打，让敌人追不上。"},
+     {t:"速通", d:"用最快速度通关。"},
+     {t:"CDK", d:"兑换码。"},
+     {t:"老滚", d:"《上古卷轴》的别名。"},
+     {t:"大菠萝", d:"《暗黑破坏神》的谐音。"},
+     {t:"远哭", d:"《孤岛惊魂》的直译别名。"}
+   ]},
+
+  {name:"电竞圈", icon:"🏆",
+   intro:"围绕电子竞技比赛形成的圈子，包括选手、教练、解说、粉丝。",
+   slang:[
+     {t:"BP", d:"Ban/Pick，比赛开始前禁用和选择角色。"},
+     {t:"对线", d:"比赛前期双方在各自路线上的对抗。"},
+     {t:"团战", d:"两队人马正面大规模交战。"},
+     {t:"carry", d:"一个人带飞全场，表现特别亮眼。"},
+     {t:"下饭", d:"形容操作很菜，看得人吃不下饭。"},
+     {t:"教练", d:"负责战术安排和选手状态管理的人。"},
+     {t:"转会期", d:"选手可以换队伍的时期。"},
+     {t:"KDA", d:"击杀/死亡/助攻，衡量选手表现的指标。"},
+     {t:"对位", d:"被相同位置的对手完全压制。"},
+     {t:"请神", d:"状态极好，像被神附体一样。"},
+     {t:"糯", d:"打法太保守、不敢打。"},
+     {t:"急", d:"打法太激进、容易上头。"}
+   ]},
+
+  {name:"网文圈", icon:"✍️",
+   intro:"在网络平台上写小说、看小说的圈子。",
+   slang:[
+     {t:"签约", d:"作品被平台看中，签合同开始收费连载。"},
+     {t:"上架", d:"小说开始收费，读者要花钱才能看。"},
+     {t:"扑街", d:"作品成绩很差，没人看。"},
+     {t:"太监", d:"小说写到一半不写了，永久断更。"},
+     {t:"催更", d:"读者催作者快点更新。"},
+     {t:"月票", d:"平台的一种投票机制，投得多能上榜。"},
+     {t:"打赏", d:"读者额外花钱支持作者。"},
+     {t:"爽文", d:"主角一路顺风顺水、看着很爽的小说。"},
+     {t:"黄金三章", d:"开头三章必须抓人，不然读者就跑了。"}
+   ]},
+
+  {name:"配音圈 / 声优圈", icon:"🎙️",
+   intro:"给动漫、广播剧、游戏配音的圈子，也包括喜欢声音的粉丝。",
+   slang:[
+     {t:"试音", d:"投递样音，让导演挑人。"},
+     {t:"干音", d:"没有加任何效果的原始录音。"},
+     {t:"混音", d:"把干音加上背景音乐和音效，做成成品。"},
+     {t:"广播剧", d:"只有声音、没有画面的剧。"},
+     {t:"番剧", d:"日本动画剧集。"},
+     {t:"声线", d:"一个人能发出的不同声音类型。"},
+     {t:"CV", d:"Character Voice，配音演员。"}
+   ]},
+
+  {name:"摄影圈", icon:"📷",
+   intro:"喜欢拍照、约拍、交流作品的圈子。",
+   slang:[
+     {t:"约拍", d:"模特和摄影师约时间一起拍照。"},
+     {t:"返图", d:"摄影师把处理好的照片发给模特。"},
+     {t:"原片", d:"没修过的原始照片。"},
+     {t:"精修", d:"精修过的照片，皮肤、色调都处理过。"},
+     {t:"外拍 / 棚拍", d:"在室外拍 / 在摄影棚里拍。"},
+     {t:"出片率", d:"一次拍摄能挑出多少张能用的照片。"},
+     {t:"逆光", d:"光从被拍的人背后照过来。"}
+   ]},
+
+  {name:"剧本杀 / 密室圈", icon:"🕵️",
+   intro:"玩剧本杀和密室逃脱的圈子。剧本杀是读剧本推理，密室是实地解谜逃出房间。",
+   slang:[
+     {t:"本子", d:"一个剧本杀的故事脚本。"},
+     {t:"DM", d:"Dungeon Master，主持游戏、控制节奏的人。"},
+     {t:"NPC", d:"剧情里由工作人员扮演的角色。"},
+     {t:"开车", d:"开始一局游戏。"},
+     {t:"复盘", d:"游戏结束后，DM 讲解完整真相。"},
+     {t:"硬核本", d:"推理难度很高的剧本。"},
+     {t:"情感本", d:"以感情戏为主、容易哭的剧本。"},
+     {t:"恐怖本", d:"带恐怖元素的剧本。"},
+     {t:"跳车", d:"约好了结果临时不去。"}
+   ]},
+
+  {name:"健身圈", icon:"💪",
+   intro:"健身、撸铁、增肌减脂的圈子。",
+   slang:[
+     {t:"增肌 / 减脂", d:"增加肌肉量 / 减少脂肪。"},
+     {t:"练腿日", d:"专门练腿部肌肉的那天，通常最痛苦。"},
+     {t:"泵感", d:"肌肉充血后发胀的感觉。"},
+     {t:"开肩", d:"把肩膀活动开，防止受伤。"},
+     {t:"私教", d:"一对一带你练的教练。"},
+     {t:"RM", d:"某个重量最多能举几次。8RM 就是只能举 8 次的重量。"},
+     {t:"掉秤", d:"体重下降。"}
+   ]},
+
+  {name:"骑行 / 露营 / 钓鱼圈", icon:"🚴",
+   intro:"户外爱好者的圈子，包括骑车、露营、钓鱼。",
+   slang:[
+     {t:"拉练", d:"长途骑行训练，一次骑很远。"},
+     {t:"刷街", d:"在城市街道上骑行。"},
+     {t:"装备党", d:"特别在意装备、买很多贵装备的人。"},
+     {t:"爆胎", d:"轮胎被扎破，骑不了了。"},
+     {t:"空军", d:"钓鱼一条都没钓到。"},
+     {t:"上岸", d:"钓到鱼了，跟“空军”相对。"},
+     {t:"露营车", d:"能装很多装备、适合露营的车。"}
+   ]},
+
+  {name:"学术圈 / 考研考公圈", icon:"📚",
+   intro:"围绕学习、考试、升学形成的圈子，包括考研、考公、留学、科研。",
+   slang:[
+     {t:"上岸", d:"考试成功，考上研究生或公务员。"},
+     {t:"二战", d:"第一次没考上，再考一年。"},
+     {t:"调剂", d:"没被第一志愿录取，调到其他学校或专业。"},
+     {t:"保研", d:"不用考试，直接保送读研。"},
+     {t:"面经", d:"别人分享的面试经验。"},
+     {t:"卷", d:"大家拼命努力，导致门槛越来越高。"},
+     {t:"发核心", d:"在核心期刊上发表论文。"},
+     {t:"延毕", d:"延期毕业。"}
+   ]},
+
+  {name:"码农圈 / 程序员圈", icon:"💻",
+   intro:"写代码的人的圈子，包括大厂程序员、外包、独立开发者。",
+   slang:[
+     {t:"大厂", d:"指头部互联网公司，比如阿里、腾讯、字节。"},
+     {t:"外包", d:"被外包公司派到甲方工作，待遇通常不如正式员工。"},
+     {t:"35岁危机", d:"担心到了 35 岁被裁员、找不到工作。"},
+     {t:"秃头", d:"自嘲程序员压力大、掉头发。"},
+     {t:"调包侠", d:"只会调用现成的库，不自己写核心逻辑。"},
+     {t:"删库跑路", d:"玩笑话，指把数据库删了然后逃走。"},
+     {t:"上线", d:"把代码发布到线上，让用户能用到。"},
+     {t:"回滚", d:"上线出问题，把版本退回上一个。"},
+     {t:"摸鱼", d:"上班时间偷偷不干活。"}
+   ]},
+
+  {name:"自媒体 / 短视频圈", icon:"🎬",
+   intro:"做账号、发内容、靠流量赚钱的圈子，包括短视频、图文、直播。",
+   slang:[
+     {t:"起号", d:"从零开始做一个账号。"},
+     {t:"爆款", d:"数据特别好、播放量很高的内容。"},
+     {t:"限流", d:"平台减少推荐你的内容，播放量暴跌。"},
+     {t:"养号", d:"新号先正常使用一段时间，让平台觉得你是真人。"},
+     {t:"带货", d:"在内容里推荐商品，别人买了你拿佣金。"},
+     {t:"接广", d:"接广告，品牌给钱让你推广。"},
+     {t:"掉粉", d:"粉丝数量下降。"},
+     {t:"完播率", d:"看完整个视频的人占多少比例。"}
+   ]},
+
+  {name:"电商 / 跨境电商圈", icon:"🛒",
+   intro:"在网上卖东西的圈子，包括国内电商和跨境（卖给外国人）。",
+   slang:[
+     {t:"铺货", d:"大量上架商品，靠数量碰运气出单。"},
+     {t:"跟卖", d:"别人卖得好的产品，你也上架同款抢生意。"},
+     {t:"Listing", d:"商品页面，包括标题、图片、描述。"},
+     {t:"刷单", d:"自己找人假下单，制造销量假象。"},
+     {t:"封店", d:"平台把你的店铺关掉。"},
+     {t:"爆单", d:"突然来了大量订单。"},
+     {t:"退货率", d:"卖出去的东西有多少被退回来。"},
+     {t:"坑位费", d:"找主播带货要交的固定费用。"}
+   ]},
+
+  {name:"宝妈圈", icon:"👶",
+   intro:"有孩子的妈妈们组成的圈子，围绕育儿、教育、家庭。",
+   slang:[
+     {t:"鸡娃", d:"给孩子报各种班、逼着孩子努力，像打鸡血一样。"},
+     {t:"早教", d:"学龄前的教育。"},
+     {t:"幼小衔接", d:"幼儿园到小学之间的过渡准备。"},
+     {t:"学区房", d:"对口好学校的房子，价格通常贵很多。"},
+     {t:"陪读", d:"家长陪着孩子学习。"},
+     {t:"牛娃 / 普娃", d:"特别优秀的孩子 / 普通的孩子。"},
+     {t:"内驱力", d:"孩子自己想学、自己愿意努力的动力。"}
+   ]},
+
+  {name:"抽象圈 / 贴吧文化", icon:"🤡",
+   intro:"以“玩梗、搞怪、阴阳怪气”为主的网络亚文化圈子，起源于贴吧。",
+   slang:[
+     {t:"抽象", d:"离谱、荒诞、看不懂，也指专门搞怪玩梗的风格。"},
+     {t:"缝合", d:"把别人的东西硬拼起来，指没原创。"},
+     {t:"乐子人", d:"不站队、纯看热闹图一乐的人。"},
+     {t:"鼠鼠", d:"自嘲是躲在角落里的老鼠。"},
+     {t:"破防", d:"被戳中痛点，情绪绷不住了。"},
+     {t:"急了", d:"说对方被激怒、开始情绪化。"},
+     {t:"整活", d:"故意搞出一些搞笑、离谱的事情。"},
+     {t:"阴阳怪气", d:"不直接说，拐弯抹角讽刺人。"}
+   ]},
+
+  {name:"相亲 / 恋爱圈", icon:"💕",
+   intro:"相亲、脱单、恋爱相关的圈子。",
+   slang:[
+     {t:"脱单", d:"从单身变成有对象。"},
+     {t:"match", d:"两个人在相亲或交友软件上互相看上了。"},
+     {t:"舔狗", d:"一味讨好对方、不求回报的人。"},
+     {t:"海王", d:"同时和很多人暧昧、不专一的人。"},
+     {t:"备胎", d:"暂时当替补，等对方需要时才被想起的人。"},
+     {t:"条件", d:"相亲时看的房子、车子、收入、身高这些。"},
+     {t:"见家长", d:"把对象带给父母看。"},
+     {t:"内耗", d:"在一段关系里反复纠结、消耗自己。"}
+   ]},
+
+  {name:"卡圈 / 信用卡圈", icon:"💳",
+   intro:"玩信用卡、薅羊毛、研究积分里程的圈子。",
+   slang:[
+     {t:"撸毛", d:"薅各种优惠活动的羊毛。"},
+     {t:"DLB", d:"“大老板”的缩写，指玩卡玩得很大的人。"},
+     {t:"权益", d:"信用卡附带的福利，比如机场贵宾厅、保险。"},
+     {t:"里程", d:"航空里程，可以换机票。"},
+     {t:"积分", d:"信用卡消费累积的分数，可以换东西。"},
+     {t:"风控", d:"银行发现你异常用卡，限制交易。"},
+     {t:"降额", d:"银行把你的信用卡额度调低。"}
+   ]},
+
+  {name:"文玩 / 收藏圈", icon:"🏺",
+   intro:"收藏文玩、古玩、手串的圈子。",
+   slang:[
+     {t:"捡漏", d:"用很便宜的价格买到很值钱的东西。"},
+     {t:"打眼", d:"看走眼了，买到假货或次品。"},
+     {t:"开门", d:"东西一看就是真的。"},
+     {t:"包浆", d:"长期把玩后表面形成的光泽。"},
+     {t:"吃药", d:"买到了假货，相当于“花钱买教训”。"},
+     {t:"鬼市", d:"凌晨开市的古玩市场。"}
+   ]},
+
+  {name:"养宠圈", icon:"🐱",
+   intro:"养猫、养狗、养各种宠物的圈子。",
+   slang:[
+     {t:"铲屎官", d:"养猫养狗的人的自称。"},
+     {t:"主子", d:"对宠物的戏称，尤其是猫。"},
+     {t:"猫条", d:"一种猫零食。"},
+     {t:"绝育", d:"给宠物做手术，不让它繁殖。"},
+     {t:"驱虫", d:"给宠物吃驱虫药。"},
+     {t:"拆家", d:"宠物把家里东西弄坏。"},
+     {t:"遛狗", d:"带狗出门散步。"}
+   ]},
+
+  {name:"摩托车圈", icon:"🏍️",
+   intro:"骑摩托车、玩机车的人组成的圈子。",
+   slang:[
+     {t:"跑山", d:"在山路上骑行。"},
+     {t:"压弯", d:"过弯时让车身倾斜。"},
+     {t:"护具", d:"头盔、护膝、骑行服等保护装备。"},
+     {t:"摔车", d:"骑车摔倒了。"},
+     {t:"骑士", d:"骑摩托车的人的自称。"},
+     {t:"大排", d:"大排量摩托车。"}
+   ]}
+];
+
+/* =========================================================
+   三、外部词库对接（nbnhhsh）
+   ========================================================= */
+const EXTERNAL_SOURCES = [
+  {
+    name: "nbnhhsh",
+    urls: [
+      "https://cdn.jsdelivr.net/gh/itorr/nbnhhsh@master/data/dict.json",
+      "https://raw.githubusercontent.com/itorr/nbnhhsh/master/data/dict.json"
+    ],
+    map(item){
+      const abbr = item.name || item.abbr || "";
+      if(!abbr) return null;
+      const trans = item.trans || item.translation || [];
+      if(!trans.length) return null;
+      return {
+        abbr,
+        freq: 2,
+        status: "active",
+        source: "nbnhhsh",
+        meanings: trans.map(t => ({
+          type: "net",
+          field: "网络用语",
+          full: t,
+          plain: `网络缩写，完整展开为“${t}”。`,
+          example: ""
+        }))
+      };
+    }
+  }
+];
+
+let TERMS = [];
+
+async function fetchExternalTerms(){
+  const collected = [];
+  for(const src of EXTERNAL_SOURCES){
+    let ok = false;
+    for(const url of src.urls){
+      try{
+        const res = await fetch(url, { cache:"force-cache" });
+        if(!res.ok) continue;
+        const data = await res.json();
+        const arr = Array.isArray(data) ? data : (data.data || []);
+        for(const item of arr){
+          const mapped = src.map(item);
+          if(mapped) collected.push(mapped);
+        }
+        ok = true;
+        console.log(`[${src.name}] 外部词库加载成功，${arr.length} 条`);
+        break;
+      }catch(e){}
+    }
+    if(!ok) console.warn(`[${src.name}] 外部词库加载失败，已跳过`);
+  }
+  return collected;
+}
+
+async function buildTermDatabase(){
+  const external = await fetchExternalTerms();
+  const merged = [...LOCAL_TERMS];
+  const localAbbrs = new Set(LOCAL_TERMS.map(t => t.abbr.toLowerCase()));
+  for(const et of external){
+    if(!localAbbrs.has(et.abbr.toLowerCase())){
+      merged.push(et);
+      localAbbrs.add(et.abbr.toLowerCase());
+    }
+  }
+  return merged;
+}
+
+/* =========================================================
+   四、渲染逻辑
+   ========================================================= */
+const TYPE_LABEL = { net:"网络梗", pro:"专业术语" };
+const HOT = ["PR","CP","AE","JD","DDL","yyds","内卷","水印圈","绘画圈","设圈"];
+
+const state = { kw:"", cat:"all" };
+
+const $q      = document.getElementById("q");
+const $result = document.getElementById("result");
+const $stat   = document.getElementById("stat");
+const $hot    = document.getElementById("hot");
+
+function escapeHTML(s){
+  return String(s).replace(/[&<>"]/g, c =>
+    ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
+}
+function hl(text){
+  const safe = escapeHTML(text);
+  if(!state.kw) return safe;
+  const q = state.kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  try{ return safe.replace(new RegExp(q, "gi"), m => `<mark>${m}</mark>`); }
+  catch(e){ return safe; }
+}
+
+function searchTerms(){
+  const q = state.kw.trim().toLowerCase();
+  const out = [];
+  for(const t of TERMS){
+    const ms = t.meanings.filter(m => state.cat === "all" || m.type === state.cat);
+    if(!ms.length) continue;
+    if(!q){ out.push({ t, ms, rank:0, freq:t.freq||3 }); continue; }
+
+    const exact = t.abbr.toLowerCase() === q;
+    if(exact){ out.push({ t, ms, rank:2, freq:t.freq||3 }); continue; }
+
+    const fuzzy = ms.filter(m =>
+      (m.full||"").toLowerCase().includes(q) ||
+      (m.plain||"").toLowerCase().includes(q) ||
+      (m.field||"").toLowerCase().includes(q) ||
+      t.abbr.toLowerCase().includes(q)
+    );
+    if(fuzzy.length) out.push({ t, ms:fuzzy, rank:1, freq:t.freq||3 });
+  }
+  return out.sort((a,b) => b.rank - a.rank || b.freq - a.freq);
+}
+
+function searchCircles(){
+  const q = state.kw.trim().toLowerCase();
+  return CIRCLES.filter(c => {
+    if(!q) return true;
+    if(c.name.toLowerCase().includes(q) || c.intro.toLowerCase().includes(q)) return true;
+    return c.slang.some(s =>
+      s.t.toLowerCase().includes(q) || s.d.toLowerCase().includes(q));
+  }).map(c => {
+    if(!q) return c;
+    if(c.name.toLowerCase().includes(q) || c.intro.toLowerCase().includes(q)) return c;
+    return { ...c, slang: c.slang.filter(s =>
+      s.t.toLowerCase().includes(q) || s.d.toLowerCase().includes(q)) };
+  });
+}
+
+function render(){
+  const showTerms   = state.cat !== "circle";
+  const showCircles = state.cat === "all" || state.cat === "circle";
+
+  const terms   = showTerms   ? searchTerms()   : [];
+  const circles = showCircles ? searchCircles() : [];
+
+  const totalSlang = CIRCLES.reduce((n,c) => n + c.slang.length, 0);
+  if(state.kw){
+    $stat.textContent = `找到 ${terms.length} 个缩写 · ${circles.length} 个圈子`;
+  }else{
+    $stat.textContent = `收录 ${TERMS.length} 个缩写 · ${CIRCLES.length} 个圈子 · ${totalSlang} 条圈内黑话`;
+  }
+
+  if(!terms.length && !circles.length){
+    $result.innerHTML = `
+      <div class="empty">
+        <strong>没有找到「${escapeHTML(state.kw)}」</strong>
+        <p>换个词试试，或者切换上方分类看看</p>
+      </div>`;
+    return;
+  }
+
+  let html = "";
+
+  html += terms.map(({ t, ms }) => `
+    <article class="card">
+      <div class="card-head">
+        <h2>${hl(t.abbr)}</h2>
+        <span class="count">${ms.length} 种含义</span>
+      </div>
+      ${ms.map(m => `
+        <div class="meaning ${m.type}">
+          <div class="m-top">
+            <span class="badge ${m.type}">${TYPE_LABEL[m.type]}</span>
+            <span class="field">${hl(m.field)}</span>
+          </div>
+          <div class="full">${hl(m.full)}</div>
+          <div class="plain"><span class="tag">大白话</span>${hl(m.plain)}</div>
+          ${m.example ? `<p class="example">例：${hl(m.example)}</p>` : ""}
+        </div>
+      `).join("")}
+    </article>
+  `).join("");
+
+  html += circles.map(c => `
+    <article class="circle-card">
+      <div class="circle-head">
+        <span class="c-icon">${c.icon}</span>
+        <div>
+          <h3>${hl(c.name)}</h3>
+          <p class="c-intro">${hl(c.intro)}</p>
+        </div>
+      </div>
+      <div class="slang-grid">
+        ${c.slang.map(s => `
+          <div class="slang">
+            <span class="s-t">${hl(s.t)}</span>
+            <span class="s-d">${hl(s.d)}</span>
+            ${s.e ? `<span class="s-e">例：${hl(s.e)}</span>` : ""}
+          </div>
+        `).join("")}
+      </div>
+    </article>
+  `).join("");
+
+  $result.innerHTML = html;
+}
+
+/* =========================================================
+   五、交互绑定
+   ========================================================= */
+$q.addEventListener("input", () => { state.kw = $q.value; render(); });
+document.getElementById("btn").addEventListener("click", () => { state.kw = $q.value; render(); });
+$q.addEventListener("keydown", e => { if(e.key === "Enter"){ state.kw = $q.value; render(); } });
+
+document.getElementById("tabs").addEventListener("click", e => {
+  const btn = e.target.closest("button");
+  if(!btn) return;
+  document.querySelectorAll("#tabs button").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  state.cat = btn.dataset.cat;
+  render();
+});
+
+$hot.innerHTML = `<span>热门：</span>` +
+  HOT.map(k => `<button data-kw="${k}">${k}</button>`).join("");
+$hot.addEventListener("click", e => {
+  const btn = e.target.closest("button");
+  if(!btn) return;
+  $q.value = btn.dataset.kw;
+  state.kw = btn.dataset.kw;
+  render();
+  window.scrollTo({ top:0, behavior:"smooth" });
+});
+
+document.getElementById("genBtn").addEventListener("click", () => {
+  const raw = document.getElementById("subInput").value.trim();
+  if(!raw){ alert("请先填写内容，例如一条 JSON"); return; }
+  try{
+    const obj = JSON.parse(raw);
+    document.getElementById("subInput").value = JSON.stringify(obj, null, 2);
+  }catch(e){
+    alert("这段内容不是标准 JSON，已原样保留，请手动复制发给维护者。");
+  }
+});
+
+document.getElementById("copyBtn").addEventListener("click", async () => {
+  const ta = document.getElementById("subInput");
+  if(!ta.value.trim()){ alert("还没有内容可复制"); return; }
+  try{
+    await navigator.clipboard.writeText(ta.value);
+    alert("已复制，粘贴给维护者即可收录");
+  }catch(e){
+    ta.select();
+    document.execCommand("copy");
+    alert("已复制（兼容模式）");
+  }
+});
+
+/* =========================================================
+   六、启动
+   ========================================================= */
+(async function init(){
+  TERMS = [...LOCAL_TERMS];
+  render();
+
+  try{
+    const merged = await buildTermDatabase();
+    if(merged.length > LOCAL_TERMS.length){
+      TERMS = merged;
+      render();
+      console.log(`外部词库合并完成，当前共 ${TERMS.length} 个缩写`);
+    }
+  }catch(e){
+    console.warn("外部词库合并失败，继续使用本地库", e);
+  }
+})();
+</script>
+</body>
+    </html><!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缩写词典 · 说人话版</title>
+<style>
+  :root{
+    --net:#ff7a45;   --net-bg:#fff3ec;
+    --pro:#2f6fed;   --pro-bg:#eef4ff;
+    --cir:#12b886;   --cir-bg:#e6faf3;
+    --ink:#1f2430;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    background:#f4f6fb;color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+  header{background:linear-gradient(135deg,#667eea,#764ba2);
+    color:#fff;padding:54px 20px 38px;text-align:center;}
+  header h1{font-size:2rem;letter-spacing:1px;}
+  header .sub{opacity:.9;margin-top:8px;font-size:.95rem;}
+
+  .search{display:flex;gap:10px;max-width:560px;margin:24px auto 0;}
+  .search input{flex:1;padding:14px 18px;border:none;border-radius:12px;
+    font-size:16px;outline:none;color:var(--ink);box-shadow:0 6px 20px rgba(0,0,0,.12);}
+  .search button{padding:0 26px;border:none;border-radius:12px;cursor:pointer;
+    background:#1f2430;color:#fff;font-size:15px;font-weight:600;transition:.2s;}
+  .search button:hover{background:#000;}
+
+  .tabs{display:flex;gap:8px;justify-content:center;margin-top:18px;flex-wrap:wrap;}
+  .tabs button{padding:7px 18px;border-radius:999px;cursor:pointer;font-size:14px;
+    border:1px solid rgba(255,255,255,.55);background:transparent;color:#fff;transition:.2s;}
+  .tabs button.active{background:#fff;color:#5a3fb8;border-color:#fff;font-weight:600;}
+
+  main{max-width:820px;margin:0 auto;padding:26px 18px 80px;}
+
+  .hot{display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+    font-size:13px;color:#8a90a0;margin-bottom:18px;}
+  .hot button{padding:4px 12px;border-radius:999px;cursor:pointer;font-size:13px;
+    border:1px solid #e3e7f0;background:#fff;color:#4a5164;transition:.2s;}
+  .hot button:hover{border-color:#b9c2ff;color:#4a3fd0;}
+
+  .stat{font-size:13px;color:#9aa0b0;margin-bottom:14px;}
+
+  .card{background:#fff;border-radius:14px;padding:20px 22px;margin-bottom:16px;
+    box-shadow:0 2px 14px rgba(30,40,80,.07);animation:up .25s ease both;}
+  @keyframes up{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  .card-head{display:flex;align-items:baseline;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
+  .card-head h2{font-size:1.5rem;letter-spacing:.5px;font-weight:700;}
+  .card-head .count{font-size:12px;color:#9aa0b0;}
+
+  .meaning{padding:14px 16px;border-radius:10px;background:#fafbfd;
+    margin-bottom:12px;border-left:3px solid #ddd;}
+  .meaning:last-child{margin-bottom:0;}
+  .meaning.net{border-left-color:var(--net);}
+  .meaning.pro{border-left-color:var(--pro);}
+
+  .m-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .badge{font-size:12px;padding:2px 9px;border-radius:6px;font-weight:600;}
+  .badge.net{background:var(--net-bg);color:var(--net);}
+  .badge.pro{background:var(--pro-bg);color:var(--pro);}
+  .field{font-size:13px;color:#6b7285;}
+
+  .full{font-weight:600;margin:7px 0 8px;font-size:15px;}
+
+  .plain{background:#fffbe8;border:1px dashed #f0d98a;border-radius:8px;
+    padding:10px 12px;font-size:14.5px;color:#4a4636;}
+  .plain .tag{display:inline-block;font-size:11px;font-weight:700;background:#ffd75e;
+    color:#7a5a00;border-radius:4px;padding:1px 6px;margin-right:6px;vertical-align:1px;}
+  .example{font-size:13px;color:#9aa0b0;margin-top:8px;}
+
+  .circle-card{background:#fff;border-radius:14px;padding:20px 22px;margin-bottom:16px;
+    box-shadow:0 2px 14px rgba(30,40,80,.07);
+    border-top:3px solid var(--cir);animation:up .25s ease both;}
+  .circle-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;}
+  .c-icon{font-size:26px;line-height:1;flex-shrink:0;}
+  .circle-head h3{font-size:1.2rem;margin-bottom:4px;}
+  .c-intro{font-size:14px;color:#6b7285;}
+
+  .slang-grid{display:grid;gap:9px;}
+  .slang{background:var(--cir-bg);border-radius:9px;padding:10px 13px;}
+  .s-t{display:inline-block;font-weight:700;color:#0b8a63;font-size:14.5px;margin-right:6px;}
+  .s-d{font-size:14px;color:#3f4a56;}
+  .s-e{display:block;font-size:12.5px;color:#8fa3a0;margin-top:4px;}
+
+  mark{background:#fff2a8;padding:0 2px;border-radius:3px;}
+
+  .empty{text-align:center;padding:70px 20px;color:#9aa0b0;}
+  .empty strong{display:block;font-size:1.1rem;color:#5b6274;margin-bottom:8px;}
+
+  .submit-box{background:#fff;border-radius:14px;padding:20px 22px;
+    box-shadow:0 2px 14px rgba(30,40,80,.07);margin-top:26px;}
+  .submit-box h3{font-size:1.05rem;margin-bottom:6px;}
+  .submit-box p{font-size:13px;color:#8a90a0;margin-bottom:12px;}
+  .submit-box textarea{width:100%;height:120px;padding:12px;border:1px solid #e3e7f0;
+    border-radius:9px;font-size:13px;font-family:monospace;resize:vertical;
+    outline:none;color:var(--ink);}
+  .submit-box textarea:focus{border-color:#b9c2ff;}
+  .submit-actions{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;}
+  .submit-actions button{padding:9px 18px;border:none;border-radius:9px;cursor:pointer;
+    font-size:14px;font-weight:600;transition:.2s;}
+  .btn-gen{background:#2f6fed;color:#fff;}
+  .btn-gen:hover{background:#1f5bd0;}
+  .btn-copy{background:#eef4ff;color:#2f6fed;}
+  .btn-copy:hover{background:#dbe7ff;}
+
+  .tip{background:#eef4ff;border-radius:12px;padding:16px 18px;font-size:13.5px;
+    color:#40506b;margin-top:20px;line-height:1.75;}
+  .tip b{color:#2f6fed;}
+
+  @media (max-width:520px){
+    header{padding:38px 16px 30px;}
+    header h1{font-size:1.5rem;}
+    .search button{padding:0 16px;font-size:14px;}
+    .card,.circle-card{padding:16px;}
+    .card-head h2{font-size:1.3rem;}
+    .plain{font-size:14px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>缩写词典 · 说人话版</h1>
+  <p class="sub">一个简称，多种含义 —— 用大白话告诉你它到底啥意思</p>
+
+  <div class="search">
+    <input id="q" type="search" placeholder="输入简称或圈子，如 PR、CP、水印圈…" autocomplete="off">
+    <button id="btn">查询</button>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button data-cat="all" class="active">全部</button>
+    <button data-cat="net">网络梗</button>
+    <button data-cat="pro">专业术语</button>
+    <button data-cat="circle">圈子</button>
+  </div>
+</header>
+
+<main>
+  <div class="hot" id="hot"></div>
+  <div class="stat" id="stat"></div>
+  <div id="result"></div>
+
+  <div class="submit-box">
+    <h3>✍️ 提交新词</h3>
+    <p>填好后点「生成 JSON」，复制结果发给维护者收录，词库就能持续长大。</p>
+    <textarea id="subInput" placeholder='例如：{ "abbr":"YYDS", "type":"net", "field":"网络流行语", "full":"永远的神", "plain":"夸人厉害到离谱", "example":"这版翻唱 yyds" }'></textarea>
+    <div class="submit-actions">
+      <button class="btn-gen" id="genBtn">生成 JSON</button>
+      <button class="btn-copy" id="copyBtn">复制结果</button>
+    </div>
+  </div>
+
+  <div class="tip">
+    <b>数据来源：</b>本地手工维护的高频词条 + 圈子黑话，
+    启动时会尝试从开源词库 nbnhhsh 拉取补充（拉取失败自动跳过，不影响使用）。
+    想永久扩充词库，直接在代码里的 <b>LOCAL_TERMS</b> 和 <b>CIRCLES</b> 两个数组中添加即可。
+  </div>
+</main>
+
+<script>
+/* =========================================================
+   一、本地缩写词条库（手工维护主库）
+   freq 常用度 1~5，越大越靠前
+   ========================================================= */
+const LOCAL_TERMS = [
+  /* ============ 网络流行语 / 梗 ============ */
+  {abbr:"yyds", freq:5, meanings:[{type:"net", field:"网络流行语", full:"永远的神",
+    plain:"拼音首字母缩写，夸人或者夸东西强到离谱，相当于“无敌了”。最早用来形容电竞选手。",
+    example:"这版翻唱 yyds！"}]},
+  {abbr:"xswl", freq:5, meanings:[{type:"net", field:"网络流行语", full:"笑死我了",
+    plain:"拼音首字母缩写，看到特别好笑的东西时用。",
+    example:"这评论区 xswl。"}]},
+  {abbr:"awsl", freq:5, meanings:[{type:"net", field:"网络流行语", full:"啊我死了",
+    plain:"拼音首字母缩写，看到特别可爱、特别心动的东西时用，意思是“可爱到受不了了”。",
+    example:"这只猫 awsl。"}]},
+  {abbr:"emo", freq:5, meanings:[{type:"net", field:"网络流行语", full:"emotional（情绪化）",
+    plain:"指情绪低落、伤感、有点丧。常说“我 emo 了”，就是心情不好了。",
+    example:"深夜听情歌，直接 emo 了。"}]},
+  {abbr:"PUA", freq:5, meanings:[{type:"net", field:"情感 / 职场", full:"Pick-up Artist（原义：搭讪技巧）",
+    plain:"原本指教人怎么搭讪、追人的一套方法。现在意思变了，主要指“不断贬低你、让你觉得自己很差，从而控制你”。恋爱、职场、朋友之间都可能出现。",
+    example:"别被领导 PUA 了，干不好不是你的问题。"}]},
+  {abbr:"内卷", freq:5, meanings:[{type:"net", field:"网络流行语", full:"Involution（学术原义）",
+    plain:"本来是个学术词，指“大家拼命竞争，但整体没有进步”。现在就是“所有人都在无意义地加码”：别人加班到八点，你就得加到九点，但谁也没多拿钱。",
+    example:"全公司都在加班，纯纯内卷。"}]},
+  {abbr:"破防", freq:5, meanings:[{type:"net", field:"网络流行语", full:"心理防线被击破",
+    plain:"原本是游戏里“防御被打破”的意思，现在指被某件事戳中，突然情绪失控、绷不住了。",
+    example:"看到这条评论我直接破防了。"}]},
+  {abbr:"躺平", freq:5, meanings:[{type:"net", field:"网络流行语", full:"不再拼命竞争",
+    plain:"指放弃努力奋斗，只求过得去就行。不是完全不动，而是“不争不抢，够活就行”。",
+    example:"卷不动了，我选择躺平。"}]},
+  {abbr:"摆烂", freq:5, meanings:[{type:"net", field:"网络流行语", full:"破罐子破摔",
+    plain:"比躺平更消极，指事情已经这样了，干脆不管了、任它烂下去。",
+    example:"既然做不完，那就摆烂吧。"}]},
+  {abbr:"打工人", freq:5, meanings:[{type:"net", field:"网络流行语", full:"上班族的自嘲称呼",
+    plain:"所有靠上班赚钱的人的统称，带点自嘲和无奈。",
+    example:"早安，打工人。"}]},
+  {abbr:"牛马", freq:4, meanings:[{type:"net", field:"网络流行语", full:"打工人自嘲",
+    plain:"把自己比作牛和马，意思是像牲口一样辛苦干活、任人使唤。",
+    example:"今天又是当牛马的一天。"}]},
+  {abbr:"草台班子", freq:4, meanings:[{type:"net", field:"网络流行语", full:"世界是个草台班子",
+    plain:"原指松散拼凑的剧团。现在用来吐槽“那些看起来高大上的机构，其实内部也很混乱、很不专业”。",
+    example:"看完他们的操作，只能说世界是个草台班子。"}]},
+  {abbr:"大冤种", freq:4, meanings:[{type:"net", field:"网络流行语", full:"大冤种",
+    plain:"指吃了亏、受了委屈、还被人当冤大头的人。",
+    example:"原价买完第二天就打折，我就是大冤种。"}]},
+  {abbr:"芭比Q", freq:4, meanings:[{type:"net", field:"网络流行语", full:"barbecue 的谐音",
+    plain:"意思是“完蛋了”“烤糊了”，事情搞砸时用。",
+    example:"忘了保存，芭比Q了。"}]},
+  {abbr:"班味儿", freq:4, meanings:[{type:"net", field:"网络流行语 / 职场", full:"上班上出来的疲惫感",
+    plain:"指一个人因为长期上班而散发出来的疲惫、麻木气质。",
+    example:"放假也洗不掉身上的班味儿。"}]},
+  {abbr:"种草", freq:4, meanings:[{type:"net", field:"网络流行语 / 消费", full:"推荐购买",
+    plain:"看到别人推荐某个东西，自己也心动了、想买了，就叫“被种草”。反过来不想买了叫“拔草”。",
+    example:"这条视频又给我种草了一堆东西。"}]},
+  {abbr:"拔草", freq:3, meanings:[{type:"net", field:"网络流行语 / 消费", full:"打消购买念头",
+    plain:"跟“种草”相反，本来想买，后来不想买了，或者买了之后发现不好。",
+    example:"看了测评之后直接拔草了。"}]},
+  {abbr:"搭子", freq:4, meanings:[{type:"net", field:"网络流行语", full:"搭伙做某件事的伙伴",
+    plain:"比朋友浅一层、比陌生人近一层的关系。一起吃饭的叫“饭搭子”，一起运动的叫“运动搭子”。",
+    example:"找个周末爬山搭子。"}]},
+  {abbr:"情绪价值", freq:4, meanings:[{type:"net", field:"网络流行语", full:"让人感到开心的能力",
+    plain:"指一个人能不能让身边的人觉得舒服、开心、被理解。能哄你开心就是“提供情绪价值高”。",
+    example:"跟他在一块儿情绪价值拉满。"}]},
+  {abbr:"乐子人", freq:4, meanings:[{type:"net", field:"网络流行语", full:"纯看热闹的人",
+    plain:"不站队、不投入感情，纯粹来看热闹、图一乐的人。",
+    example:"我就是个乐子人，谁赢都行。"}]},
+  {abbr:"鼠鼠", freq:3, meanings:[{type:"net", field:"网络流行语 / 贴吧", full:"自称老鼠的人",
+    plain:"自嘲用语，把自己比作躲在角落里的老鼠，表示自己普通、没存在感、混得不好。",
+    example:"鼠鼠我啊，是真的不行。"}]},
+  {abbr:"抽象", freq:4, meanings:[{type:"net", field:"网络流行语", full:"荒诞 / 离谱",
+    plain:"原意是“看不懂、不具体”。在网络语境里表示“离谱到让人无法理解”，也可以指专门搞怪、玩梗的风格。",
+    example:"这视频太抽象了，我看不懂。"}]},
+  {abbr:"缝合", freq:3, meanings:[{type:"net", field:"网络流行语", full:"把别人的东西拼起来",
+    plain:"指把几个现成的东西硬拼在一起，做成一个“新”东西。常带贬义，指没原创。",
+    example:"这歌就是几首热歌缝合出来的。"}]},
+  {abbr:"已老实", freq:3, meanings:[{type:"net", field:"网络流行语", full:"我认怂了",
+    plain:"表示自己服了、认输了、不敢再折腾了。",
+    example:"被现实毒打之后，已老实。"}]},
+  {abbr:"尊嘟假嘟", freq:3, meanings:[{type:"net", field:"网络流行语", full:"真的假的",
+    plain:"“真的假的”的可爱版谐音，用来说话卖萌。",
+    example:"尊嘟假嘟，你也去？"}]},
+  {abbr:"显眼包", freq:4, meanings:[{type:"net", field:"网络流行语", full:"爱出风头的人",
+    plain:"指特别爱表现、走到哪都很引人注意的人。多数时候是调侃，不一定是骂人。",
+    example:"他一穿这身衣服就成了显眼包。"}]},
+  {abbr:"松弛感", freq:3, meanings:[{type:"net", field:"网络流行语", full:"从容不紧绷的状态",
+    plain:"指一个人不急不躁、不焦虑，做什么都很放松、很自然的那种状态。",
+    example:"她有种天生的松弛感。"}]},
+  {abbr:"u1s1", freq:4, meanings:[{type:"net", field:"网络流行语", full:"有一说一",
+    plain:"用数字和字母拼出来的谐音。意思是“说句公道话”“客观来讲”。",
+    example:"u1s1，这波操作确实可以。"}]},
+  {abbr:"yygq", freq:4, meanings:[{type:"net", field:"网络流行语", full:"阴阳怪气",
+    plain:"拼音首字母缩写。指说话不直接说，拐着弯讽刺人。",
+    example:"别 yygq 了，有话直说。"}]},
+  {abbr:"nsdd", freq:4, meanings:[{type:"net", field:"网络流行语", full:"你说得对",
+    plain:"拼音首字母缩写。表示同意对方说的话。",
+    example:"nsdd，你说什么都对。"}]},
+  {abbr:"zqsg", freq:4, meanings:[{type:"net", field:"网络流行语 / 追星", full:"真情实感",
+    plain:"拼音首字母缩写。意思是动了真感情。",
+    example:"我 zqsg 追了这个团五年。"}]},
+  {abbr:"dbq", freq:4, meanings:[{type:"net", field:"网络流行语", full:"对不起",
+    plain:"拼音首字母缩写，就是道歉用的“对不起”。",
+    example:"dbq，我来晚了。"}]},
+  {abbr:"bdjw", freq:3, meanings:[{type:"net", field:"网络流行语", full:"不懂就问",
+    plain:"拼音首字母缩写。表示虚心请教。",
+    example:"bdjw，这个梗是什么意思？"}]},
+  {abbr:"FOMO", freq:3, meanings:[{type:"net", field:"网络流行语 / 心理", full:"Fear of Missing Out（错失恐惧症）",
+    plain:"看到别人都在做某件事，自己怕错过，也跟着做。",
+    example:"看到朋友圈都在晒，FOMO 了，我也去买了。"}]},
+  {abbr:"xmsl", freq:4, meanings:[{type:"net", field:"网络流行语", full:"羡慕死了",
+    plain:"拼音首字母缩写，表示非常羡慕。",
+    example:"你居然抽到了隐藏款，xmsl！"}]},
+  {abbr:"srds", freq:4, meanings:[{type:"net", field:"网络流行语", full:"虽然但是",
+    plain:"拼音首字母缩写，表示虽然前面说了什么，但是后面有转折。",
+    example:"srds，我还是觉得不太行。"}]},
+  {abbr:"bbl", freq:3, meanings:[{type:"net", field:"网络流行语", full:"ball ball 了 / 求求了",
+    plain:"“ball ball”是“求求”的谐音，表示拜托、请求。",
+    example:"bbl，帮帮我吧。"}]},
+  {abbr:"bhys", freq:3, meanings:[{type:"net", field:"网络流行语", full:"不好意思",
+    plain:"拼音首字母缩写，表示不好意思、抱歉。",
+    example:"bhys，让一下。"}]},
+  {abbr:"yjgj", freq:3, meanings:[{type:"net", field:"网络流行语", full:"有句讲句",
+    plain:"拼音首字母缩写。意思是“说句实话”，和 u1s1 类似。",
+    example:"yjgj，这次确实是他不对。"}]},
+  {abbr:"pyq", freq:4, meanings:[{type:"net", field:"网络流行语", full:"朋友圈",
+    plain:"拼音首字母缩写，指微信朋友圈。",
+    example:"这条 pyq 笑死我了。"}]},
+  {abbr:"vx", freq:4, meanings:[{type:"net", field:"网络流行语", full:"微信",
+    plain:"拼音首字母缩写，指微信。也写作 wx。",
+    example:"加个 vx 呗。"}]},
+  {abbr:"xxj", freq:3, meanings:[{type:"net", field:"饭圈", full:"小学鸡",
+    plain:"拼音首字母缩写。嘲讽对方是低龄粉丝、不成熟。",
+    example:"对家全是 xxj，不跟他们一般见识。"}]},
+  {abbr:"zzzq", freq:3, meanings:[{type:"net", field:"网络流行语", full:"政治正确",
+    plain:"拼音首字母缩写。指为了不得罪人而说的话，不一定发自内心。",
+    example:"这电影选角就是 zzzq。"}]},
+  {abbr:"AI;DR", freq:3, meanings:[{type:"net", field:"网络流行语 / 科技", full:"AI, didn't read（AI 生成，懒得看）",
+    plain:"2026 年新造的词，玩梗经典缩写 TL;DR。看到明显是 AI 生成的劣质内容时用。",
+    example:"这篇文章 AI;DR，一看就是 AI 写的。"}]},
+  {abbr:"kdl", freq:4, meanings:[{type:"net", field:"饭圈", full:"磕到了",
+    plain:"拼音首字母缩写。表示看到自己喜欢的 CP 有甜蜜互动，被甜到了。",
+    example:"他们俩对视了，KDL！"}]},
+  {abbr:"pljj", freq:3, meanings:[{type:"net", field:"饭圈", full:"漂亮姐姐",
+    plain:"拼音首字母缩写。用来夸女生漂亮、颜值高。",
+    example:"pljj，这张照片太好看了。"}]},
+  {abbr:"srds", freq:4, meanings:[{type:"net", field:"网络流行语", full:"虽然但是",
+    plain:"拼音首字母缩写，表示虽然前面说了什么，但是后面有转折。",
+    example:"srds，我还是觉得不太行。"}]},
+
+  /* ============ 饭圈 / 追星 ============ */
+  {abbr:"磕CP", freq:5, meanings:[{type:"net", field:"饭圈 / 追剧", full:"喜欢一对人物的配对",
+    plain:"觉得两个人物很配，喜欢看他俩互动。",
+    example:"这对 CP 太好磕了，我天天磕。"}]},
+  {abbr:"OOC", freq:4, meanings:[{type:"net", field:"同人 / 二次元", full:"Out Of Character（角色崩坏）",
+    plain:"指同人作品里角色的言行跟原作设定不一致。",
+    example:"这篇同人把主角写得太 OOC 了。"}]},
+  {abbr:"BE", freq:4, meanings:[{type:"net", field:"同人 / 追剧", full:"Bad Ending（坏结局）",
+    plain:"故事以悲剧结尾，主角最后没在一起或者很惨。",
+    example:"这部剧 BE 了，我哭了一晚上。"}]},
+  {abbr:"HE", freq:4, meanings:[{type:"net", field:"同人 / 追剧", full:"Happy Ending（好结局）",
+    plain:"故事以喜剧结尾，主角最后在一起了、过得很好。",
+    example:"确认是 HE 我才敢看。"}]},
+  {abbr:"C位", freq:5, meanings:[{type:"net", field:"饭圈 / 综艺", full:"Center 的谐音",
+    plain:"指一群人站在一起时最中间、最显眼的位置。",
+    example:"这张合照他站 C 位。"}]},
+  {abbr:"ACG", freq:4, meanings:[{type:"net", field:"二次元", full:"Animation, Comic, Game",
+    plain:"动画、漫画、游戏三个词的缩写，泛指二次元文化。",
+    example:"他是资深 ACG 爱好者。"}]},
+  {abbr:"OC", freq:4, meanings:[{type:"net", field:"画画 / 写文", full:"Original Character（原创角色）",
+    plain:"自己创作出来的角色，不属于任何已有的动漫、游戏。",
+    example:"这是我的 OC，设定是个机械师。"}]},
+  {abbr:"谷子", freq:4, meanings:[{type:"net", field:"二次元 / 追星", full:"goods 的音译",
+    plain:"指动漫、游戏角色的周边商品，比如徽章、立牌、挂件。",
+    example:"这次漫展我买了一堆谷子。"}]},
+  {abbr:"B站", freq:5, meanings:[{type:"net", field:"视频平台", full:"bilibili",
+    plain:"一个视频网站，年轻人喜欢在上面看动漫、游戏、学习视频等内容。",
+    example:"我在 B 站学了一下午编程。"}]},
+  {abbr:"yxh", freq:4, meanings:[{type:"net", field:"饭圈", full:"营销号",
+    plain:"以赚流量为目的、专门发争议内容的账号。",
+    example:"yxh 又在带节奏了。"}]},
+  {abbr:"szd", freq:4, meanings:[{type:"net", field:"饭圈", full:"是真的",
+    plain:"拼音首字母缩写。多用于确认 CP 是真的。",
+    example:"他们 szd！我磕到了！"}]},
+  {abbr:"dw", freq:4, meanings:[{type:"net", field:"饭圈", full:"毒唯",
+    plain:"只粉一个成员、且会攻击其他成员或粉丝的人。",
+    example:"dw 又在撕队友了。"}]},
+  {abbr:"bp", freq:4, meanings:[{type:"net", field:"饭圈", full:"白嫖",
+    plain:"只看不花钱、不打投、不做数据的粉丝。",
+    example:"别当 bp 了，好歹买个专辑吧。"}]},
+  {abbr:"blx", freq:4, meanings:[{type:"net", field:"饭圈", full:"玻璃心",
+    plain:"指心理脆弱、听不得批评的人。",
+    example:"别 blx 了，人家也没说什么。"}]},
+  {abbr:"rs", freq:4, meanings:[{type:"net", field:"饭圈", full:"热搜 / 人身攻击",
+    plain:"两种意思：一是“热搜”，二是“人身攻击”。看语境区分。",
+    example:"这个话题上 rs 了。"}]},
+  {abbr:"ss", freq:4, meanings:[{type:"net", field:"饭圈", full:"私生",
+    plain:"私生饭的简称，过度窥探、骚扰偶像私生活的人。",
+    example:"ss 又跟车了，太可怕了。"}]},
+  {abbr:"hyh", freq:3, meanings:[{type:"net", field:"饭圈", full:"后援会",
+    plain:"粉丝自发组织的应援团体。",
+    example:"hyh 发了新的应援方案。"}]},
+  {abbr:"ncf", freq:3, meanings:[{type:"net", field:"饭圈", full:"脑残粉",
+    plain:"指不理智、盲目维护偶像的粉丝。",
+    example:"ncf 真的很败好感。"}]},
+  {abbr:"cpf", freq:4, meanings:[{type:"net", field:"饭圈", full:"CP 粉",
+    plain:"喜欢某对 CP 的粉丝。",
+    example:"cpf 和唯粉又吵起来了。"}]},
+  {abbr:"wf", freq:4, meanings:[{type:"net", field:"饭圈", full:"唯粉",
+    plain:"只喜欢团里某一个成员的粉丝。",
+    example:"我是 wf，只追他一个。"}]},
+  {abbr:"tj", freq:3, meanings:[{type:"net", field:"饭圈", full:"脱粉 / 退圈",
+    plain:"两种意思：一是“脱粉”，不再追这个偶像；二是“退圈”，离开这个圈子。",
+    example:"我 tj 了，太累了。"}]},
+  {abbr:"hc", freq:3, meanings:[{type:"net", field:"饭圈", full:"回踩",
+    plain:"脱粉之后反过来骂偶像。",
+    example:"脱粉就脱粉，别 hc 了。"}]},
+  {abbr:"plq", freq:3, meanings:[{type:"net", field:"饭圈", full:"评论区",
+    plain:"拼音首字母缩写，指评论区。",
+    example:"plq 里都在夸。"}]},
+  {abbr:"top", freq:4, meanings:[{type:"net", field:"饭圈", full:"人气最高",
+    plain:"指组合里人气最高的成员。",
+    example:"他是团里的 top。"}]},
+
+  /* ============ 游戏 ============ */
+  {abbr:"GG", freq:4, meanings:[{type:"pro", field:"游戏", full:"Good Game（打得好）",
+    plain:"游戏结束时打出的礼貌用语。后来也引申为“完蛋了”。",
+    example:"对面五个人抱团，这局 GG 了。"}]},
+  {abbr:"AFK", freq:4, meanings:[{type:"pro", field:"游戏", full:"Away From Keyboard（暂离）",
+    plain:"打游戏时暂时离开一下，人不在电脑前。",
+    example:"等我一下，AFK 两分钟。"}]},
+  {abbr:"FPS", freq:4, meanings:[{type:"pro", field:"游戏", full:"First-Person Shooter（第一人称射击）",
+    plain:"一种游戏类型，你以角色的第一视角拿着枪射击。也指“帧率”，每秒渲染的画面帧数。",
+    example:"他 FPS 游戏玩得特别好。"}]},
+  {abbr:"MOBA", freq:4, meanings:[{type:"pro", field:"游戏", full:"Multiplayer Online Battle Arena（多人在线战术竞技）",
+    plain:"一种游戏类型，两队人在一张地图上对抗。",
+    example:"MOBA 游戏需要团队配合。"}]},
+  {abbr:"NPC", freq:4, meanings:[
+    {type:"pro", field:"打游戏", full:"Non-Player Character（非玩家角色）",
+     plain:"游戏里由电脑控制的角色，你没法操作他，他只会按设定好的台词和路线行动。",
+     example:"这个 NPC 的对话里藏着剧情线索。"},
+    {type:"net", field:"网络自嘲", full:"（梗）工具人",
+     plain:"引申成自嘲的说法。意思是“每天重复一样的生活，没有自己的想法”。",
+     example:"每天两点一线，感觉自己就是个 NPC。"}]},
+  {abbr:"GM", freq:3, meanings:[
+    {type:"pro", field:"打游戏", full:"Game Master（游戏管理员）",
+     plain:"游戏里的官方管理员。卡 bug、被人骗、账号出问题都找他。",
+     example:"卡 bug 了，找 GM 处理一下。"},
+    {type:"pro", field:"公司", full:"General Manager（总经理）",
+     plain:"公司里管事的最高负责人。",
+     example:"GM 下周来店里检查。"}]},
+  {abbr:"DPS", freq:4, meanings:[{type:"pro", field:"游戏", full:"Damage Per Second（每秒伤害）",
+    plain:"游戏里衡量输出能力的指标。DPS 高就是打人疼。",
+    example:"这个装备能提升不少 DPS。"}]},
+  {abbr:"MVP", freq:4, meanings:[{type:"pro", field:"游戏", full:"Most Valuable Player（最有价值玩家）",
+    plain:"一局游戏里表现最突出的玩家。",
+    example:"他拿了这局的 MVP。"}]},
+  {abbr:"buff", freq:4, meanings:[{type:"pro", field:"游戏", full:"增益效果",
+    plain:"给角色加正面效果的技能或状态，比如攻击力提升、防御增强。",
+    example:"红 buff 给你，蓝 buff 给我。"}]},
+  {abbr:"debuff", freq:3, meanings:[{type:"pro", field:"游戏", full:"减益效果",
+    plain:"给角色加负面效果的技能或状态，比如减速、中毒。",
+    example:"中了 debuff，走得特别慢。"}]},
+  {abbr:"roll", freq:3, meanings:[{type:"pro", field:"游戏", full:"掷骰子分配",
+    plain:"多人游戏里，用掷骰子决定装备归谁。点数高的拿。",
+    example:"这件装备大家 roll 吧。"}]},
+  {abbr:"肝", freq:4, meanings:[{type:"pro", field:"游戏", full:"花大量时间重复刷",
+    plain:"指在游戏里花大量时间做重复的事情，比如刷副本、刷装备。",
+    example:"这个活动太肝了，我刷了一整天。"}]},
+  {abbr:"氪金", freq:4, meanings:[{type:"pro", field:"游戏", full:"在游戏里花钱",
+    plain:"“氪”是日语“课金”的谐音，指在游戏里充值、花钱买道具。",
+    example:"这个皮肤太好看了，忍不住氪金了。"}]},
+  {abbr:"白嫖", freq:4, meanings:[{type:"pro", field:"游戏", full:"不花钱只靠免费内容玩",
+    plain:"指不充值、不花钱，只用游戏里的免费内容。",
+    example:"我就是个白嫖党，一分钱没花。"}]},
+  {abbr:"开黑", freq:4, meanings:[{type:"pro", field:"游戏", full:"和朋友组队一起玩",
+    plain:"和朋友一起组队打游戏，通常用语音沟通。",
+    example:"今晚开黑吗？"}]},
+  {abbr:"上分", freq:4, meanings:[{type:"pro", field:"游戏", full:"打排位赛提升段位",
+    plain:"通过打排位赛来提高自己的段位。",
+    example:"今天上分顺利，连胜五把。"}]},
+  {abbr:"掉分", freq:3, meanings:[{type:"pro", field:"游戏", full:"段位下降",
+    plain:"排位赛输了，段位往下掉。",
+    example:"连输三把，掉分了。"}]},
+  {abbr:"吃鸡", freq:4, meanings:[{type:"pro", field:"游戏", full:"大逃杀类游戏拿第一",
+    plain:"来源于《绝地求生》获胜时屏幕显示“大吉大利，今晚吃鸡”。现在泛指大逃杀类游戏拿第一。",
+    example:"这局吃鸡了！"}]},
+  {abbr:"开荒", freq:3, meanings:[{type:"pro", field:"游戏", full:"新副本、新版本刚出时第一次打",
+    plain:"新内容刚上线，大家都不会打，摸索着过。",
+    example:"新团本开荒，来熟练工。"}]},
+  {abbr:"外挂", freq:4, meanings:[{type:"pro", field:"游戏", full:"作弊软件",
+    plain:"用来在游戏里作弊的第三方软件，用了会被封号。",
+    example:"这局对面肯定开外挂了。"}]},
+  {abbr:"代练", freq:3, meanings:[{type:"pro", field:"游戏", full:"花钱请高手帮你打",
+    plain:"花钱请技术好的人上你的号帮你打排位。",
+    example:"他找了代练上王者。"}]},
+  {abbr:"老滚", freq:3, meanings:[{type:"pro", field:"游戏", full:"《上古卷轴》系列",
+    plain:"《上古卷轴》的别名，来源于早期中文翻译把“The Elder Scrolls”误译成“老头滚动条”。",
+    example:"老滚 5 我玩了几百小时。"}]},
+  {abbr:"大菠萝", freq:3, meanings:[{type:"pro", field:"游戏", full:"《暗黑破坏神》",
+    plain:"《暗黑破坏神》（Diablo）的谐音。",
+    example:"大菠萝出新作了。"}]},
+  {abbr:"CDK", freq:3, meanings:[{type:"pro", field:"游戏", full:"兑换码",
+    plain:"游戏里用来兑换道具、皮肤、货币的一串代码。",
+    example:"直播间发 CDK 了，快去抢。"}]},
+  {abbr:"KDA", freq:3, meanings:[{type:"pro", field:"电竞", full:"Kill/Death/Assist（击杀/死亡/助攻）",
+    plain:"衡量选手表现的指标。击杀和助攻越高、死亡越少，KDA 越高。",
+    example:"他这局 KDA 10.0，太强了。"}]},
+  {abbr:"BP", freq:4, meanings:[
+    {type:"pro", field:"电竞", full:"Ban/Pick（禁用/选择）",
+     plain:"比赛开始前，双方轮流禁用和选择角色。",
+     example:"这局 BP 做得好，阵容很克制对面。"},
+    {type:"pro", field:"创业", full:"Business Plan（商业计划书）",
+     plain:"创业者写给投资人看的文件。",
+     example:"先写份 BP，下周见投资人。"}]},
+  {abbr:"对线", freq:3, meanings:[{type:"pro", field:"电竞", full:"比赛前期双方在各自路线上的对抗",
+    plain:"MOBA 游戏里，双方在各自路线上 1v1 或 2v2 的对抗阶段。",
+    example:"他对线期就打崩了对面。"}]},
+  {abbr:"团战", freq:3, meanings:[{type:"pro", field:"电竞", full:"两队人马正面大规模交战",
+    plain:"双方所有成员聚在一起打的大规模战斗。",
+    example:"最后一波团战决定了胜负。"}]},
+  {abbr:"carry", freq:4, meanings:[{type:"pro", field:"电竞", full:"带飞全场",
+    plain:"一个人表现特别亮眼，靠一己之力带队伍赢。",
+    example:"这局全靠他 carry。"}]},
+  {abbr:"下饭", freq:4, meanings:[{type:"pro", field:"电竞", full:"操作很菜",
+    plain:"形容选手操作太差了，看得人吃不下饭。",
+    example:"这操作太下饭了。"}]},
+
+  /* ============ 二次元 / ACGN ============ */
+  {abbr:"傲娇", freq:4, meanings:[{type:"pro", field:"二次元", full:"外冷内热",
+    plain:"表面上嘴硬、态度冷淡，其实心里很在意、很害羞。经典台词是“才、才不是为你做的呢！”",
+    example:"她就是典型傲娇，嘴上说不要其实很喜欢。"}]},
+  {abbr:"腹黑", freq:4, meanings:[{type:"pro", field:"二次元", full:"表面和善内心有心计",
+    plain:"看起来温和友善，实际上心里在盘算事情。",
+    example:"这个角色是腹黑属性。"}]},
+  {abbr:"中二病", freq:4, meanings:[{type:"pro", field:"二次元", full:"青春期自我意识过剩",
+    plain:"指青少年觉得自己很特别、很酷，说话做事很夸张。来源于日本综艺节目。",
+    example:"他初中时中二病特别严重。"}]},
+  {abbr:"黑化", freq:4, meanings:[{type:"pro", field:"二次元", full:"角色性格变坏",
+    plain:"原本善良的角色因为某些原因变得冷酷、邪恶。",
+    example:"这个角色在第二季黑化了。"}]},
+  {abbr:"病娇", freq:4, meanings:[{type:"pro", field:"二次元", full:"极端迷恋到病态",
+    plain:"对某个人喜欢到不正常的程度，可能会做出极端行为。",
+    example:"她是病娇属性，占有欲超强。"}]},
+  {abbr:"天然呆", freq:4, meanings:[{type:"pro", field:"二次元", full:"天然呆萌",
+    plain:"天生就有点傻乎乎、反应慢，但很可爱。",
+    example:"她天然呆的样子很萌。"}]},
+  {abbr:"妹控", freq:3, meanings:[{type:"pro", field:"二次元", full:"特别喜欢妹妹",
+    plain:"对妹妹有强烈好感的角色属性。",
+    example:"他是个妹控，对妹妹特别好。"}]},
+  {abbr:"废柴", freq:3, meanings:[{type:"pro", field:"二次元", full:"无用之人",
+    plain:"指什么都做不好、很没用的人。港漫用语。",
+    example:"主角一开始是个废柴，后来逆袭了。"}]},
+  {abbr:"暴走", freq:3, meanings:[{type:"pro", field:"二次元", full:"失控暴走",
+    plain:"角色因为愤怒或某种原因失去控制，变得极其强大但危险。",
+    example:"EVA 暴走了，谁也拦不住。"}]},
+  {abbr:"猎奇", freq:3, meanings:[{type:"pro", field:"二次元", full:"血腥 / 怪异",
+    plain:"指内容血腥、怪异、让人不适。",
+    example:"这个番有点猎奇，胆小慎入。"}]},
+  {abbr:"本命", freq:4, meanings:[{type:"pro", field:"二次元", full:"最喜欢的角色",
+    plain:"在所有角色里最喜欢的那一个。",
+    example:"我本命是柯南。"}]},
+  {abbr:"墙头", freq:3, meanings:[{type:"pro", field:"二次元", full:"本命之外偶尔喜欢的",
+    plain:"除了本命之外，偶尔也会喜欢的其他角色或艺人。",
+    example:"他墙头太多了，见一个爱一个。"}]},
+  {abbr:"推", freq:4, meanings:[{type:"pro", field:"二次元 / 饭圈", full:"支持 / 喜欢",
+    plain:"表示支持、喜欢某个角色或艺人。“我推”就是我最喜欢的。",
+    example:"我推的偶像终于出道了。"}]},
+  {abbr:"同担", freq:3, meanings:[{type:"pro", field:"二次元 / 饭圈", full:"喜欢同一个角色的人",
+    plain:"和你喜欢同一个角色或同一个偶像的人。",
+    example:"在漫展遇到了同担，聊得很开心。"}]},
+  {abbr:"无料", freq:3, meanings:[{type:"pro", field:"二次元", full:"免费领取的周边",
+    plain:"在漫展或活动中免费发放的小周边，比如明信片、贴纸。",
+    example:"这个无料太好看了，谢谢太太！"}]},
+  {abbr:"集邮", freq:3, meanings:[{type:"pro", field:"二次元 / Cos", full:"和 coser 合影",
+    plain:"在漫展上和 coser 拍照合影，就像集邮一样。",
+    example:"今天集邮了好几个大佬。"}]},
+  {abbr:"产粮", freq:4, meanings:[{type:"pro", field:"同人", full:"自己创作同人作品",
+    plain:"自己创作同人作品供大家看。相当于“做饭给大家吃”。",
+    example:"太太产粮了，快去吃！"}]},
+  {abbr:"吃粮", freq:4, meanings:[{type:"pro", field:"同人", full:"看别人创作的同人作品",
+    plain:"看别人创作的同人作品。",
+    example:"今天吃粮吃得很饱。"}]},
+  {abbr:"AU", freq:3, meanings:[{type:"pro", field:"同人", full:"Alternate Universe（平行宇宙）",
+    plain:"把原作角色放到完全不同的世界观里，比如让古代角色去上学。",
+    example:"这篇 AU 写的是现代校园。"}]},
+  {abbr:"乙女", freq:3, meanings:[{type:"pro", field:"同人", full:"面向女性的恋爱作品",
+    plain:"以女性为主角、面向女性读者的恋爱向作品。",
+    example:"她只玩乙女游戏。"}]},
+
+  /* ============ 职场 / 互联网专业术语 ============ */
+  {abbr:"PR", freq:5, meanings:[
+    {type:"pro", field:"视频剪辑", full:"Premiere Pro",
+     plain:"一个在电脑上剪视频的软件，跟手机上的剪映用途差不多，但功能更专业。",
+     example:"这条视频我先用 PR 剪好，再加字幕。"},
+    {type:"pro", field:"公关 / 品牌", full:"Public Relations",
+     plain:"帮公司跟外界打交道的岗位。开发布会、联系记者、出负面新闻时帮忙解释。相当于“公司的对外发言人团队”。",
+     example:"这次活动由 PR 部门对接媒体。"},
+    {type:"pro", field:"程序员", full:"Pull Request",
+     plain:"你想给别人的代码加功能，不能直接改，得先提交一份“我改了这些地方，你看行不行”的申请。这份申请就叫 PR。",
+     example:"我提了个 PR，麻烦看一下。"},
+    {type:"pro", field:"兼职 / 招募", full:"招募者（这行用法很杂）",
+     plain:"在兼职群、模特招募、直播招人这类圈子里，PR 常指负责拉人进群、发活儿、对接资源的中间人。注意：这行没有统一标准，看到 PR 一定先问清楚对方是干嘛的。",
+     example:"这活儿是 PR 发的，先问清楚结款方式。"}]},
+  {abbr:"AE", freq:4, meanings:[
+    {type:"pro", field:"视频特效", full:"After Effects",
+     plain:"另一个电脑软件，专门做特效和动画。可以理解成“PR 负责剪，AE 负责变魔术”。",
+     example:"片头那个闪光效果是 AE 做的。"},
+    {type:"pro", field:"广告公司", full:"Account Executive",
+     plain:"广告公司里专门跟客户对接的人。相当于“客户和公司之间的传话筒”。",
+     example:"AE 又把客户改的第八版意见发来了。"}]},
+  {abbr:"BD", freq:4, meanings:[
+    {type:"pro", field:"商务合作", full:"Business Development",
+     plain:"专门出去找别人谈合作的人。比如让两个品牌出联名款、互相换资源。说白了就是“帮公司拉关系的人”。",
+     example:"这次联名是 BD 谈下来的。"},
+    {type:"pro", field:"影视 / 硬件", full:"Blu-ray Disc（蓝光光盘）",
+     plain:"一种能存很多内容的光盘，比普通 DVD 清楚得多。",
+     example:"这套电影出了 4K 蓝光版。"}]},
+  {abbr:"CP", freq:5, meanings:[
+    {type:"net", field:"饭圈 / 追剧", full:"Couple（配对）",
+     plain:"把两个人凑成一对，觉得他们很配，喜欢看他俩互动。不一定是真情侣。",
+     example:"这对 CP 我磕了三年了。"},
+    {type:"pro", field:"广告投放", full:"Cost Per（每次成本）",
+     plain:"广告里算钱的说法。CPC 是“点一次花多少钱”，CPM 是“给一千个人看花多少钱”。",
+     example:"这次投放的 CP 有点高，得换素材。"}]},
+  {abbr:"BG", freq:4, meanings:[
+    {type:"net", field:"饭圈 / 同人", full:"Boy / Girl（男女向）",
+     plain:"指男女谈恋爱的配对，跟男男（BL）、女女（GL）相对。",
+     example:"她只磕 BG 向的同人。"},
+    {type:"pro", field:"求职 / 入职", full:"Background（背景调查）",
+     plain:"公司准备录用你之前，会去核实你简历上写的是不是真的，俗称“查底细”。",
+     example:"offer 发了，等 BG 调查走完就入职。"},
+    {type:"pro", field:"游戏 / 聚会", full:"Board Game（桌游）",
+     plain:"坐在桌子前玩的游戏。狼人杀、剧本杀、大富翁都算。",
+     example:"周末开 BG 局，来不来？"}]},
+  {abbr:"JD", freq:5, meanings:[
+    {type:"pro", field:"找工作", full:"Job Description（职位描述）",
+     plain:"招聘广告里写“这岗位要干什么、需要什么条件”的那一段。",
+     example:"先看 JD，要求三年以上经验。"},
+    {type:"pro", field:"网购", full:"京东",
+     plain:"就是那个买东西的网站京东，取拼音首字母。",
+     example:"这个型号 JD 上有活动。"}]},
+  {abbr:"PM", freq:5, meanings:[
+    {type:"pro", field:"互联网公司", full:"Product Manager / Project Manager",
+     plain:"两个岗位共用这个缩写：产品经理管“要做什么功能”，项目经理管“什么时候能做完”。",
+     example:"PM 说这个需求排到下个版本。"},
+    {type:"pro", field:"网上聊天", full:"Private Message（私信）",
+     plain:"私信。论坛上说“价格 PM 我”，意思就是“价格你私信发给我”。",
+     example:"价格 PM 我。"}]},
+  {abbr:"DDL", freq:5, meanings:[
+    {type:"pro", field:"学校 / 职场", full:"Deadline（截止时间）",
+     plain:"最后期限，也就是“必须在这之前交，不然就完蛋了”的那个时间点。",
+     example:"DDL 是明早九点，今晚别睡了。"},
+    {type:"pro", field:"数据库 / 编程", full:"Data Definition Language",
+     plain:"写代码时用来“建表、改表格结构”的命令。",
+     example:"建表语句属于 DDL。"}]},
+  {abbr:"KPI", freq:5, meanings:[
+    {type:"pro", field:"公司考核", full:"Key Performance Indicator（关键绩效指标）",
+     plain:"公司给你定的目标。完成了有奖励，完不成可能扣钱。打工人最怕的三个字母。",
+     example:"这个月 KPI 还差一半。"},
+    {type:"net", field:"网络玩梗", full:"（梗）冲 KPI",
+     plain:"被网友玩成了玩笑。比如营销号发莫名其妙的文章，大家就说“他在冲 KPI”。",
+     example:"营销号又出来发癫冲 KPI 了。"}]},
+  {abbr:"OKR", freq:4, meanings:[{type:"pro", field:"公司管理", full:"Objectives and Key Results（目标与关键成果）",
+    plain:"一种定目标的方法。先定一个大目标，再列出几个可以衡量的关键结果。",
+    example:"这个季度 OKR 定了三个目标。"}]},
+  {abbr:"SOP", freq:4, meanings:[{type:"pro", field:"职场 / 运营", full:"Standard Operating Procedure（标准操作流程）",
+    plain:"把一件事怎么做一步一步写清楚，谁来都按这个流程走。",
+    example:"这个岗位有 SOP 吗？照着做就行。"}]},
+  {abbr:"OT", freq:4, meanings:[{type:"pro", field:"上班", full:"Overtime（加班）",
+    plain:"下班时间到了还得继续干活，就是加班。考勤表上常写成 OT。",
+    example:"这周 OT 了 20 个小时。"}]},
+  {abbr:"HC", freq:4, meanings:[{type:"pro", field:"招聘 / 大厂", full:"Head Count（编制 / 人头数）",
+    plain:"一个团队今年能招几个人，这个名额就叫 HC。有 HC 才能招人。",
+    example:"这个组今年只剩一个 HC。"}]},
+  {abbr:"WLB", freq:4, meanings:[{type:"pro", field:"职场 / 招聘", full:"Work Life Balance（工作生活平衡）",
+    plain:"指工作和生活能兼顾，不用天天加班。",
+    example:"钱少点没关系，WLB 好就行。"}]},
+  {abbr:"ROI", freq:4, meanings:[{type:"pro", field:"商业 / 投资", full:"Return on Investment（投资回报率）",
+    plain:"花出去的钱能赚回来多少。花 100 块赚了 150 块，ROI 就是 1.5。",
+    example:"这次投放的 ROI 太低了。"}]},
+  {abbr:"DAU", freq:3, meanings:[{type:"pro", field:"互联网 / 数据", full:"Daily Active User（日活跃用户）",
+    plain:"一天之内有多少人用了这个产品。",
+    example:"这个功能上线后 DAU 涨了不少。"}]},
+  {abbr:"MAU", freq:3, meanings:[{type:"pro", field:"互联网 / 数据", full:"Monthly Active User（月活跃用户）",
+    plain:"一个月之内有多少人用了这个产品。跟 DAU 是一对。",
+    example:"MAU 破千万了。"}]},
+  {abbr:"GMV", freq:3, meanings:[{type:"pro", field:"电商", full:"Gross Merchandise Volume（商品交易总额）",
+    plain:"一段时间内平台上成交的总金额。注意：这是“下了单的金额”，不一定真到账。",
+    example:"双十一 GMV 又破纪录了。"}]},
+  {abbr:"SKU", freq:3, meanings:[{type:"pro", field:"电商 / 零售", full:"Stock Keeping Unit（库存量单位）",
+    plain:"每样商品的每个规格算一个 SKU。一件衣服有 S、M、L 三个码，就算三个 SKU。",
+    example:"这款鞋有 20 个 SKU。"}]},
+  {abbr:"API", freq:3, meanings:[{type:"pro", field:"编程 / 技术", full:"Application Programming Interface（应用程序编程接口）",
+    plain:"软件之间互相“说话”的通道。比如你点外卖，App 要通过 API 去问商家系统“还有没有货”。",
+    example:"这个功能需要对接支付 API。"}]},
+  {abbr:"B2B", freq:3, meanings:[{type:"pro", field:"商业模式", full:"Business to Business（企业对企业）",
+    plain:"一个公司把东西卖给另一个公司。",
+    example:"我们做的是 B2B 生意。"}]},
+  {abbr:"B2C", freq:3, meanings:[{type:"pro", field:"商业模式", full:"Business to Customer（企业对消费者）",
+    plain:"公司直接把东西卖给普通人。",
+    example:"淘宝主要是 B2C 平台。"}]},
+  {abbr:"VC", freq:3, meanings:[{type:"pro", field:"投融资", full:"Venture Capital（风险投资）",
+    plain:"专门投早期公司的投资机构。",
+    example:"这家公司拿了 VC 的钱。"}]},
+  {abbr:"DD", freq:3, meanings:[{type:"pro", field:"投融资 / 职场", full:"Due Diligence（尽职调查）",
+    plain:"投资人或公司决定投钱、合作之前，把对方的情况查个底朝天。",
+    example:"DD 做完没问题，下个月签合同。"}]},
+  {abbr:"NDA", freq:3, meanings:[{type:"pro", field:"职场 / 商务", full:"Non-Disclosure Agreement（保密协议）",
+    plain:"一份法律文件，签了之后你不能把对方的商业机密说出去。",
+    example:"先签 NDA，我再给你看方案。"}]},
+  {abbr:"FYI", freq:4, meanings:[{type:"pro", field:"职场 / 邮件", full:"For Your Information（供你参考）",
+    plain:"邮件里常见的缩写，意思是“这个信息给你看一下，你知道就行”。",
+    example:"FYI，下周的会议改到周三了。"}]},
+  {abbr:"CC", freq:4, meanings:[{type:"pro", field:"职场 / 邮件", full:"Carbon Copy（抄送）",
+    plain:"发邮件时把某人放在“抄送”里，意思是“也让他知道这件事”。",
+    example:"这封邮件 CC 一下你领导。"}]},
+  {abbr:"EOD", freq:3, meanings:[{type:"pro", field:"职场 / 邮件", full:"End of Day（今日结束前）",
+    plain:"“今天下班前”。老板说“EOD 给我”，意思就是“今天之内交”。",
+    example:"这个文件 EOD 之前发我。"}]},
+  {abbr:"TBD", freq:3, meanings:[{type:"pro", field:"职场 / 邮件", full:"To Be Determined（待确认）",
+    plain:"意思是“还没定，之后再说”。",
+    example:"会议时间 TBD，等通知。"}]},
+  {abbr:"PRD", freq:3, meanings:[{type:"pro", field:"互联网 / 产品", full:"Product Requirements Document（产品需求文档）",
+    plain:"产品经理写的一份文档，详细说明“这个功能要做什么、长什么样”。开发照着它做。",
+    example:"PRD 写好了，开发可以开工了。"}]},
+  {abbr:"UI", freq:4, meanings:[{type:"pro", field:"设计", full:"User Interface（用户界面）",
+    plain:"你打开 App 或网站看到的东西——按钮、颜色、图标、排版。UI 设计师就是负责把界面做漂亮的。",
+    example:"这个 App 的 UI 很清爽。"}]},
+  {abbr:"UE", freq:3, meanings:[{type:"pro", field:"设计", full:"User Experience（用户体验）",
+    plain:"用户在使用产品时的整体感受。好不好用、顺不顺手，都属于 UE。",
+    example:"这个流程的 UE 太差了。"}]},
+  {abbr:"KOL", freq:4, meanings:[{type:"pro", field:"新媒体 / 营销", full:"Key Opinion Leader（关键意见领袖）",
+    plain:"网上粉丝多、说话有人听的人，比如大博主、网红。品牌想推广就花钱请他们帮忙说好话。",
+    example:"这次找了 20 个 KOL 帮忙推荐。"},
+    {type:"pro", field:"新媒体 / 营销", full:"KOC（顺便认识一下）",
+     plain:"粉丝不多但更像普通人的博主。影响力小，但说话更真实、报价也便宜。",
+     example:"预算不够，先用一批 KOC 试试水。"}]},
+  {abbr:"UGC", freq:3, meanings:[{type:"pro", field:"互联网 / 内容", full:"User Generated Content（用户生成内容）",
+    plain:"用户自己创作发布的内容。比如你在小红书发的笔记、在 B 站发的视频。",
+    example:"这个平台靠 UGC 起家。"}]},
+  {abbr:"SEO", freq:3, meanings:[{type:"pro", field:"互联网 / 营销", full:"Search Engine Optimization（搜索引擎优化）",
+    plain:"想办法让你的网页在百度、谷歌搜索里排得更靠前。",
+    example:"这个页面做了 SEO，排名上去了。"}]},
+  {abbr:"CTR", freq:3, meanings:[{type:"pro", field:"广告 / 运营", full:"Click-Through-Rate（点击率）",
+    plain:"看到广告的人里有多少人点了。100 个人看到，5 个人点了，CTR 就是 5%。",
+    example:"换了个标题，CTR 翻了一倍。"}]},
+  {abbr:"CVR", freq:3, meanings:[{type:"pro", field:"广告 / 运营", full:"Conversion Rate（转化率）",
+    plain:"点了广告的人里，有多少真的买了或注册了。",
+    example:"CVR 太低，得看看落地页。"}]},
+  {abbr:"AB测试", freq:3, meanings:[{type:"pro", field:"互联网 / 运营", full:"A/B Testing（对照实验）",
+    plain:"把用户分成两组，一组看 A 版本，一组看 B 版本，看哪个效果更好。",
+    example:"先做个 A/B 测试再全量上线。"}]},
+  {abbr:"PV", freq:3, meanings:[{type:"pro", field:"互联网 / 数据", full:"Page View（页面浏览量）",
+    plain:"一个页面被看了多少次。刷新也算一次。",
+    example:"这篇文章 PV 破了十万。"}]},
+  {abbr:"UV", freq:3, meanings:[{type:"pro", field:"互联网 / 数据", full:"Unique Visitor（独立访客）",
+    plain:"有多少个不同的人看了这个页面。跟 PV 不同，同一个人看多次只算一个 UV。",
+    example:"UV 比昨天涨了 30%。"}]},
+  {abbr:"CR", freq:3, meanings:[{type:"pro", field:"广告 / 运营", full:"Conversion Rate（转化率）",
+    plain:"跟 CVR 一个意思，都是指多少人真的完成了目标动作。",
+    example:"CR 太低，得优化流程。"}]},
+  {abbr:"CPC", freq:3, meanings:[{type:"pro", field:"广告", full:"Cost Per Click（单次点击成本）",
+    plain:"广告被点一次要花多少钱。",
+    example:"CPC 太高了，换个素材试试。"}]},
+  {abbr:"CPM", freq:3, meanings:[{type:"pro", field:"广告", full:"Cost Per Mille（千次曝光成本）",
+    plain:"广告被展示一千次要花多少钱。",
+    example:"CPM 才 5 块，很划算。"}]},
+  {abbr:"CPS", freq:3, meanings:[{type:"pro", field:"广告", full:"Cost Per Sale（按销售额付费）",
+    plain:"按实际卖出去的金额来算广告费。",
+    example:"这个渠道走 CPS 模式。"}]},
+
+  /* ============ 职场黑话 / 互联网八股文 ============ */
+  {abbr:"颗粒度", freq:3, meanings:[{type:"pro", field:"职场黑话", full:"细致程度",
+    plain:"指做事的细致程度。颗粒度细就是分得很细很具体，颗粒度粗就是大概说一下。",
+    example:"这个方案颗粒度再细一点。"}]},
+  {abbr:"闭环", freq:3, meanings:[{type:"pro", field:"职场黑话", full:"形成完整循环",
+    plain:"一件事从头到尾做完，首尾相连，不用再靠别人补。",
+    example:"这个流程要形成闭环。"}]},
+  {abbr:"对齐", freq:4, meanings:[{type:"pro", field:"职场黑话", full:"确认大家理解一致",
+    plain:"大家坐下来把信息对一遍，确保每个人理解的是同一件事。",
+    example:"我们下午对齐一下进度。"}]},
+  {abbr:"赋能", freq:3, meanings:[{type:"pro", field:"职场黑话", full:"给予能力 / 资源支持",
+    plain:"给某个团队或个人提供资源、工具、培训，让他能做得更好。",
+    example:"这个平台赋能中小商家。"}]},
+  {abbr:"抓手", freq:3, meanings:[{type:"pro", field:"职场黑话", full:"切入点 / 着力点",
+    plain:"做一件事时从哪里下手、用什么方法推进。",
+    example:"提升留存，抓手在内容质量。"}]},
+  {abbr:"落地", freq:4, meanings:[{type:"pro", field:"职场黑话", full:"真正实现 / 执行",
+    plain:"一个想法、方案从纸上变成现实，真正做出来。",
+    example:"这个方案什么时候能落地？"}]},
+  {abbr:"复盘", freq:4, meanings:[{type:"pro", field:"职场黑话", full:"回顾总结",
+    plain:"一件事做完之后，回头看看哪里做得好、哪里不好，下次怎么改进。",
+    example:"项目结束后我们复盘一下。"}]},
+  {abbr:"沉淀", freq:3, meanings:[{type:"pro", field:"职场黑话", full:"积累 / 积攒下来",
+    plain:"把经验、数据、能力慢慢积累下来，形成自己的东西。",
+    example:"这几年技术上的沉淀派上用场了。"}]},
+  {abbr:"心智", freq:3, meanings:[{type:"pro", field:"营销 / 品牌", full:"用户认知 / 心理印象",
+    plain:"用户对一个品牌的整体感觉和认知。说“占领用户心智”，就是让用户一想到某个需求就想到你。",
+    example:"这个广告是为了抢占用户心智。"}]},
+  {abbr:"拉齐", freq:4, meanings:[{type:"pro", field:"互联网黑话", full:"信息同步",
+    plain:"把各方信息拉到同一个水平线上，确保大家知道的是同一件事。",
+    example:"先拉齐一下各方进度。"}]},
+  {abbr:"对焦", freq:3, meanings:[{type:"pro", field:"互联网黑话", full:"统一意见",
+    plain:"再次开会，把分歧点对齐，统一意见。",
+    example:"我们下午对焦一下方案。"}]},
+  {abbr:"反哺", freq:3, meanings:[{type:"pro", field:"互联网黑话", full:"反过来回馈",
+    plain:"一个东西发展起来后，反过来帮助当初支持它的那个东西。",
+    example:"内容生态做起来后，反哺了电商业务。"}]},
+  {abbr:"裂变", freq:3, meanings:[{type:"pro", field:"互联网黑话", full:"拉人 / 群发扩散",
+    plain:"通过用户分享来拉新，像细胞分裂一样快速扩散。",
+    example:"这个活动靠裂变拉了不少新用户。"}]},
+  {abbr:"矩阵", freq:3, meanings:[{type:"pro", field:"互联网黑话", full:"多个账号 / 多个渠道",
+    plain:"同时运营多个账号或渠道，形成网络。比如“自媒体矩阵”就是多个平台都开号。",
+    example:"他们做了全平台矩阵。"}]},
+  {abbr:"调性", freq:3, meanings:[{type:"pro", field:"互联网黑话", full:"风格 / 气质",
+    plain:"一个品牌或账号的整体风格和感觉。",
+    example:"这个设计很符合品牌调性。"}]},
+  {abbr:"壁垒", freq:3, meanings:[{type:"pro", field:"互联网黑话", full:"别人没有的优势",
+    plain:"竞争对手很难复制的东西，比如技术、专利、用户规模。",
+    example:"技术壁垒是他们的核心竞争力。"}]},
+  {abbr:"心智", freq:3, meanings:[{type:"pro", field:"营销", full:"用户认知",
+    plain:"用户对品牌的整体印象。",
+    example:"抢占用户心智是营销的核心。"}]},
+  {abbr:"第二曲线", freq:3, meanings:[{type:"pro", field:"商业", full:"换个路子赚钱",
+    plain:"原来的业务增长到头了，开辟一条新的增长路径。",
+    example:"公司正在寻找第二曲线。"}]},
+  {abbr:"点线面体", freq:2, meanings:[{type:"pro", field:"互联网黑话", full:"单点到系统的整体",
+    plain:"从单个点扩展到整个系统。形容思考问题的层次。",
+    example:"做业务要有从点到线到面到体的思维。"}]},
+  {abbr:"千人千面", freq:3, meanings:[{type:"pro", field:"互联网黑话", full:"为不同人定制服务",
+    plain:"根据每个用户的喜好，展示不同的内容或推荐。",
+    example:"算法推荐做到了千人千面。"}]},
+  {abbr:"私域流量", freq:3, meanings:[{type:"pro", field:"互联网黑话", full:"自己可控的用户池",
+    plain:"你能直接触达的用户，比如微信群、朋友圈。跟公域（平台上的流量）相对。",
+    example:"把公域流量导到私域。"}]},
+  {abbr:"公域流量", freq:3, meanings:[{type:"pro", field:"互联网黑话", full:"平台上的公共流量",
+    plain:"在平台（抖音、淘宝等）上公共的流量，需要花钱或靠内容获取。",
+    example:"公域流量越来越贵了。"}]},
+  {abbr:"追热点", freq:3, meanings:[{type:"pro", field:"互联网黑话", full:"蹭流量",
+    plain:"紧跟当下热门话题做内容，蹭一波流量。",
+    example:"做新媒体要会追热点。"}]},
+  {abbr:"坑位费", freq:3, meanings:[{type:"pro", field:"电商", full:"找主播带货的固定费用",
+    plain:"找网红或明星直播带货，不管卖多少都要付的固定费用。",
+    example:"坑位费太高了，不划算。"}]},
+  {abbr:"接广", freq:3, meanings:[{type:"pro", field:"自媒体", full:"接广告",
+    plain:"账号接到品牌广告，发内容帮品牌推广，赚广告费。",
+    example:"她这个月接了三个广。"}]},
+  {abbr:"起号", freq:3, meanings:[{type:"pro", field:"自媒体", full:"从零做账号",
+    plain:"从零开始运营一个新账号。",
+    example:"起号阶段最难。"}]},
+  {abbr:"养号", freq:3, meanings:[{type:"pro", field:"自媒体", full:"让平台认为你是真人",
+    plain:"新号先正常使用一段时间，让平台觉得你是真人，而不是营销号。",
+    example:"新号先养一周再发内容。"}]},
+  {abbr:"限流", freq:4, meanings:[{type:"pro", field:"自媒体", full:"被平台减少推荐",
+    plain:"平台减少推荐你的内容，播放量暴跌。",
+    example:"这条视频被限流了。"}]},
+  {abbr:"爆款", freq:4, meanings:[{type:"pro", field:"自媒体", full:"数据特别好的内容",
+    plain:"播放量、点赞量特别高的内容。",
+    example:"她出了好几个爆款视频。"}]},
+  {abbr:"完播率", freq:3, meanings:[{type:"pro", field:"自媒体", full:"看完整个视频的比例",
+    plain:"多少人把视频看完了。完播率越高，平台越愿意推。",
+    example:"完播率上去了，播放量自然涨。"}]},
+  {abbr:"带货", freq:4, meanings:[{type:"pro", field:"自媒体 / 电商", full:"推荐商品赚佣金",
+    plain:"在内容里推荐商品，别人通过你的链接买了，你拿佣金。",
+    example:"她现在主要靠带货赚钱。"}]},
+
+  /* ============ 职场暗语 ============ */
+  {abbr:"格外出色", freq:3, meanings:[{type:"pro", field:"职场暗语", full:"目前还没犯错误",
+    plain:"领导评语里的反话。说“格外出色”，实际意思是“你还没出过什么大错”。",
+    example:"领导说我格外出色，也不知道是夸还是损。"}]},
+  {abbr:"善于社交", freq:3, meanings:[{type:"pro", field:"职场暗语", full:"能喝",
+    plain:"职场评语里的反话。“善于社交”有时候指“能喝酒”。",
+    example:"HR 说他善于社交，估计是应酬型选手。"}]},
+  {abbr:"眼光长远", freq:3, meanings:[{type:"pro", field:"职场暗语", full:"总是一再拖延工作",
+    plain:"职场评语里的反话。说“眼光长远”，实际可能是“你老是拖”。",
+    example:"他那个“眼光长远”的评价，懂的都懂。"}]},
+  {abbr:"能承受较大压力", freq:4, meanings:[{type:"pro", field:"招聘黑话", full:"要加班",
+    plain:"招聘 JD 里的黑话。“能承受较大工作压力”翻译过来就是“要经常加班”。",
+    example:"JD 上写了能承受较大压力，你懂的。"}]},
+  {abbr:"抗压能力强", freq:4, meanings:[{type:"pro", field:"招聘黑话", full:"加班 + 替别人扛雷",
+    plain:"招聘 JD 里的黑话。除了加班，可能还要帮别人背锅。",
+    example:"这个岗位要求抗压能力强，估计不轻松。"}]},
+  {abbr:"有强烈责任心", freq:3, meanings:[{type:"pro", field:"招聘黑话", full:"没做完不准走",
+    plain:"招聘 JD 里的黑话。意思是活没干完你别想下班。",
+    example:"要求有强烈责任心，就是加班预警。"}]},
+  {abbr:"弹性工作制", freq:4, meanings:[{type:"pro", field:"招聘黑话", full:"加班不给加班费",
+    plain:"招聘 JD 里的黑话。看起来自由，实际上是没有加班费。",
+    example:"弹性工作制，弹性的是你，不是公司。"}]},
+  {abbr:"包三餐", freq:3, meanings:[{type:"pro", field:"招聘黑话", full:"早晚都得加班",
+    plain:"招聘 JD 里的黑话。包三餐意味着你早中晚都在公司吃，加班跑不掉。",
+    example:"包三餐听起来好，其实意思是你得待到晚上。"}]},
+  {abbr:"双休", freq:3, meanings:[{type:"pro", field:"招聘黑话", full:"工作日加班",
+    plain:"招聘 JD 里的黑话。虽然周末休息，但工作日可能要加班到很晚。",
+    example:"写了双休，但没写工作日几点下班。"}]},
+
+  /* ============ 其他 ============ */
+  {abbr:"FOMO", freq:3, meanings:[{type:"net", field:"网络流行语 / 心理", full:"Fear of Missing Out（错失恐惧症）",
+    plain:"看到别人都在做某件事，自己怕错过，也跟着做。",
+    example:"看到朋友圈都在晒，FOMO 了，我也去买了。"}]},
+  {abbr:"O2O", freq:3, meanings:[{type:"pro", field:"商业模式", full:"Online to Offline（线上到线下）",
+    plain:"线上引流，线下消费。比如外卖、打车、到店团购。",
+    example:"O2O 模式在本地生活领域很常见。"}]},
+  {abbr:"MCN", freq:3, meanings:[{type:"pro", field:"自媒体", full:"Multi-Channel Network（网红经纪公司）",
+    plain:"专门签网红、帮他们做内容、接广告、分成的公司。",
+    example:"她签了一家 MCN，资源好多了。"}]},
+  {abbr:"LTV", freq:3, meanings:[{type:"pro", field:"互联网 / 运营", full:"Life Time Value（用户生命周期价值）",
+    plain:"一个用户从开始用到不再用，总共能给你带来多少钱。",
+    example:"LTV 得比 CAC 高才划算。"}]},
+  {abbr:"CAC", freq:3, meanings:[{type:"pro", field:"互联网 / 运营", full:"Customer Acquisition Cost（获客成本）",
+    plain:"获取一个新用户要花多少钱。",
+    example:"CAC 太高了，得优化渠道。"}]},
+  {abbr:"NDA", freq:3, meanings:[{type:"pro", field:"职场 / 商务", full:"Non-Disclosure Agreement（保密协议）",
+    plain:"一份法律文件，签了之后你不能把对方的商业机密说出去。",
+    example:"先签 NDA，我再给你看方案。"}]},
+  {abbr:"Kick off", freq:3, meanings:[{type:"pro", field:"职场 / 项目", full:"启动会",
+    plain:"一个项目正式开始时的第一次会议。",
+    example:"下周一项目 Kick off，记得参加。"}]},
+  {abbr:"EOD", freq:3, meanings:[{type:"pro", field:"职场 / 邮件", full:"End of Day（今日结束前）",
+    plain:"“今天下班前”。",
+    example:"这个文件 EOD 之前发我。"}]},
+  {abbr:"COB", freq:3, meanings:[{type:"pro", field:"职场 / 邮件", full:"Close of Business（今日下班前）",
+    plain:"跟 EOD 意思差不多，指“今天工作结束前”。",
+    example:"COB 之前把报价确认一下。"}]},
+  {abbr:"MTD", freq:2, meanings:[{type:"pro", field:"职场", full:"Month to Date（本月至今）",
+    plain:"从本月 1 号到今天。",
+    example:"MTD 的销售额是多少？"}]},
+  {abbr:"QTD", freq:2, meanings:[{type:"pro", field:"职场", full:"Quarter to Date（本季度至今）",
+    plain:"从本季度开始到今天。",
+    example:"QTD 的进度有点慢。"}]},
+  {abbr:"YTD", freq:2, meanings:[{type:"pro", field:"职场", full:"Year to Date（本年至今）",
+    plain:"从今年 1 月 1 号到今天。",
+    example:"YTD 业绩已经完成 80% 了。"}]},
+  {abbr:"ASAP", freq:4, meanings:[{type:"pro", field:"职场 / 邮件", full:"As Soon As Possible（尽快）",
+    plain:"“尽快”。老板说 ASAP，意思就是“马上、立刻”。",
+    example:"这个 ASAP 给我。"}]},
+  {abbr:"BRB", freq:3, meanings:[{type:"pro", field:"聊天 / 游戏", full:"Be Right Back（马上回来）",
+    plain:"“马上回来”，暂时离开一下。",
+    example:"BRB，去倒杯水。"}]},
+  {abbr:"BTW", freq:4, meanings:[{type:"pro", field:"聊天 / 邮件", full:"By The Way（顺便说一下）",
+    plain:"“顺便说一下”，用来补充一个不太重要的信息。",
+    example:"BTW，明天的会议改到十点了。"}]},
+  {abbr:"TBH", freq:3, meanings:[{type:"pro", field:"聊天", full:"To Be Honest（说实话）",
+    plain:"“说实话”，用来表达真实想法。",
+    example:"TBH，我不太喜欢这个方案。"}]},
+  {abbr:"IMO", freq:4, meanings:[{type:"pro", field:"聊天", full:"In My Opinion（在我看来）",
+    plain:"“在我看来”，表达个人观点。加 H 变成 IMHO，就是“恕我直言”。",
+    example:"IMO，这个价格有点贵了。"}]},
+  {abbr:"TL;DR", freq:3, meanings:[{type:"pro", field:"网络 / 论坛", full:"Too Long; Didn't Read（太长不看）",
+    plain:"帖子太长懒得看，用来要求对方给个摘要。也用来在长文开头写简版总结。",
+    example:"TL;DR：结论是选 B 方案。"}]},
+  {abbr:"PSA", freq:2, meanings:[{type:"pro", field:"网络 / 论坛", full:"Public Service Announcement（公告）",
+    plain:"“公告”“提醒”。用来发布对大家都有用的信息。",
+    example:"PSA：明天服务器维护，游戏停服一天。"}]},
+  {abbr:"ELI5", freq:2, meanings:[{type:"pro", field:"网络 / 论坛", full:"Explain Like I'm 5（像跟五岁小孩一样解释）",
+    plain:"“请用最简单的话解释”，来源于 Reddit。",
+    example:"ELI5，区块链到底是什么？"}]},
+  {abbr:"IIRC", freq:2, meanings:[{type:"pro", field:"网络 / 论坛", full:"If I Recall Correctly（如果我没记错的话）",
+    plain:"“如果我没记错的话”，表示不太确定。",
+    example:"IIRC，这个功能去年就上线了。"}]}
+];
+
+/* =========================================================
+   二、圈子库
+   ========================================================= */
+const CIRCLES = [
+  {name:"绘画圈（画圈）", icon:"🎨",
+   intro:"一群喜欢画画的人聚在一起交流作品、接稿、互相点评的圈子。",
+   slang:[
+     {t:"接稿", d:"有人花钱请你画画，你接了这个活。", e:"最近接稿接到手软。"},
+     {t:"稿费", d:"画画赚到的钱。按张、按小时、按复杂程度算。"},
+     {t:"白菜价", d:"便宜到离谱的价格，常用来吐槽客户压价太狠。"},
+     {t:"翻车", d:"画出来的效果跟预期差很多，或者跟参考完全不像。"},
+     {t:"咕咕", d:"答应了要画但一直拖着不交稿，来源于鸽子“放鸽子”。"},
+     {t:"摸鱼", d:"不画正经稿，随便画点自己喜欢的放松一下。"},
+     {t:"厚涂 / 薄涂", d:"两种上色风格。厚涂像油画一层层堆，薄涂像水彩薄薄一层。"},
+     {t:"人体", d:"画人物身体结构的简称。画不好人体是很多人的痛点。"},
+     {t:"描图", d:"把别人的画垫在下面照着描，属于抄袭，圈内大忌。"},
+     {t:"约稿", d:"花钱请画手给自己画一张指定的图。"},
+     {t:"草稿 / 线稿 / 上色", d:"画画三个阶段的成品：草稿是粗胚，线稿是描好的线条，上色是最后涂颜色。"},
+     {t:"改图", d:"客户要求对已完成的画进行修改。"},
+     {t:"无尝", d:"“无偿”的谐音，指免费帮别人画。"},
+     {t:"设子", d:"原创角色的设定，包括长相、性格、背景故事。"},
+     {t:"跑单", d:"谈好了要画但人跑了，不付钱也不干活。"}
+   ]},
+
+  {name:"设圈 / 原创圈（OC圈）", icon:"✨",
+   intro:"围绕“原创角色设定”形成的圈子。画手创造角色，别人可以买下这个角色，用来画画、写文、做头像等。",
+   slang:[
+     {t:"设子 / 设", d:"一个原创角色的完整设定，包括长相、性格、背景故事。相当于“角色的户口本”。"},
+     {t:"收设", d:"花钱把别人的原创角色买下来，买完这个角色就归你了。"},
+     {t:"出设", d:"把自己的角色卖给别人。"},
+     {t:"设主", d:"拥有这个角色的人。买下角色的人就是设主。"},
+     {t:"二设 / 三设", d:"在原设定基础上再加东西，比如给角色加新衣服、新故事。"},
+     {t:"联动", d:"两个设主商量好，让各自的角色在同一个故事里出现。"},
+     {t:"跑单", d:"谈好了要买或者要画，结果人跑了。"},
+     {t:"拍卖", d:"一个角色同时被多人想要，价高者得。"},
+     {t:"服设", d:"专门指角色的服装设计。"}
+   ]},
+
+  {name:"定制圈", icon:"🧵",
+   intro:"找人量身定做东西的圈子，比如定制衣服、饰品、娃娃、手机壳、模型。",
+   slang:[
+     {t:"打样", d:"正式批量生产前，先做一件样品看看效果。"},
+     {t:"起订量", d:"最少做多少件才接单。"},
+     {t:"工期", d:"从下单到做完需要多长时间。"},
+     {t:"尾款", d:"先付一部分定金，做完再付剩下的钱。"},
+     {t:"翻单", d:"同样的东西再下单做一批。"},
+     {t:"踩雷", d:"找的商家做出来效果很差。"},
+     {t:"还原度", d:"做出来的东西跟参考图有多像。"},
+     {t:"私模", d:"专门为你一个人开的模具，别人不能用，成本更高。"}
+   ]},
+
+  {name:"水印圈", icon:"💧",
+   intro:"专门做“水印”的圈子。水印就是打在图片上的半透明文字或图案，用来防止别人盗图。",
+   slang:[
+     {t:"水印", d:"打在图片上的文字或图案，防止别人直接拿走用。"},
+     {t:"防盗图", d:"水印的主要用途，让盗图的人不好直接用。"},
+     {t:"通用水印", d:"一个水印可以用在多种图上。"},
+     {t:"定制水印", d:"根据你的需求专门做的水印，独一无二。"},
+     {t:"署名", d:"水印上写的名字，一般是你自己的 ID 或昵称。"},
+     {t:"去水印", d:"把别人图上的水印去掉，属于侵犯版权，圈内很排斥。"},
+     {t:"马赛克", d:"把图片某个区域打上模糊格子。"},
+     {t:"版权", d:"谁做的图归谁，别人要用得经过同意。"}
+   ]},
+
+  {name:"兽圈 / Furry", icon:"🐾",
+   intro:"喜欢“拟人化动物形象”的圈子。这些角色既像动物又像人，有自己的性格和故事。",
+   slang:[
+     {t:"兽设", d:"自己的拟人动物角色，包括长相、毛色、性格。"},
+     {t:"兽装 / 毛装", d:"用毛绒材料做的角色服装，穿上可以扮演自己的兽设。"},
+     {t:"出毛", d:"穿上兽装外出活动。"},
+     {t:"毛名", d:"在兽圈里用的名字，跟现实名字分开。"},
+     {t:"兽展", d:"兽圈聚会活动，大家穿兽装或交流作品。"},
+     {t:"兽设交易", d:"把自己的兽设卖给别人。"},
+     {t:"拟人", d:"把动物画成有人的身体和表情。"}
+   ]},
+
+  {name:"饭圈 / 追星圈", icon:"🎤",
+   intro:"追明星、偶像的圈子。有组织、有分工，能打投、能控评、能应援。",
+   slang:[
+     {t:"站姐", d:"专门跟拍某个明星、拍出高质量照片发到网上的粉丝。"},
+     {t:"代拍", d:"收钱帮别人去现场拍明星照片的人。"},
+     {t:"控评", d:"在评论区集中刷好评，把不好的评论压下去。"},
+     {t:"反黑", d:"专门举报、反驳骂自己偶像的言论。"},
+     {t:"应援", d:"花钱给偶像做宣传，比如包广告牌、买地铁广告。"},
+     {t:"打投", d:"组织粉丝集中投票、刷数据。"},
+     {t:"唯粉", d:"只喜欢组合里某一个成员的粉丝。"},
+     {t:"撕番", d:"粉丝之间为了“谁排第一”吵起来。"},
+     {t:"塌房", d:"偶像出了丑闻，人设崩了。"},
+     {t:"站子", d:"粉丝自发组织的应援团体。"},
+     {t:"爱豆", d:"idol 的音译，指偶像明星。"},
+     {t:"本命", d:"最喜欢、最支持的偶像。"},
+     {t:"墙头", d:"除本命外，偶尔喜欢的其他艺人。"},
+     {t:"毒唯", d:"只粉一个、且攻击性强的粉丝。"},
+     {t:"私生", d:"过度窥探、骚扰偶像私生活的粉丝。"},
+     {t:"路人粉", d:"有点好感但不花钱不打投的粉丝。"},
+     {t:"爬墙", d:"从喜欢一个偶像转向喜欢另一个。"},
+     {t:"脱粉", d:"不再喜欢这个偶像。"},
+     {t:"回踩", d:"脱粉后反过来骂偶像。"},
+     {t:"拉踩", d:"捧一个踩一个。"},
+     {t:"提纯", d:"把 CP 粉变成某一方的唯粉。"},
+     {t:"官配", d:"官方认定或主推的 CP。"},
+     {t:"拉郎", d:"把两个没什么关系的人硬凑 CP。"},
+     {t:"美帝", d:"人气最高、最火的 CP。"},
+     {t:"割韭菜", d:"粉丝被品牌或公司频繁消费花钱。"},
+     {t:"海景房", d:"饭圈里指大粉收了粉丝的钱但没办事，卷款跑路。"}
+   ]},
+
+  {name:"谷圈（吃谷圈）", icon:"🍚",
+   intro:"收集动漫、游戏周边商品的圈子。“谷”是英文 goods（商品）的音译。",
+   slang:[
+     {t:"吃谷", d:"买周边商品。"},
+     {t:"吧唧", d:"徽章的日语音译，圈内都这么叫。"},
+     {t:"痛包", d:"把一堆徽章、挂件装饰在包上，专门展示自己的周边。"},
+     {t:"谷美", d:"给周边拍好看的照片。"},
+     {t:"扫本", d:"把店里某款周边全部买光。"},
+     {t:"代购", d:"帮别人从国外或展会买周边，赚个跑腿费。"},
+     {t:"砍单", d:"商家接了单又反悔不卖了。"},
+     {t:"官谷 / 同人谷", d:"官方出的周边 / 粉丝自己做的周边。"},
+     {t:"海景", d:"特别贵、特别稀有的谷子，几百到几千不等，很难收到。"},
+     {t:"湖景", d:"相对便宜、没那么稀有的稀有谷，基本都是三位数。"},
+     {t:"普谷", d:"普通的通贩谷，随便一搜都有人出。"},
+     {t:"肾", d:"钱。交肾就是交钱，立肾就是立刻交钱。"},
+     {t:"梦情", d:"“梦中情谷”，做梦都想得到的谷子。"},
+     {t:"空气谷", d:"买了但还没到货的谷子。"},
+     {t:"拼团", d:"几个人凑一起下单，达到起订量或省钱。"},
+     {t:"set", d:"商品组合，一套一起卖。"},
+     {t:"hold", d:"被人用定金预留了。"},
+     {t:"好价", d:"价格实惠。"},
+     {t:"h价", d:"特别高的价格，h 念 high。"}
+   ]},
+
+  {name:"同人圈", icon:"📖",
+   intro:"基于已有作品（动漫、游戏、影视）自己创作新故事的圈子，包括写文、画画、做视频。",
+   slang:[
+     {t:"产粮", d:"自己创作同人作品，供大家看。相当于“做饭给大家吃”。"},
+     {t:"吃粮", d:"看别人创作的同人作品。"},
+     {t:"AU", d:"Alternate Universe，把原作角色放到完全不同的世界观里。"},
+     {t:"OOC", d:"Out Of Character，角色言行跟原作设定不符，写崩了。"},
+     {t:"乙女", d:"以女性为主角、面向女性读者的恋爱向作品。"},
+     {t:"清水 / 肉", d:"清水指没有亲密描写，肉指有。"},
+     {t:"车", d:"指带亲密情节的内容。"},
+     {t:"本子", d:"自己印的同人小册子。"},
+     {t:"腿肉", d:"自己在磕 CP / 搞同人时创作的内容，包括绘画、小说、视频等。"}
+   ]},
+
+  {name:"Cos圈 / Coser", icon:"📸",
+   intro:"Cosplay（角色扮演）的圈子，穿上服装扮演喜欢的角色。",
+   slang:[
+     {t:"出C", d:"Cosplay 某个角色的简称。"},
+     {t:"正片", d:"专门约摄影、妆娘拍的正式作品。"},
+     {t:"场照", d:"在漫展现场随手拍的照片。"},
+     {t:"妆娘", d:"专门给 coser 化妆的人。"},
+     {t:"道具", d:"角色用的武器、配饰等实体道具。"},
+     {t:"返图", d:"摄影师把拍好的照片发给 coser。"},
+     {t:"毛", d:"假发，圈内都叫毛。"},
+     {t:"面基", d:"网友线下见面。"}
+   ]},
+
+  {name:"三坑（汉服 / JK / 洛丽塔）", icon:"👘",
+   intro:"汉服、JK 制服、洛丽塔裙三个服装圈子的合称，因为都很烧钱，所以叫“三坑”。",
+   slang:[
+     {t:"正版 / 山", d:"正版是原创设计，山是抄袭仿制的。"},
+     {t:"抄款", d:"抄袭别人的原创设计款式。"},
+     {t:"尾款", d:"先付定金预定，出货时再付剩下的钱。"},
+     {t:"工期", d:"从下单到收到货要等多久。这三坑工期经常很长。"},
+     {t:"拼团", d:"几个人凑一起下单，能便宜点或达到起订量。"},
+     {t:"开箱", d:"收到货后拍视频展示。"},
+     {t:"妹妹", d:"圈内对同好的称呼，不分年龄。"}
+   ]},
+
+  {name:"娃圈（BJD）", icon:"🧸",
+   intro:"玩球形关节人偶的圈子。这种娃娃关节可以活动，能换衣服、换妆、换头发。",
+   slang:[
+     {t:"BJD", d:"Ball Jointed Doll，球形关节人偶。"},
+     {t:"娃衣", d:"给娃娃穿的衣服。"},
+     {t:"妆面", d:"给娃娃画的脸部妆容。"},
+     {t:"开脸", d:"给娃娃画妆的过程。"},
+     {t:"素头", d:"还没画妆的娃娃头。"},
+     {t:"体子", d:"娃娃的身体部分。"},
+     {t:"娃社", d:"制作娃娃的公司或工作室。"},
+     {t:"接娃", d:"买一个娃娃。"}
+   ]},
+
+  {name:"手账圈", icon:"📓",
+   intro:"喜欢做手账（装饰笔记本）的圈子，用胶带、贴纸、印章把本子做得很好看。",
+   slang:[
+     {t:"胶带", d:"印有图案的装饰胶带，是手账的核心材料。"},
+     {t:"分装", d:"把一整卷胶带剪成小段卖给别人，价格便宜。"},
+     {t:"拼贴", d:"把胶带、贴纸、剪报拼在一起做装饰。"},
+     {t:"排版", d:"页面怎么布局、怎么摆好看。"},
+     {t:"开胶", d:"胶带粘性变差。"},
+     {t:"复刻", d:"照着别人的排版做一份一样的。"}
+   ]},
+
+  {name:"潮玩 / 卡圈", icon:"🃏",
+   intro:"玩盲盒、手办、球星卡、卡牌游戏的圈子，核心是“抽”和“收藏”。",
+   slang:[
+     {t:"盲盒", d:"买之前不知道里面是什么款式的盒子。"},
+     {t:"隐藏款", d:"概率很低的稀有款，抽到很值钱。"},
+     {t:"官瑕", d:"官方出厂的瑕疵，通常可以退换。"},
+     {t:"验卡", d:"买卡之前先确认卡是不是真的、品相好不好。"},
+     {t:"评级", d:"把卡送去专业机构打分，分数越高越值钱。"},
+     {t:"破卡", d:"拆开未开封的卡包。"},
+     {t:"端盒", d:"一整套全买下来，确保不重复。"}
+   ]},
+
+  {name:"游戏圈", icon:"🎮",
+   intro:"玩游戏的圈子。不同游戏还有各自的小圈子，这里说的是通用黑话。",
+   slang:[
+     {t:"开黑", d:"和朋友组队一起玩。"},
+     {t:"上分", d:"打排位赛提升段位。"},
+     {t:"氪金", d:"在游戏里花钱。"},
+     {t:"白嫖", d:"不花钱只靠免费内容玩。"},
+     {t:"代练", d:"花钱请高手帮你打，提升段位。"},
+     {t:"外挂", d:"作弊软件，用的人会被封号。"},
+     {t:"开荒", d:"新副本、新版本刚出时第一次打。"},
+     {t:"吃鸡", d:"大逃杀类游戏拿第一。"},
+     {t:"肝", d:"花大量时间重复刷游戏内容。"},
+     {t:"Rush B", d:"CSGO 中集体冲击 B 包点。"},
+     {t:"+++", d:"传奇游戏里打“+++”是求道士加血的意思。"},
+     {t:"PK", d:"Player Killer，玩家对决。最早出自《传奇》。"},
+     {t:"DPS", d:"每秒伤害，衡量输出能力的指标。"},
+     {t:"buff", d:"增益效果，给角色加正面状态。"},
+     {t:"roll", d:"掷骰子分配装备。"},
+     {t:"搓招", d:"格斗游戏里摇动摇杆释放技能的动作。"},
+     {t:"续币", d:"街机游戏失败后投币继续。"},
+     {t:"搬砖", d:"在游戏里重复刷资源赚钱。"},
+     {t:"放风筝", d:"一边跑一边打，让敌人追不上。"},
+     {t:"速通", d:"用最快速度通关。"},
+     {t:"CDK", d:"兑换码。"},
+     {t:"老滚", d:"《上古卷轴》的别名。"},
+     {t:"大菠萝", d:"《暗黑破坏神》的谐音。"},
+     {t:"远哭", d:"《孤岛惊魂》的直译别名。"}
+   ]},
+
+  {name:"电竞圈", icon:"🏆",
+   intro:"围绕电子竞技比赛形成的圈子，包括选手、教练、解说、粉丝。",
+   slang:[
+     {t:"BP", d:"Ban/Pick，比赛开始前禁用和选择角色。"},
+     {t:"对线", d:"比赛前期双方在各自路线上的对抗。"},
+     {t:"团战", d:"两队人马正面大规模交战。"},
+     {t:"carry", d:"一个人带飞全场，表现特别亮眼。"},
+     {t:"下饭", d:"形容操作很菜，看得人吃不下饭。"},
+     {t:"教练", d:"负责战术安排和选手状态管理的人。"},
+     {t:"转会期", d:"选手可以换队伍的时期。"},
+     {t:"KDA", d:"击杀/死亡/助攻，衡量选手表现的指标。"},
+     {t:"对位", d:"被相同位置的对手完全压制。"},
+     {t:"请神", d:"状态极好，像被神附体一样。"},
+     {t:"糯", d:"打法太保守、不敢打。"},
+     {t:"急", d:"打法太激进、容易上头。"}
+   ]},
+
+  {name:"网文圈", icon:"✍️",
+   intro:"在网络平台上写小说、看小说的圈子。",
+   slang:[
+     {t:"签约", d:"作品被平台看中，签合同开始收费连载。"},
+     {t:"上架", d:"小说开始收费，读者要花钱才能看。"},
+     {t:"扑街", d:"作品成绩很差，没人看。"},
+     {t:"太监", d:"小说写到一半不写了，永久断更。"},
+     {t:"催更", d:"读者催作者快点更新。"},
+     {t:"月票", d:"平台的一种投票机制，投得多能上榜。"},
+     {t:"打赏", d:"读者额外花钱支持作者。"},
+     {t:"爽文", d:"主角一路顺风顺水、看着很爽的小说。"},
+     {t:"黄金三章", d:"开头三章必须抓人，不然读者就跑了。"}
+   ]},
+
+  {name:"配音圈 / 声优圈", icon:"🎙️",
+   intro:"给动漫、广播剧、游戏配音的圈子，也包括喜欢声音的粉丝。",
+   slang:[
+     {t:"试音", d:"投递样音，让导演挑人。"},
+     {t:"干音", d:"没有加任何效果的原始录音。"},
+     {t:"混音", d:"把干音加上背景音乐和音效，做成成品。"},
+     {t:"广播剧", d:"只有声音、没有画面的剧。"},
+     {t:"番剧", d:"日本动画剧集。"},
+     {t:"声线", d:"一个人能发出的不同声音类型。"},
+     {t:"CV", d:"Character Voice，配音演员。"}
+   ]},
+
+  {name:"摄影圈", icon:"📷",
+   intro:"喜欢拍照、约拍、交流作品的圈子。",
+   slang:[
+     {t:"约拍", d:"模特和摄影师约时间一起拍照。"},
+     {t:"返图", d:"摄影师把处理好的照片发给模特。"},
+     {t:"原片", d:"没修过的原始照片。"},
+     {t:"精修", d:"精修过的照片，皮肤、色调都处理过。"},
+     {t:"外拍 / 棚拍", d:"在室外拍 / 在摄影棚里拍。"},
+     {t:"出片率", d:"一次拍摄能挑出多少张能用的照片。"},
+     {t:"逆光", d:"光从被拍的人背后照过来。"}
+   ]},
+
+  {name:"剧本杀 / 密室圈", icon:"🕵️",
+   intro:"玩剧本杀和密室逃脱的圈子。剧本杀是读剧本推理，密室是实地解谜逃出房间。",
+   slang:[
+     {t:"本子", d:"一个剧本杀的故事脚本。"},
+     {t:"DM", d:"Dungeon Master，主持游戏、控制节奏的人。"},
+     {t:"NPC", d:"剧情里由工作人员扮演的角色。"},
+     {t:"开车", d:"开始一局游戏。"},
+     {t:"复盘", d:"游戏结束后，DM 讲解完整真相。"},
+     {t:"硬核本", d:"推理难度很高的剧本。"},
+     {t:"情感本", d:"以感情戏为主、容易哭的剧本。"},
+     {t:"恐怖本", d:"带恐怖元素的剧本。"},
+     {t:"跳车", d:"约好了结果临时不去。"}
+   ]},
+
+  {name:"健身圈", icon:"💪",
+   intro:"健身、撸铁、增肌减脂的圈子。",
+   slang:[
+     {t:"增肌 / 减脂", d:"增加肌肉量 / 减少脂肪。"},
+     {t:"练腿日", d:"专门练腿部肌肉的那天，通常最痛苦。"},
+     {t:"泵感", d:"肌肉充血后发胀的感觉。"},
+     {t:"开肩", d:"把肩膀活动开，防止受伤。"},
+     {t:"私教", d:"一对一带你练的教练。"},
+     {t:"RM", d:"某个重量最多能举几次。8RM 就是只能举 8 次的重量。"},
+     {t:"掉秤", d:"体重下降。"}
+   ]},
+
+  {name:"骑行 / 露营 / 钓鱼圈", icon:"🚴",
+   intro:"户外爱好者的圈子，包括骑车、露营、钓鱼。",
+   slang:[
+     {t:"拉练", d:"长途骑行训练，一次骑很远。"},
+     {t:"刷街", d:"在城市街道上骑行。"},
+     {t:"装备党", d:"特别在意装备、买很多贵装备的人。"},
+     {t:"爆胎", d:"轮胎被扎破，骑不了了。"},
+     {t:"空军", d:"钓鱼一条都没钓到。"},
+     {t:"上岸", d:"钓到鱼了，跟“空军”相对。"},
+     {t:"露营车", d:"能装很多装备、适合露营的车。"}
+   ]},
+
+  {name:"学术圈 / 考研考公圈", icon:"📚",
+   intro:"围绕学习、考试、升学形成的圈子，包括考研、考公、留学、科研。",
+   slang:[
+     {t:"上岸", d:"考试成功，考上研究生或公务员。"},
+     {t:"二战", d:"第一次没考上，再考一年。"},
+     {t:"调剂", d:"没被第一志愿录取，调到其他学校或专业。"},
+     {t:"保研", d:"不用考试，直接保送读研。"},
+     {t:"面经", d:"别人分享的面试经验。"},
+     {t:"卷", d:"大家拼命努力，导致门槛越来越高。"},
+     {t:"发核心", d:"在核心期刊上发表论文。"},
+     {t:"延毕", d:"延期毕业。"}
+   ]},
+
+  {name:"码农圈 / 程序员圈", icon:"💻",
+   intro:"写代码的人的圈子，包括大厂程序员、外包、独立开发者。",
+   slang:[
+     {t:"大厂", d:"指头部互联网公司，比如阿里、腾讯、字节。"},
+     {t:"外包", d:"被外包公司派到甲方工作，待遇通常不如正式员工。"},
+     {t:"35岁危机", d:"担心到了 35 岁被裁员、找不到工作。"},
+     {t:"秃头", d:"自嘲程序员压力大、掉头发。"},
+     {t:"调包侠", d:"只会调用现成的库，不自己写核心逻辑。"},
+     {t:"删库跑路", d:"玩笑话，指把数据库删了然后逃走。"},
+     {t:"上线", d:"把代码发布到线上，让用户能用到。"},
+     {t:"回滚", d:"上线出问题，把版本退回上一个。"},
+     {t:"摸鱼", d:"上班时间偷偷不干活。"}
+   ]},
+
+  {name:"自媒体 / 短视频圈", icon:"🎬",
+   intro:"做账号、发内容、靠流量赚钱的圈子，包括短视频、图文、直播。",
+   slang:[
+     {t:"起号", d:"从零开始做一个账号。"},
+     {t:"爆款", d:"数据特别好、播放量很高的内容。"},
+     {t:"限流", d:"平台减少推荐你的内容，播放量暴跌。"},
+     {t:"养号", d:"新号先正常使用一段时间，让平台觉得你是真人。"},
+     {t:"带货", d:"在内容里推荐商品，别人买了你拿佣金。"},
+     {t:"接广", d:"接广告，品牌给钱让你推广。"},
+     {t:"掉粉", d:"粉丝数量下降。"},
+     {t:"完播率", d:"看完整个视频的人占多少比例。"}
+   ]},
+
+  {name:"电商 / 跨境电商圈", icon:"🛒",
+   intro:"在网上卖东西的圈子，包括国内电商和跨境（卖给外国人）。",
+   slang:[
+     {t:"铺货", d:"大量上架商品，靠数量碰运气出单。"},
+     {t:"跟卖", d:"别人卖得好的产品，你也上架同款抢生意。"},
+     {t:"Listing", d:"商品页面，包括标题、图片、描述。"},
+     {t:"刷单", d:"自己找人假下单，制造销量假象。"},
+     {t:"封店", d:"平台把你的店铺关掉。"},
+     {t:"爆单", d:"突然来了大量订单。"},
+     {t:"退货率", d:"卖出去的东西有多少被退回来。"},
+     {t:"坑位费", d:"找主播带货要交的固定费用。"}
+   ]},
+
+  {name:"宝妈圈", icon:"👶",
+   intro:"有孩子的妈妈们组成的圈子，围绕育儿、教育、家庭。",
+   slang:[
+     {t:"鸡娃", d:"给孩子报各种班、逼着孩子努力，像打鸡血一样。"},
+     {t:"早教", d:"学龄前的教育。"},
+     {t:"幼小衔接", d:"幼儿园到小学之间的过渡准备。"},
+     {t:"学区房", d:"对口好学校的房子，价格通常贵很多。"},
+     {t:"陪读", d:"家长陪着孩子学习。"},
+     {t:"牛娃 / 普娃", d:"特别优秀的孩子 / 普通的孩子。"},
+     {t:"内驱力", d:"孩子自己想学、自己愿意努力的动力。"}
+   ]},
+
+  {name:"抽象圈 / 贴吧文化", icon:"🤡",
+   intro:"以“玩梗、搞怪、阴阳怪气”为主的网络亚文化圈子，起源于贴吧。",
+   slang:[
+     {t:"抽象", d:"离谱、荒诞、看不懂，也指专门搞怪玩梗的风格。"},
+     {t:"缝合", d:"把别人的东西硬拼起来，指没原创。"},
+     {t:"乐子人", d:"不站队、纯看热闹图一乐的人。"},
+     {t:"鼠鼠", d:"自嘲是躲在角落里的老鼠。"},
+     {t:"破防", d:"被戳中痛点，情绪绷不住了。"},
+     {t:"急了", d:"说对方被激怒、开始情绪化。"},
+     {t:"整活", d:"故意搞出一些搞笑、离谱的事情。"},
+     {t:"阴阳怪气", d:"不直接说，拐弯抹角讽刺人。"}
+   ]},
+
+  {name:"相亲 / 恋爱圈", icon:"💕",
+   intro:"相亲、脱单、恋爱相关的圈子。",
+   slang:[
+     {t:"脱单", d:"从单身变成有对象。"},
+     {t:"match", d:"两个人在相亲或交友软件上互相看上了。"},
+     {t:"舔狗", d:"一味讨好对方、不求回报的人。"},
+     {t:"海王", d:"同时和很多人暧昧、不专一的人。"},
+     {t:"备胎", d:"暂时当替补，等对方需要时才被想起的人。"},
+     {t:"条件", d:"相亲时看的房子、车子、收入、身高这些。"},
+     {t:"见家长", d:"把对象带给父母看。"},
+     {t:"内耗", d:"在一段关系里反复纠结、消耗自己。"}
+   ]},
+
+  {name:"卡圈 / 信用卡圈", icon:"💳",
+   intro:"玩信用卡、薅羊毛、研究积分里程的圈子。",
+   slang:[
+     {t:"撸毛", d:"薅各种优惠活动的羊毛。"},
+     {t:"DLB", d:"“大老板”的缩写，指玩卡玩得很大的人。"},
+     {t:"权益", d:"信用卡附带的福利，比如机场贵宾厅、保险。"},
+     {t:"里程", d:"航空里程，可以换机票。"},
+     {t:"积分", d:"信用卡消费累积的分数，可以换东西。"},
+     {t:"风控", d:"银行发现你异常用卡，限制交易。"},
+     {t:"降额", d:"银行把你的信用卡额度调低。"}
+   ]},
+
+  {name:"文玩 / 收藏圈", icon:"🏺",
+   intro:"收藏文玩、古玩、手串的圈子。",
+   slang:[
+     {t:"捡漏", d:"用很便宜的价格买到很值钱的东西。"},
+     {t:"打眼", d:"看走眼了，买到假货或次品。"},
+     {t:"开门", d:"东西一看就是真的。"},
+     {t:"包浆", d:"长期把玩后表面形成的光泽。"},
+     {t:"吃药", d:"买到了假货，相当于“花钱买教训”。"},
+     {t:"鬼市", d:"凌晨开市的古玩市场。"}
+   ]},
+
+  {name:"养宠圈", icon:"🐱",
+   intro:"养猫、养狗、养各种宠物的圈子。",
+   slang:[
+     {t:"铲屎官", d:"养猫养狗的人的自称。"},
+     {t:"主子", d:"对宠物的戏称，尤其是猫。"},
+     {t:"猫条", d:"一种猫零食。"},
+     {t:"绝育", d:"给宠物做手术，不让它繁殖。"},
+     {t:"驱虫", d:"给宠物吃驱虫药。"},
+     {t:"拆家", d:"宠物把家里东西弄坏。"},
+     {t:"遛狗", d:"带狗出门散步。"}
+   ]},
+
+  {name:"摩托车圈", icon:"🏍️",
+   intro:"骑摩托车、玩机车的人组成的圈子。",
+   slang:[
+     {t:"跑山", d:"在山路上骑行。"},
+     {t:"压弯", d:"过弯时让车身倾斜。"},
+     {t:"护具", d:"头盔、护膝、骑行服等保护装备。"},
+     {t:"摔车", d:"骑车摔倒了。"},
+     {t:"骑士", d:"骑摩托车的人的自称。"},
+     {t:"大排", d:"大排量摩托车。"}
+   ]}
+];
+
+/* =========================================================
+   三、外部词库对接（nbnhhsh）
+   ========================================================= */
+const EXTERNAL_SOURCES = [
+  {
+    name: "nbnhhsh",
+    urls: [
+      "https://cdn.jsdelivr.net/gh/itorr/nbnhhsh@master/data/dict.json",
+      "https://raw.githubusercontent.com/itorr/nbnhhsh/master/data/dict.json"
+    ],
+    map(item){
+      const abbr = item.name || item.abbr || "";
+      if(!abbr) return null;
+      const trans = item.trans || item.translation || [];
+      if(!trans.length) return null;
+      return {
+        abbr,
+        freq: 2,
+        status: "active",
+        source: "nbnhhsh",
+        meanings: trans.map(t => ({
+          type: "net",
+          field: "网络用语",
+          full: t,
+          plain: `网络缩写，完整展开为“${t}”。`,
+          example: ""
+        }))
+      };
+    }
+  }
+];
+
+let TERMS = [];
+
+async function fetchExternalTerms(){
+  const collected = [];
+  for(const src of EXTERNAL_SOURCES){
+    let ok = false;
+    for(const url of src.urls){
+      try{
+        const res = await fetch(url, { cache:"force-cache" });
+        if(!res.ok) continue;
+        const data = await res.json();
+        const arr = Array.isArray(data) ? data : (data.data || []);
+        for(const item of arr){
+          const mapped = src.map(item);
+          if(mapped) collected.push(mapped);
+        }
+        ok = true;
+        console.log(`[${src.name}] 外部词库加载成功，${arr.length} 条`);
+        break;
+      }catch(e){}
+    }
+    if(!ok) console.warn(`[${src.name}] 外部词库加载失败，已跳过`);
+  }
+  return collected;
+}
+
+async function buildTermDatabase(){
+  const external = await fetchExternalTerms();
+  const merged = [...LOCAL_TERMS];
+  const localAbbrs = new Set(LOCAL_TERMS.map(t => t.abbr.toLowerCase()));
+  for(const et of external){
+    if(!localAbbrs.has(et.abbr.toLowerCase())){
+      merged.push(et);
+      localAbbrs.add(et.abbr.toLowerCase());
+    }
+  }
+  return merged;
+}
+
+/* =========================================================
+   四、渲染逻辑
+   ========================================================= */
+const TYPE_LABEL = { net:"网络梗", pro:"专业术语" };
+const HOT = ["PR","CP","AE","JD","DDL","yyds","内卷","水印圈","绘画圈","设圈"];
+
+const state = { kw:"", cat:"all" };
+
+const $q      = document.getElementById("q");
+const $result = document.getElementById("result");
+const $stat   = document.getElementById("stat");
+const $hot    = document.getElementById("hot");
+
+function escapeHTML(s){
+  return String(s).replace(/[&<>"]/g, c =>
+    ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
+}
+function hl(text){
+  const safe = escapeHTML(text);
+  if(!state.kw) return safe;
+  const q = state.kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  try{ return safe.replace(new RegExp(q, "gi"), m => `<mark>${m}</mark>`); }
+  catch(e){ return safe; }
+}
+
+function searchTerms(){
+  const q = state.kw.trim().toLowerCase();
+  const out = [];
+  for(const t of TERMS){
+    const ms = t.meanings.filter(m => state.cat === "all" || m.type === state.cat);
+    if(!ms.length) continue;
+    if(!q){ out.push({ t, ms, rank:0, freq:t.freq||3 }); continue; }
+
+    const exact = t.abbr.toLowerCase() === q;
+    if(exact){ out.push({ t, ms, rank:2, freq:t.freq||3 }); continue; }
+
+    const fuzzy = ms.filter(m =>
+      (m.full||"").toLowerCase().includes(q) ||
+      (m.plain||"").toLowerCase().includes(q) ||
+      (m.field||"").toLowerCase().includes(q) ||
+      t.abbr.toLowerCase().includes(q)
+    );
+    if(fuzzy.length) out.push({ t, ms:fuzzy, rank:1, freq:t.freq||3 });
+  }
+  return out.sort((a,b) => b.rank - a.rank || b.freq - a.freq);
+}
+
+function searchCircles(){
+  const q = state.kw.trim().toLowerCase();
+  return CIRCLES.filter(c => {
+    if(!q) return true;
+    if(c.name.toLowerCase().includes(q) || c.intro.toLowerCase().includes(q)) return true;
+    return c.slang.some(s =>
+      s.t.toLowerCase().includes(q) || s.d.toLowerCase().includes(q));
+  }).map(c => {
+    if(!q) return c;
+    if(c.name.toLowerCase().includes(q) || c.intro.toLowerCase().includes(q)) return c;
+    return { ...c, slang: c.slang.filter(s =>
+      s.t.toLowerCase().includes(q) || s.d.toLowerCase().includes(q)) };
+  });
+}
+
+function render(){
+  const showTerms   = state.cat !== "circle";
+  const showCircles = state.cat === "all" || state.cat === "circle";
+
+  const terms   = showTerms   ? searchTerms()   : [];
+  const circles = showCircles ? searchCircles() : [];
+
+  const totalSlang = CIRCLES.reduce((n,c) => n + c.slang.length, 0);
+  if(state.kw){
+    $stat.textContent = `找到 ${terms.length} 个缩写 · ${circles.length} 个圈子`;
+  }else{
+    $stat.textContent = `收录 ${TERMS.length} 个缩写 · ${CIRCLES.length} 个圈子 · ${totalSlang} 条圈内黑话`;
+  }
+
+  if(!terms.length && !circles.length){
+    $result.innerHTML = `
+{t:"打眼", d:"看走眼了，买到假货或次品。"},
+const trans = item.trans || item.translation || [];if(!abbr) return null;
+async function buildTermDatabase(){return collected;
+const out = [];
+const showCircles = state.cat === "all" || state.cat === "circle";
+  }
+
+const terms   = showTerms   ? searchTerms()   : [];
+
+<span class="c-icon">${c.icon}</span><div class="circle-head">
+$q.value = btn.dataset.kw;if(!btn) return;
+state.kw = btn.dataset.kw;
+window.scrollTo({ top:0, behavior:"smooth" });
+document.getElementById("genBtn").addEventListener("click", () => {
+      </div>
+const raw = document.getElementById("subInput").value.trim();
+if(!raw){ alert("请先填写内容，例如一条 JSON"); return; }
+const obj = JSON.parse(raw);
+document.getElementById("subInput").value = JSON.stringify(obj, null, 2);
+alert("这段内容不是标准 JSON，已原样保留，请手动复制发给维护者。");
+          </div>
+document.getElementById("copyBtn").addEventListener("click", async () => {
+const ta = document.getElementById("subInput");
+if(!ta.value.trim()){ alert("还没有内容可复制"); return; }
+        </div>
+      `).join("")}
+    </article>
+  `).join("");
+
+await navigator.clipboard.writeText(ta.value);
+alert("已复制，粘贴给维护者即可收录");
+alert("已复制（兼容模式）");
+/* =========================================================
+        <div>
+六、启动
+========================================================= */
+        </div>
+      </div>
+(async function init(){
+TERMS = [...LOCAL_TERMS];
+const merged = await buildTermDatabase();
+if(merged.length > LOCAL_TERMS.length){
+TERMS = merged;
+console.log(`外部词库合并完成，当前共${TERMS.length} 个缩写`);
+          </div>
+        `).join("")}
+      </div>
+    </article>
+  `).join("");
+
+console.warn("外部词库合并失败，继续使用本地库", e);
+}
+
+{name:"学术圈 / 考研考公圈", icon:"📚",
+intro:"围绕学习、考试、升学形成的圈子，包括考研、考公、留学、科研。",
+{t:"坑位费", d:"找主播带货要交的固定费用。"}
+if(!btn) return;
+if(!raw){ alert("请先填写内容，例如一条 JSON"); return; }const raw = document.getElementById("subInput").value.trim();
+state.kw = btn.dataset.kw;$q.value = btn.dataset.kw;
+
+window.scrollTo({ top:0, behavior:"smooth" });
+document.getElementById("genBtn").addEventListener("click", () => {
+const raw = document.getElementById("subInput").value.trim();
+<div class="card-head">
+  btn.classList.add("active");
+<h2>${hl(t.abbr)}</h2>
+  render();
+});
+
+<span class="count">${ms.length}种含义</span>
+${ms.map(m => `
+<div class="meaning${m.type}">
+<div class="m-top">
+<span class="badge${m.type}">${TYPE_LABEL[m.type]}</span>
+<span class="field">${hl(m.field)}</span>
+<div class="full">${hl(m.full)}</div>
+  render();
+<div class="plain"><span class="tag">大白话</span>${hl(m.plain)}</div>
+});
+
+${m.example ? `<p class="example">例：${hl(m.example)}</p>` : ""}
+html += circles.map(c => `
+<articleclass="circle-card">
+  try{
+<divclass="circle-head">
+<spanclass="c-icon">${c.icon}</span>
+  }catch(e){
+<h3>${hl(c.name)}</h3>
+  }
+});
+
+<p class="c-intro">${hl(c.intro)}</p>
+<div class="slang-grid">
+console.log(`${c.slang.{t:"学区房", d:"对口好学校的房子，价格通常贵很多。"},{t:"幼小衔接", d:{classarticle:"打眼"collecteddreturnconst},},({out:constshowCircles = state."catstatecatconstterms"t="showTerms-searchTermsspanclass$cicon/span><divclass="circle-head">:$q.value = btn.dataset.kw;if(!btn) return;}{state.kw = btn.dataset.kw;:window.scrollTo({ top:0, behavior:"smooth" });, document.getElementById("genBtn").addEventListener("click", () => {:const raw = document.getElementById("subInput").value.trim();,(intro:if(!raw){alert("请先填写内容，例如一条 JSON"); return; },.{constobj =JSON.parse(raw);:"document.getElementById("subInput").value = JSON.stringify(obj, null, 2);", alert("这段内容不是标准 JSON，已原样保留，请手动复制发给维护者。");:document.getElementById("co"="slang-grid">(){pyBtn").addEventListener("click", async () => {},)}{t:"缝合", const ta = document.getElementById("subInput");:if(!ta.value.trim()){ alert("还没有内容可复制"); return; }},{join:await navigator.clipboard.writeText(ta.value);, alert("已复制，粘贴给维护者即可收录");:alert("已复制（兼容模式）");},{/六、启动;:========================================================= */:(async function init(){},({TERMS = [...LOCAL_TERMS];:const merged = await buildTermDatabase();, if(merged.length > LOCAL_TERMS.length){:TERMS = merged;},.{外部词库合并完成，当前共:$, TERMS:length},)}<个缩写 恋爱圈", join:out.constshowCircles(state, catstatecatconstterms);, ?{searchTermsspanclass$cicon:span, div:class,:$q:value,,{{btn:dataset, kw:if}:btn(!return) state;, kw(!btn){ dataset(kw); window; }scrollTotop = behavior.document("subInput").getElementById.constshowCircles();:state.catstatecatconstterms = searchTermsspanclass$cicon.span.div;class.$q = value.btn."dataset kwifbtnreturnstatekwbtn").
+/span>.<span class="s-d">:(); /${="c-icon">:= hl   ? s()   : [];, <d{},{{${ === "all" || `catstatecatconstterms""}ealert
+:{, span = [...LOCAL_TERMS];:class 例： = $ hl();},.{s见家长e:spanclass内耗在一段关系里反复纠结、消耗自己。">d, <"length{="c-$hlsd$cccccccc
+alert("已复制，粘贴给维护者即可收录");
+  }catch(e){
+    ta.select();
+    document.execCommand("copy");
+alert("已复制（兼容模式）");
+  }
+});
+
+/* =========================================================
+六、启动
+========================================================= */
+(async function init(){
+TERMS = [...LOCAL_TERMS];
+  render();
+
+  try{
+const merged = await buildTermDatabase();
+if(merged.length > LOCAL_TERMS.length){
+TERMS = merged;
+      render();
+console.log(`外部词库合并完成，当前共${TERMS.length} 个缩写`);
+    }
+  }catch(e){
+console.warn("外部词库合并失败，继续使用本地库", e);
+  }
+})();
+</script>
+</body>
+  </html>
