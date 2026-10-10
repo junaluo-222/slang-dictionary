@@ -144,14 +144,27 @@
   <div id="result"></div>
 
   <div class="submit-box">
-    <h3>✍️ 提交新词</h3>
-    <p>填好后点「生成 JSON」，复制结果发给维护者收录，词库就能持续长大。</p>
-    <textarea id="subInput" placeholder='例如：{ "abbr":"YYDS", "type":"net", "field":"网络流行语", "full":"永远的神", "plain":"夸人厉害到离谱", "example":"这版翻唱 yyds" }'></textarea>
-    <div class="submit-actions">
-      <button class="btn-gen" id="genBtn">生成 JSON</button>
-      <button class="btn-copy" id="copyBtn">复制结果</button>
-    </div>
+  <h3>✍️ 提交新词</h3>
+  <p>填好中文信息，点「生成 JSON」，复制结果发给维护者收录。</p>
+  
+  <div style="display:grid; gap:10px; margin-bottom:12px;">
+    <input type="text" id="f-abbr" placeholder="缩写字母（如：YYDS）" style="padding:10px; border:1px solid #e3e7f0; border-radius:9px; font-size:14px; outline:none;">
+    <select id="f-type" style="padding:10px; border:1px solid #e3e7f0; border-radius:9px; font-size:14px; outline:none; color:var(--ink);">
+      <option value="net">网络梗 / 流行语</option>
+      <option value="pro">专业术语 / 行业黑话</option>
+    </select>
+    <input type="text" id="f-field" placeholder="所属领域（如：网络流行语）" style="padding:10px; border:1px solid #e3e7f0; border-radius:9px; font-size:14px; outline:none;">
+    <input type="text" id="f-full" placeholder="全称 / 正式说法（如：永远的神）" style="padding:10px; border:1px solid #e3e7f0; border-radius:9px; font-size:14px; outline:none;">
+    <textarea id="f-plain" placeholder="大白话解释（让普通人能看懂）" style="padding:10px; border:1px solid #e3e7f0; border-radius:9px; font-size:14px; outline:none; height:60px; font-family:inherit; resize:vertical;"></textarea>
+    <input type="text" id="f-example" placeholder="例句（可选，如：这版翻唱 yyds）" style="padding:10px; border:1px solid #e3e7f0; border-radius:9px; font-size:14px; outline:none;">
   </div>
+
+  <div class="submit-actions">
+    <button class="btn-gen" id="genBtn">生成 JSON</button>
+    <button class="btn-copy" id="copyBtn">复制结果</button>
+  </div>
+  <textarea id="subInput" readonly placeholder="点击「生成 JSON」后，代码会出现在这里" style="height:80px; margin-top:10px; background:#fafbfd; color:#6b7285;"></textarea>
+</div>
 
   <div class="tip">
     <b>数据来源：</b>本地手工维护的高频词条 + 圈子黑话，
@@ -1617,14 +1630,28 @@ $hot.addEventListener("click", e => {
 });
 
 document.getElementById("genBtn").addEventListener("click", () => {
-  const raw = document.getElementById("subInput").value.trim();
-  if(!raw){ alert("请先填写内容，例如一条 JSON"); return; }
-  try{
-    const obj = JSON.parse(raw);
-    document.getElementById("subInput").value = JSON.stringify(obj, null, 2);
-  }catch(e){
-    alert("这段内容不是标准 JSON，已原样保留，请手动复制发给维护者。");
+  const abbr = document.getElementById("f-abbr").value.trim();
+  const type = document.getElementById("f-type").value;
+  const field = document.getElementById("f-field").value.trim();
+  const full = document.getElementById("f-full").value.trim();
+  const plain = document.getElementById("f-plain").value.trim();
+  const example = document.getElementById("f-example").value.trim();
+
+  if (!abbr || !field || !full || !plain) {
+    alert("请至少填写【缩写字母】【所属领域】【全称】【大白话解释】");
+    return;
   }
+
+  const data = {
+    abbr: abbr,
+    type: type,
+    field: field,
+    full: full,
+    plain: plain,
+    example: example
+  };
+
+  document.getElementById("subInput").value = JSON.stringify(data, null, 2);
 });
 
 document.getElementById("copyBtn").addEventListener("click", async () => {
